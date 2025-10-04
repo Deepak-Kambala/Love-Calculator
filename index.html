@@ -30,6 +30,7 @@
         </button>
         <button id="historyBtn" class="ghost-btn" title="View history">📜 History</button>
         <button id="resetBtn" class="ghost-btn" title="Reset inputs">🔁 Reset</button>
+        <button id="themeToggleBtn" class="ghost-btn" title="Theme">🌙 Theme</button>
       </div>
     </header>
 
@@ -77,16 +78,26 @@
         <div class="result-area" aria-live="polite" aria-relevant="additions text">
           <div class="ring-wrap" aria-hidden="true">
             <svg id="progressRing" class="progress-ring" width="160" height="160" viewBox="0 0 160 160">
-              <defs>
-                <linearGradient id="g1" x1="0" x2="1">
-                  <stop offset="0%" stop-color="#ff7a7a"/>
-                  <stop offset="100%" stop-color="#ff2e63"/>
-                </linearGradient>
-              </defs>
-              <circle class="ring-bg" cx="80" cy="80" r="64" stroke-width="14" fill="transparent" />
-              <circle class="ring" cx="80" cy="80" r="64" stroke-width="14" fill="transparent" stroke="url(#g1)" stroke-linecap="round" stroke-dasharray="0 999"/>
-              <text id="percentText" class="percent-text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">--%</text>
-            </svg>
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1">
+      <stop offset="0%" stop-color="#ff7a7a"/>
+      <stop offset="100%" stop-color="#ff2e63"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background circle -->
+  <circle class="ring-bg" cx="80" cy="80" r="64" stroke-width="14" fill="transparent" />
+
+  <!-- animated ring (we rotate this element with CSS) -->
+  <circle class="ring" cx="80" cy="80" r="64" stroke-width="14" fill="transparent"
+          stroke="url(#g1)" stroke-linecap="round" stroke-dasharray="0 999"/>
+
+  <!-- text layer (keeps the percent upright) -->
+  <g class="text-layer">
+    <text id="percentText" class="percent-text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">--%</text>
+  </g>
+</svg>
+
           </div>
 
           <div class="score-meta">

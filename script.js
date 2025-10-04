@@ -41,6 +41,7 @@ const themeToggle = document.getElementById('themeToggle');
 const themeIcon = themeToggle.querySelector('.theme-icon');
 const liveRegion = document.getElementById('liveRegion');
 const chime = document.getElementById('chime');
+const themeToggleBtn = document.getElementById('themeToggleBtn');
 
 let confettiEnabled = true;
 let soundEnabled = false;
@@ -475,18 +476,31 @@ function calculateLove() {
 }
 
 function animateRingTo(targetPercent) {
-  const current = parseInt(percentText.textContent) || 0;
+  const raw = percentText.textContent || '';
+  const parsed = parseInt(raw.replace(/[^\d]/g, ''), 10);
+  const current = isNaN(parsed) ? 0 : parsed;
+
   const duration = 1100;
   const start = performance.now();
+
+  function ease(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; }
+
   function step(now) {
-    const t = Math.min(1, (now - start)/duration);
-    const eased = t<.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2; // smooth ease
+    const t = Math.min(1, (now - start) / duration);
+    const eased = ease(t);
     const val = Math.round(current + (targetPercent - current) * eased);
+
     setRing(val);
-    if (t < 1) requestAnimationFrame(step);
+    if (t < 1) {
+      requestAnimationFrame(step);
+    } else {
+      setRing(targetPercent);
+      percentText.textContent = `${targetPercent}%`;
+    }
   }
   requestAnimationFrame(step);
 }
+
 
 /* ============================
    Sound
@@ -578,6 +592,21 @@ clearHistory.addEventListener('click', () => {
     accessibilityManager.announceResult('History', 'History cleared');
   }
 });
+let currentTheme = localStorage.getItem('theme') || 'dark';
+
+function applyTheme(theme) {
+  document.body.classList.toggle('light-theme', theme === 'light');
+  themeToggleBtn.textContent = theme === 'light' ? '☀️ Theme' : '🌙 Theme';
+  localStorage.setItem('theme', theme);
+  currentTheme = theme;
+}
+
+function toggleTheme() {
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  applyTheme(newTheme);
+}
+
+themeToggleBtn.addEventListener('click', toggleTheme);
 
 /* ============================
    Initialize Managers
@@ -590,18 +619,20 @@ const accessibilityManager = new AccessibilityManager();
 renderHistory();
 setRing(0);
 
-/* respond to URL params for quick sharing */
-(function loadFromUrl() {
+(function init() {
   try {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(savedTheme);
+
     const params = new URLSearchParams(location.search);
     const n1 = params.get('n1');
     const n2 = params.get('n2');
     const p = parseInt(params.get('p'));
+
     if (n1 && n2 && !isNaN(p)) {
       name1El.value = n1;
       name2El.value = n2;
-      // small delay so UI mounts
-      setTimeout(()=> {
+      setTimeout(() => {
         animateRingTo(p);
         heading.textContent = `${n1} + ${n2}`;
         description.textContent = messageForPercent(p);
