@@ -110,7 +110,7 @@ body{
 .ring-bg{stroke: rgba(255,255,255,0.04)}
 .ring{stroke-dasharray: 0 999; transition: stroke-dasharray 1200ms cubic-bezier(.2,.8,.2,1)}
 .percent-text{
-  font-size:20px; fill:#fff; transform:rotate(90deg); font-weight:800
+  font-size:20px; fill:#fff; font-weight:800;
 }
 
 .score-meta{max-width:420px}
