@@ -35,10 +35,9 @@ const useMasterEl = document.getElementById('useMaster');
 const resetBtn = document.getElementById('resetBtn');
 const historyBtn = document.getElementById('historyBtn');
 const historyPanel = document.getElementById('historyPanel');
-const historyPopupOverlay = document.getElementById('historyPopupOverlay');
-const closeHistoryPopup = document.getElementById('closeHistoryPopup');
 const historyList = document.getElementById('historyList');
 const clearHistory = document.getElementById('clearHistory');
+const historyBtnEl = document.getElementById('historyBtn');
 const chime = document.getElementById('chime');
 const themeToggleBtn = document.getElementById('themeToggleBtn');
 
@@ -455,28 +454,9 @@ resetBtn.addEventListener('click', () => {
   animateRingTo(0);
 });
 
-// History popup functionality
 historyBtn.addEventListener('click', () => {
-  historyPopupOverlay.classList.remove('hidden');
+  historyPanel.classList.toggle('hidden');
   renderHistory();
-});
-
-closeHistoryPopup.addEventListener('click', () => {
-  historyPopupOverlay.classList.add('hidden');
-});
-
-// Close popup when clicking on overlay
-historyPopupOverlay.addEventListener('click', (e) => {
-  if (e.target === historyPopupOverlay) {
-    historyPopupOverlay.classList.add('hidden');
-  }
-});
-
-// Close popup with Escape key
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !historyPopupOverlay.classList.contains('hidden')) {
-    historyPopupOverlay.classList.add('hidden');
-  }
 });
 
 clearHistory.addEventListener('click', () => {
