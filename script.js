@@ -41,9 +41,12 @@ const historyList = document.getElementById('historyList');
 const clearHistory = document.getElementById('clearHistory');
 const chime = document.getElementById('chime');
 const themeToggleBtn = document.getElementById('themeToggleBtn');
+const soundEffect = document.getElementById('soundEffect'); // For your soundeffect.mp3
+
 
 let confettiEnabled = true;
-let soundEnabled = false;
+// Sound is now ON by default
+let soundEnabled = true;
 
 // Setup canvas size
 const ctx = particleCanvas.getContext ? particleCanvas.getContext('2d') : null;
@@ -355,7 +358,7 @@ function calculateLove() {
 
   // trigger party
   if (confettiEnabled) triggerCelebration(percent);
-  if (soundEnabled) playChime(percent);
+  // NOTE: We no longer play sound here, as it's now background music.
 
   // store in history
   saveHistory({name1, name2, percent, msg: message, t: Date.now()});
@@ -451,11 +454,19 @@ confettiToggle.addEventListener('click', () => {
   confettiToggle.textContent = confettiEnabled ? '🎊 Confetti (on)' : '🎊 Confetti (off)';
 });
 
+// Sound button now directly plays or pauses the background music
 soundToggle.addEventListener('click', () => {
   soundEnabled = !soundEnabled;
   soundToggle.classList.toggle('active', soundEnabled);
   soundToggle.textContent = soundEnabled ? '🔈 Sound (on)' : '🔈 Sound (off)';
+
+  if (soundEnabled && soundEffect) {
+    soundEffect.play();
+  } else if (soundEffect) {
+    soundEffect.pause();
+  }
 });
+
 
 resetBtn.addEventListener('click', () => {
   name1El.value = '';
@@ -534,5 +545,25 @@ setRing(0);
     }
   } catch (e) {
     console.error("Error loading theme or URL params:", e);
+  }
+
+  // ---CODE TO HANDLE BACKGROUND MUSIC ---
+  // 1. Update the button to show it's "on" by default
+  soundToggle.classList.add('active');
+  soundToggle.textContent = '🔈 Sound (on)';
+  
+  // 2. Try to play the music automatically
+  if (soundEffect) {
+    const playPromise = soundEffect.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(error => {
+        // Autoplay was prevented by the browser.
+        console.log("Autoplay was blocked. User must click the sound button to start the music.");
+        // Since it failed, update the state and button to show sound is "off".
+        soundEnabled = false;
+        soundToggle.classList.remove('active');
+        soundToggle.textContent = '🔈 Sound (off)';
+      });
+    }
   }
 })();
