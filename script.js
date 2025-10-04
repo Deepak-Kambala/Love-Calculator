@@ -1,5 +1,5 @@
 // script.js — Love Alchemy (numerology-based, feature rich)
-// Author: ChatGPT (adapt & enhance as you like)
+// Enhanced with Dark Mode, Mobile Responsiveness & Accessibility
 
 /* ============================
    Configuration & Helpers
@@ -37,7 +37,9 @@ const historyBtn = document.getElementById('historyBtn');
 const historyPanel = document.getElementById('historyPanel');
 const historyList = document.getElementById('historyList');
 const clearHistory = document.getElementById('clearHistory');
-const historyBtnEl = document.getElementById('historyBtn');
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = themeToggle.querySelector('.theme-icon');
+const liveRegion = document.getElementById('liveRegion');
 const chime = document.getElementById('chime');
 
 let confettiEnabled = true;
@@ -51,6 +53,95 @@ function resizeCanvas() {
 }
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
+
+/* ============================
+   Theme Management
+   ============================ */
+
+class ThemeManager {
+  constructor() {
+    this.themeToggle = document.getElementById('themeToggle');
+    this.themeIcon = this.themeToggle.querySelector('.theme-icon');
+    this.init();
+  }
+
+  init() {
+    // Load saved theme or prefer system preference
+    const savedTheme = localStorage.getItem('love-alchemy-theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+    this.setTheme(initialTheme);
+
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('love-alchemy-theme')) {
+        this.setTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+
+    this.themeToggle.addEventListener('click', () => this.toggleTheme());
+  }
+
+  setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    this.themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    this.themeToggle.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`);
+    localStorage.setItem('love-alchemy-theme', theme);
+  }
+
+  toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    this.setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  }
+}
+
+/* ============================
+   Accessibility Manager
+   ============================ */
+
+class AccessibilityManager {
+  constructor() {
+    this.liveRegion = document.getElementById('liveRegion');
+    this.init();
+  }
+
+  init() {
+    this.enhanceFormValidation();
+    this.setupReducedMotion();
+  }
+
+  // Announce results to screen readers
+  announceResult(percentage, message) {
+    this.liveRegion.textContent = `Love calculation complete: ${percentage}% - ${message}`;
+  }
+
+  // Enhanced form validation
+  enhanceFormValidation() {
+    const form = document.getElementById('loveForm');
+    const inputs = form.querySelectorAll('input[required]');
+
+    inputs.forEach(input => {
+      input.addEventListener('invalid', () => {
+        input.setAttribute('aria-invalid', 'true');
+        this.announceResult('Error', 'Please fill in both names before calculating.');
+      });
+
+      input.addEventListener('input', () => {
+        if (input.validity.valid) {
+          input.setAttribute('aria-invalid', 'false');
+        }
+      });
+    });
+  }
+
+  setupReducedMotion() {
+    // Respect reduced motion preference
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('reduced-motion');
+    }
+  }
+}
 
 /* ============================
    Numerology Logic
@@ -219,6 +310,9 @@ function animateParticles(now) {
 }
 
 function triggerCelebration(percent) {
+  // Respect reduced motion
+  if (document.documentElement.classList.contains('reduced-motion')) return;
+  
   // big celebration for high %
   const cx = particleCanvas.width/2;
   const cy = particleCanvas.height/4;
@@ -238,6 +332,9 @@ function triggerCelebration(percent) {
    ============================ */
 
 function createFloatingHeart() {
+  // Respect reduced motion
+  if (document.documentElement.classList.contains('reduced-motion')) return;
+  
   const heart = document.createElement('div');
   heart.className = 'floating-heart';
   heart.style.position = 'fixed';
@@ -290,16 +387,16 @@ function renderHistory() {
   const h = getHistory();
   historyList.innerHTML = '';
   if (h.length === 0) {
-    historyList.innerHTML = '<div style="color:var(--muted); font-size:13px">No history yet — calculate something romantic!</div>';
+    historyList.innerHTML = '<div style="color:var(--text-muted); font-size:13px">No history yet — calculate something romantic!</div>';
     return;
   }
   for (const entry of h) {
     const el = document.createElement('div');
     el.className = 'history-item';
     const left = document.createElement('div');
-    left.innerHTML = `<strong>${entry.name1}</strong> + <strong>${entry.name2}</strong><div style="color:var(--muted); font-size:12px">${new Date(entry.t).toLocaleString()}</div>`;
+    left.innerHTML = `<strong>${entry.name1}</strong> + <strong>${entry.name2}</strong><div style="color:var(--text-muted); font-size:12px">${new Date(entry.t).toLocaleString()}</div>`;
     const right = document.createElement('div');
-    right.innerHTML = `<div style="text-align:right"><span style="font-weight:800">${entry.percent}%</span><div style="font-size:12px;color:var(--muted)">${entry.msg}</div></div>`;
+    right.innerHTML = `<div style="text-align:right"><span style="font-weight:800">${entry.percent}%</span><div style="font-size:12px;color:var(--text-muted)">${entry.msg}</div></div>`;
     el.appendChild(left); el.appendChild(right);
     historyList.appendChild(el);
   }
@@ -326,37 +423,55 @@ function calculateLove() {
   const supportMaster = useMasterEl.checked;
 
   if (!name1 || !name2) {
+    accessibilityManager.announceResult('Error', 'Please fill in both names before calculating.');
     alert('Please enter both names to calculate love ✨');
     return;
   }
 
-  // Compute numerology numbers
-  const num1 = nameToNumber(name1, supportMaster);
-  const num2 = nameToNumber(name2, supportMaster);
-  const combined = combineNumbers(num1, num2, supportMaster);
+  // Show loading state
+  calcBtn.classList.add('loading');
+  calcBtn.querySelector('.loading-spinner').classList.remove('hidden');
+  calcBtn.querySelector('.btn-text').textContent = 'Calculating...';
+  calcBtn.disabled = true;
 
-  // percent mapping
-  let percent = mapToPercent(combined, num1, num2);
+  setTimeout(() => {
+    // Compute numerology numbers
+    const num1 = nameToNumber(name1, supportMaster);
+    const num2 = nameToNumber(name2, supportMaster);
+    const combined = combineNumbers(num1, num2, supportMaster);
 
-  // optional small random jitter for 'surprise' toggle
-  if (allowJitter) {
-    const jitter = Math.round(random(-5,5));
-    percent = Math.max(1, Math.min(100, percent + jitter));
-  }
+    // percent mapping
+    let percent = mapToPercent(combined, num1, num2);
 
-  // UI update: progress ring
-  // animate ring smoothly
-  animateRingTo(percent);
-  const message = messageForPercent(percent);
-  heading.textContent = `${name1} + ${name2}`;
-  description.textContent = message;
+    // optional small random jitter for 'surprise' toggle
+    if (allowJitter) {
+      const jitter = Math.round(random(-5,5));
+      percent = Math.max(1, Math.min(100, percent + jitter));
+    }
 
-  // trigger party
-  if (confettiEnabled) triggerCelebration(percent);
-  if (soundEnabled) playChime(percent);
+    // UI update: progress ring
+    // animate ring smoothly
+    animateRingTo(percent);
+    const message = messageForPercent(percent);
+    heading.textContent = `${name1} + ${name2}`;
+    description.textContent = message;
 
-  // store in history
-  saveHistory({name1, name2, percent, msg: message, t: Date.now()});
+    // Announce to screen readers
+    accessibilityManager.announceResult(percent, message);
+
+    // trigger party
+    if (confettiEnabled) triggerCelebration(percent);
+    if (soundEnabled) playChime(percent);
+
+    // store in history
+    saveHistory({name1, name2, percent, msg: message, t: Date.now()});
+
+    // Reset button state
+    calcBtn.classList.remove('loading');
+    calcBtn.querySelector('.loading-spinner').classList.add('hidden');
+    calcBtn.querySelector('.btn-text').textContent = 'Calculate Love ❤️';
+    calcBtn.disabled = false;
+  }, 500);
 }
 
 function animateRingTo(targetPercent) {
@@ -377,6 +492,9 @@ function animateRingTo(targetPercent) {
    Sound
    ============================ */
 function playChime(percent) {
+  // Respect reduced motion
+  if (document.documentElement.classList.contains('reduced-motion')) return;
+  
   // play a tiny web-audio beep instead of external file for portability
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -405,7 +523,11 @@ shareBtn.addEventListener('click', (ev) => {
   ev.preventDefault();
   const name1 = name1El.value.trim();
   const name2 = name2El.value.trim();
-  if (!name1 || !name2) { alert('Enter names to share result'); return; }
+  if (!name1 || !name2) { 
+    accessibilityManager.announceResult('Error', 'Enter names to share result');
+    alert('Enter names to share result'); 
+    return; 
+  }
   // compute percent using current options but deterministic
   const num1 = nameToNumber(name1, useMasterEl.checked);
   const num2 = nameToNumber(name2, useMasterEl.checked);
@@ -414,6 +536,7 @@ shareBtn.addEventListener('click', (ev) => {
   const url = makeShareableUrl(name1, name2, percent);
   // copy to clipboard
   navigator.clipboard?.writeText(url).then(()=> {
+    accessibilityManager.announceResult('Success', 'Shareable link copied to clipboard');
     alert('Shareable link copied to clipboard! Paste anywhere to show them ❤️');
   }).catch(()=> {
     prompt('Copy this link:', url);
@@ -424,12 +547,14 @@ confettiToggle.addEventListener('click', () => {
   confettiEnabled = !confettiEnabled;
   confettiToggle.classList.toggle('active', confettiEnabled);
   confettiToggle.textContent = confettiEnabled ? '🎊 Confetti (on)' : '🎊 Confetti (off)';
+  accessibilityManager.announceResult('Setting', `Confetti ${confettiEnabled ? 'enabled' : 'disabled'}`);
 });
 
 soundToggle.addEventListener('click', () => {
   soundEnabled = !soundEnabled;
   soundToggle.classList.toggle('active', soundEnabled);
   soundToggle.textContent = soundEnabled ? '🔈 Sound (on)' : '🔈 Sound (off)';
+  accessibilityManager.announceResult('Setting', `Sound ${soundEnabled ? 'enabled' : 'disabled'}`);
 });
 
 resetBtn.addEventListener('click', () => {
@@ -438,16 +563,28 @@ resetBtn.addEventListener('click', () => {
   heading.textContent = 'Waiting for names...';
   description.textContent = 'Try entering your names and press Calculate.';
   animateRingTo(0);
+  accessibilityManager.announceResult('Reset', 'Form has been reset');
 });
 
 historyBtn.addEventListener('click', () => {
   historyPanel.classList.toggle('hidden');
   renderHistory();
+  accessibilityManager.announceResult('History', `History panel ${historyPanel.classList.contains('hidden') ? 'closed' : 'opened'}`);
 });
 
 clearHistory.addEventListener('click', () => {
-  if (confirm('Clear saved history?')) clearHistoryStorage();
+  if (confirm('Clear saved history?')) {
+    clearHistoryStorage();
+    accessibilityManager.announceResult('History', 'History cleared');
+  }
 });
+
+/* ============================
+   Initialize Managers
+   ============================ */
+
+const themeManager = new ThemeManager();
+const accessibilityManager = new AccessibilityManager();
 
 /* initialize */
 renderHistory();
@@ -469,6 +606,7 @@ setRing(0);
         heading.textContent = `${n1} + ${n2}`;
         description.textContent = messageForPercent(p);
         triggerCelebration(p);
+        accessibilityManager.announceResult(p, messageForPercent(p));
       }, 600);
     }
   } catch(e){}

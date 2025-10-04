@@ -3,13 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ff2e63">
   <title>Love Alchemy — Advanced Love Calculator 💘</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Optional: you can comment/remove this if you prefer system fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <main class="app">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  
+  <main id="main-content" class="app" role="main">
     <div class="bg-ambience"></div>
 
     <header class="top">
@@ -21,6 +24,10 @@
       </div>
 
       <div class="controls">
+        <button id="themeToggle" class="ghost-btn" title="Toggle theme" aria-label="Toggle dark/light mode">
+          <span class="theme-icon">🌙</span>
+          <span class="theme-text">Theme</span>
+        </button>
         <button id="historyBtn" class="ghost-btn" title="View history">📜 History</button>
         <button id="resetBtn" class="ghost-btn" title="Reset inputs">🔁 Reset</button>
       </div>
@@ -31,32 +38,44 @@
         <h1 class="title">✨ Love Calculator</h1>
         <p class="subtitle">A mix of numerology + a pinch of magic — same names give the same result.</p>
 
-        <form id="loveForm" class="form" autocomplete="off" onsubmit="return false;">
+        <form id="loveForm" class="form" autocomplete="off" onsubmit="return false;" novalidate aria-describedby="form-instructions">
+          <p id="form-instructions" class="sr-only">
+            Enter two names to calculate love compatibility. Use tab to navigate between fields and space to toggle options.
+          </p>
+          
           <div class="inputs">
             <label class="input-wrap">
-              <input id="name1" type="text" placeholder="Your name" aria-label="Your name" maxlength="40">
+              <input id="name1" type="text" placeholder="Your name" aria-label="Your name" maxlength="40" required>
               <span class="label">You</span>
             </label>
 
             <label class="input-wrap">
-              <input id="name2" type="text" placeholder="Their name" aria-label="Their name" maxlength="40">
+              <input id="name2" type="text" placeholder="Their name" aria-label="Their name" maxlength="40" required>
               <span class="label">Crush</span>
             </label>
           </div>
 
           <div class="options">
-            <label><input type="checkbox" id="allowJitter"> Allow small surprise (±5%)</label>
-            <label><input type="checkbox" id="useMaster" checked> Support master numbers (11,22,33)</label>
+            <label><input type="checkbox" id="allowJitter" aria-describedby="jitter-desc"> Allow small surprise (±5%)</label>
+            <span id="jitter-desc" class="sr-only">Adds random variation to the result</span>
+            
+            <label><input type="checkbox" id="useMaster" checked aria-describedby="master-desc"> Support master numbers (11,22,33)</label>
+            <span id="master-desc" class="sr-only">Preserves special numerology numbers</span>
           </div>
 
           <div class="actions">
-            <button id="calcBtn" class="primary">Calculate Love ❤️</button>
+            <button id="calcBtn" class="primary" aria-live="polite">
+              <span class="btn-text">Calculate Love ❤️</span>
+              <span class="loading-spinner hidden" aria-hidden="true">⏳</span>
+            </button>
             <button id="shareBtn" class="outline" title="Share result">🔗 Share</button>
           </div>
         </form>
 
-        <div class="result-area" aria-live="polite">
-          <div class="ring-wrap">
+        <div id="liveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+        <div class="result-area" aria-live="polite" aria-relevant="additions text">
+          <div class="ring-wrap" aria-hidden="true">
             <svg id="progressRing" class="progress-ring" width="160" height="160" viewBox="0 0 160 160">
               <defs>
                 <linearGradient id="g1" x1="0" x2="1">
@@ -71,7 +90,7 @@
           </div>
 
           <div class="score-meta">
-            <div id="heading" class="heading">Waiting for names...</div>
+            <div id="heading" class="heading" role="heading" aria-level="2">Waiting for names...</div>
             <div id="description" class="description">Try entering your names and press Calculate.</div>
           </div>
         </div>
@@ -114,7 +133,6 @@
 
     <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
     <audio id="chime" src="data:audio/mp3;base64,//uQZAAAAAAAAAAAAAAAAAAAA..."></audio>
-    <!-- Dummy data URL for safety: replace with a real small base64 mp3 if you want sound -->
   </main>
 
   <footer class="footer">
