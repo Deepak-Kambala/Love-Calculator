@@ -536,6 +536,7 @@ setRing(0);
     console.error("Error loading theme or URL params:", e);
   }
 })();
+//  here the social media platform
 const shareWhatsapp = document.getElementById("shareWhatsapp");
 const shareTwitter = document.getElementById("shareTwitter");
 const shareFacebook = document.getElementById("shareFacebook");
