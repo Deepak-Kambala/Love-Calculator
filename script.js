@@ -665,3 +665,40 @@ setRing(0);
     console.error("Error loading theme or URL params:", e);
   }
 })();
+const shareWhatsapp = document.getElementById("shareWhatsapp");
+const shareTwitter = document.getElementById("shareTwitter");
+const shareFacebook = document.getElementById("shareFacebook");
+const copyLinkBtn = document.getElementById("copyLinkBtn");
+
+function getShareText() {
+  const name1 = document.getElementById("name1").value || "YourName";
+  const name2 = document.getElementById("name2").value || "CrushName";
+  const percent = document.getElementById("percentText").textContent || "--%";
+  const url = window.location.href;
+  return `Check our love compatibility! 💖 ${name1} + ${name2} = ${percent}\nSee more: ${url}`;
+}
+
+// WhatsApp
+shareWhatsapp.addEventListener("click", () => {
+  const text = encodeURIComponent(getShareText());
+  shareWhatsapp.href = `https://wa.me/?text=${text}`;
+});
+
+// Twitter
+shareTwitter.addEventListener("click", () => {
+  const text = encodeURIComponent(getShareText());
+  shareTwitter.href = `https://twitter.com/intent/tweet?text=${text}`;
+});
+
+// Facebook
+shareFacebook.addEventListener("click", () => {
+  const url = encodeURIComponent(window.location.href);
+  shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+});
+
+// Copy Link
+copyLinkBtn.addEventListener("click", () => {
+  navigator.clipboard.writeText(window.location.href)
+    .then(() => alert("Link copied to clipboard!"))
+    .catch(() => alert("Failed to copy link"));
+});

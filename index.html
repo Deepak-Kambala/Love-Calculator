@@ -7,7 +7,6 @@
 
   <title>Love Alchemy — Advanced Love Calculator 💘</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Optional: you can comment/remove this if you prefer system fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
   <!-- jsPDF for PDF export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -39,12 +38,12 @@
         <form id="loveForm" class="form" autocomplete="off" onsubmit="return false;">
           <div class="inputs">
             <label class="input-wrap">
-              <input id="name1" type="text" placeholder="Your name" aria-label="Your name" maxlength="40">
+              <input id="name1" type="text" placeholder="Romeo" aria-label="Your name" maxlength="40">
               <span class="label">You</span>
             </label>
 
             <label class="input-wrap">
-              <input id="name2" type="text" placeholder="Their name" aria-label="Their name" maxlength="40">
+              <input id="name2" type="text" placeholder="Juliet" aria-label="Their name" maxlength="40">
               <span class="label">Crush</span>
             </label>
           </div>
@@ -58,31 +57,33 @@
             <button id="calcBtn" class="primary">Calculate Love ❤️</button>
             <button id="shareBtn" class="ghost-btn" title="Share result">🔗 Share</button>
           </div>
+
+          <!-- Social share buttons -->
+          <div class="social-share">
+            <p>Share your love result:</p>
+            <a href="#" id="shareWhatsapp" target="_blank" title="Share on WhatsApp">📱 WhatsApp</a>
+            <a href="#" id="shareTwitter" target="_blank" title="Share on Twitter">🐦 Twitter</a>
+            <a href="#" id="shareFacebook" target="_blank" title="Share on Facebook">📘 Facebook</a>
+            <button id="copyLinkBtn" title="Copy link">🔗 Copy Link</button>
+          </div>
         </form>
 
         <div class="result-area" aria-live="polite">
           <div class="ring-wrap">
             <svg id="progressRing" class="progress-ring" width="160" height="160" viewBox="0 0 160 160">
-  <defs>
-    <linearGradient id="g1" x1="0" x2="1">
-      <stop offset="0%" stop-color="#ff7a7a"/>
-      <stop offset="100%" stop-color="#ff2e63"/>
-    </linearGradient>
-  </defs>
-
-  <!-- background circle -->
-  <circle class="ring-bg" cx="80" cy="80" r="64" stroke-width="14" fill="transparent" />
-
-  <!-- animated ring (we rotate this element with CSS) -->
-  <circle class="ring" cx="80" cy="80" r="64" stroke-width="14" fill="transparent"
-          stroke="url(#g1)" stroke-linecap="round" stroke-dasharray="0 999"/>
-
-  <!-- text layer (keeps the percent upright) -->
-  <g class="text-layer">
-    <text id="percentText" class="percent-text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">--%</text>
-  </g>
-</svg>
-
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#ff7a7a"/>
+                  <stop offset="100%" stop-color="#ff2e63"/>
+                </linearGradient>
+              </defs>
+              <circle class="ring-bg" cx="80" cy="80" r="64" stroke-width="14" fill="transparent" />
+              <circle class="ring" cx="80" cy="80" r="64" stroke-width="14" fill="transparent"
+                      stroke="url(#g1)" stroke-linecap="round" stroke-dasharray="0 999"/>
+              <g class="text-layer">
+                <text id="percentText" class="percent-text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">--%</text>
+              </g>
+            </svg>
           </div>
 
           <div class="score-meta">
@@ -117,7 +118,6 @@
           </ol>
         </div>
 
-
         <div class="panel history-panel hidden" id="historyPanel">
           <h3>History</h3>
           <div id="historyList" class="history-list"></div>
@@ -131,7 +131,7 @@
 
     <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
     <audio id="chime" src="data:audio/mp3;base64,//uQZAAAAAAAAAAAAAAAAAAAA..."></audio>
-    <!-- Dummy data URL for safety: replace with a real small base64 mp3 if you want sound -->
+
   </main>
 
   <!-- History Popup Modal -->

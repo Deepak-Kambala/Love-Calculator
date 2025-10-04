@@ -7,6 +7,31 @@
   --muted: rgba(255,255,255,0.7);
   --glass-border: rgba(255,255,255,0.06);
 }
+.social-share {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.social-share a,
+.social-share button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  background-color: #ff2e63;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.social-share a:hover,
+.social-share button:hover {
+  background-color: #ff7a7a;
+}
+
 
 .percent-text {
   font-size: 22px;
@@ -703,4 +728,29 @@ body.light-theme .footer {
     padding: 16px;
     font-size: 12px;
   }
+}
+.social-share {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.social-share a,
+.social-share button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  background-color: #ff2e63;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.social-share a:hover,
+.social-share button:hover {
+  background-color: #ff7a7a;
 }
