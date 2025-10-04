@@ -41,6 +41,14 @@ const historyList = document.getElementById('historyList');
 const clearHistory = document.getElementById('clearHistory');
 const chime = document.getElementById('chime');
 const themeToggleBtn = document.getElementById('themeToggleBtn');
+// share preview modal elements
+const sharePreviewOverlay = document.getElementById('sharePreviewOverlay');
+const closeSharePreview = document.getElementById('closeSharePreview');
+const shareCanvas = document.getElementById('shareCanvas');
+const downloadImageBtn = document.getElementById('downloadImageBtn');
+const copyImageBtn = document.getElementById('copyImageBtn');
+const nativeShareBtn = document.getElementById('nativeShareBtn');
+
 
 let confettiEnabled = true;
 let soundEnabled = false;
@@ -426,24 +434,79 @@ calcBtn.addEventListener('click', () => {
   calculateLove();
 });
 
+
 shareBtn.addEventListener('click', (ev) => {
   ev.preventDefault();
   const name1 = name1El.value.trim();
   const name2 = name2El.value.trim();
   if (!name1 || !name2) { alert('Enter names to share result'); return; }
-  // compute percent using current options but deterministic
+  // compute percent using current options but deterministic (no jitter)
   const num1 = nameToNumber(name1, useMasterEl.checked);
   const num2 = nameToNumber(name2, useMasterEl.checked);
   const combined = combineNumbers(num1, num2, useMasterEl.checked);
   const percent = mapToPercent(combined, num1, num2);
+
+  // 1) copy classic URL to clipboard (existing behaviour)
   const url = makeShareableUrl(name1, name2, percent);
-  // copy to clipboard
   navigator.clipboard?.writeText(url).then(()=> {
-    alert('Shareable link copied to clipboard! Paste anywhere to show them ❤️');
+    // copied — proceed to image generation
   }).catch(()=> {
-    prompt('Copy this link:', url);
+    // ignore copy errors; still proceed to image generation
   });
+
+  // 2) generate shareable image and open preview modal
+  generateShareImage(name1, name2, percent, { theme: (document.body.classList.contains('light-theme') ? 'light' : 'dark') })
+    .then((blob) => {
+      // show preview modal (canvas already drawn by generateShareImage)
+      sharePreviewOverlay.classList.remove('hidden');
+      // enable/disable native share button based on API
+      nativeShareBtn.style.display = (navigator.canShare && navigator.canShare({ files: [new File([blob], 'love.png', {type:'image/png'})] })) ? 'inline-block' : 'none';
+
+      // wire download (use blob)
+      downloadImageBtn.onclick = () => {
+        const a = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        a.href = url;
+        a.download = `love-${name1.replace(/\s+/g,'_')}-${name2.replace(/\s+/g,'_')}.png`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(()=>URL.revokeObjectURL(url), 1000);
+      };
+
+      copyImageBtn.onclick = async () => {
+        try {
+          // try ClipboardItem copy (may fail in some browsers)
+          const file = new File([blob], 'love.png', { type: 'image/png' });
+          // @ts-ignore navigator clipboard write
+          await navigator.clipboard.write([new ClipboardItem({ [file.type]: file })]);
+          alert('Image copied to clipboard — paste into chat or apps that accept images.');
+        } catch (err) {
+          // fallback: open save dialog
+          alert('Copying image failed in this browser. Use Download instead.');
+        }
+      };
+
+      nativeShareBtn.onclick = async () => {
+        try {
+          const file = new File([blob], 'love.png', { type: 'image/png' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({ files: [file], title: 'Love Alchemy', text: `${name1} + ${name2} — ${percent}%` });
+          } else {
+            alert('Native share is not available for files in this browser.');
+          }
+        } catch (err) {
+          console.error(err);
+          alert('Sharing failed.');
+        }
+      };
+    })
+    .catch((err) => {
+      console.error('Error generating share image:', err);
+      alert('Could not generate image. You can still share the link copied to clipboard.');
+    });
 });
+
 
 confettiToggle.addEventListener('click', () => {
   confettiEnabled = !confettiEnabled;
@@ -466,21 +529,20 @@ resetBtn.addEventListener('click', () => {
 });
 
 // History popup functionality
-historyBtn.addEventListener('click', () => {
-  historyPopupOverlay.classList.remove('hidden');
-  renderHistory();
+closeSharePreview.addEventListener('click', () => {
+  sharePreviewOverlay.classList.add('hidden');
 });
 
-closeHistoryPopup.addEventListener('click', () => {
-  historyPopupOverlay.classList.add('hidden');
+// also close on overlay click / ESC if you want:
+sharePreviewOverlay.addEventListener('click', (e) => {
+  if (e.target === sharePreviewOverlay) sharePreviewOverlay.classList.add('hidden');
 });
-
-// Close popup when clicking on overlay
-historyPopupOverlay.addEventListener('click', (e) => {
-  if (e.target === historyPopupOverlay) {
-    historyPopupOverlay.classList.add('hidden');
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !sharePreviewOverlay.classList.contains('hidden')) {
+    sharePreviewOverlay.classList.add('hidden');
   }
 });
+
 
 // Close popup with Escape key
 document.addEventListener('keydown', (e) => {
