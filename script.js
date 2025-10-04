@@ -41,6 +41,14 @@ const historyList = document.getElementById('historyList');
 const clearHistory = document.getElementById('clearHistory');
 const chime = document.getElementById('chime');
 const themeToggleBtn = document.getElementById('themeToggleBtn');
+// share preview modal elements
+const sharePreviewOverlay = document.getElementById('sharePreviewOverlay');
+const closeSharePreview = document.getElementById('closeSharePreview');
+const shareCanvas = document.getElementById('shareCanvas');
+const downloadImageBtn = document.getElementById('downloadImageBtn');
+const copyImageBtn = document.getElementById('copyImageBtn');
+const nativeShareBtn = document.getElementById('nativeShareBtn');
+
 
 let confettiEnabled = true;
 let soundEnabled = false;
@@ -426,24 +434,79 @@ calcBtn.addEventListener('click', () => {
   calculateLove();
 });
 
+
 shareBtn.addEventListener('click', (ev) => {
   ev.preventDefault();
   const name1 = name1El.value.trim();
   const name2 = name2El.value.trim();
   if (!name1 || !name2) { alert('Enter names to share result'); return; }
-  // compute percent using current options but deterministic
+  // compute percent using current options but deterministic (no jitter)
   const num1 = nameToNumber(name1, useMasterEl.checked);
   const num2 = nameToNumber(name2, useMasterEl.checked);
   const combined = combineNumbers(num1, num2, useMasterEl.checked);
   const percent = mapToPercent(combined, num1, num2);
+
+  // 1) copy classic URL to clipboard (existing behaviour)
   const url = makeShareableUrl(name1, name2, percent);
-  // copy to clipboard
   navigator.clipboard?.writeText(url).then(()=> {
-    alert('Shareable link copied to clipboard! Paste anywhere to show them ❤️');
+    // copied — proceed to image generation
   }).catch(()=> {
-    prompt('Copy this link:', url);
+    // ignore copy errors; still proceed to image generation
   });
+
+  // 2) generate shareable image and open preview modal
+  generateShareImage(name1, name2, percent, { theme: (document.body.classList.contains('light-theme') ? 'light' : 'dark') })
+    .then((blob) => {
+      // show preview modal (canvas already drawn by generateShareImage)
+      sharePreviewOverlay.classList.remove('hidden');
+      // enable/disable native share button based on API
+      nativeShareBtn.style.display = (navigator.canShare && navigator.canShare({ files: [new File([blob], 'love.png', {type:'image/png'})] })) ? 'inline-block' : 'none';
+
+      // wire download (use blob)
+      downloadImageBtn.onclick = () => {
+        const a = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        a.href = url;
+        a.download = `love-${name1.replace(/\s+/g,'_')}-${name2.replace(/\s+/g,'_')}.png`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(()=>URL.revokeObjectURL(url), 1000);
+      };
+
+      copyImageBtn.onclick = async () => {
+        try {
+          // try ClipboardItem copy (may fail in some browsers)
+          const file = new File([blob], 'love.png', { type: 'image/png' });
+          // @ts-ignore navigator clipboard write
+          await navigator.clipboard.write([new ClipboardItem({ [file.type]: file })]);
+          alert('Image copied to clipboard — paste into chat or apps that accept images.');
+        } catch (err) {
+          // fallback: open save dialog
+          alert('Copying image failed in this browser. Use Download instead.');
+        }
+      };
+
+      nativeShareBtn.onclick = async () => {
+        try {
+          const file = new File([blob], 'love.png', { type: 'image/png' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({ files: [file], title: 'Love Alchemy', text: `${name1} + ${name2} — ${percent}%` });
+          } else {
+            alert('Native share is not available for files in this browser.');
+          }
+        } catch (err) {
+          console.error(err);
+          alert('Sharing failed.');
+        }
+      };
+    })
+    .catch((err) => {
+      console.error('Error generating share image:', err);
+      alert('Could not generate image. You can still share the link copied to clipboard.');
+    });
 });
+
 
 confettiToggle.addEventListener('click', () => {
   confettiEnabled = !confettiEnabled;
@@ -466,21 +529,20 @@ resetBtn.addEventListener('click', () => {
 });
 
 // History popup functionality
-historyBtn.addEventListener('click', () => {
-  historyPopupOverlay.classList.remove('hidden');
-  renderHistory();
+closeSharePreview.addEventListener('click', () => {
+  sharePreviewOverlay.classList.add('hidden');
 });
 
-closeHistoryPopup.addEventListener('click', () => {
-  historyPopupOverlay.classList.add('hidden');
+// also close on overlay click / ESC if you want:
+sharePreviewOverlay.addEventListener('click', (e) => {
+  if (e.target === sharePreviewOverlay) sharePreviewOverlay.classList.add('hidden');
 });
-
-// Close popup when clicking on overlay
-historyPopupOverlay.addEventListener('click', (e) => {
-  if (e.target === historyPopupOverlay) {
-    historyPopupOverlay.classList.add('hidden');
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !sharePreviewOverlay.classList.contains('hidden')) {
+    sharePreviewOverlay.classList.add('hidden');
   }
 });
+
 
 // Close popup with Escape key
 document.addEventListener('keydown', (e) => {
@@ -536,6 +598,215 @@ setRing(0);
     console.error("Error loading theme or URL params:", e);
   }
 })();
+
+/**
+ * generateShareImage (premium, centered, smaller)
+ * Draws a square premium card (900x900) and returns a Promise that resolves to a Blob.
+ * Centered layout: names (top), percent + ring (center), message & branding (bottom).
+ */
+function generateShareImage(name1, name2, percent, opts = {}) {
+  const canvas = shareCanvas; // reuse modal canvas for preview
+  const size = 900; // square card (smaller)
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+
+  // --- Palette & theme ---
+  const accent1 = '#ff7a7a';
+  const accent2 = '#ff2e63';
+  const roseGold = '#f9c6b8';
+  const deep = '#2b0f1e'; // deep wine
+  const softDark = 'rgba(20,10,14,0.72)';
+  const cardGlass = 'rgba(255,255,255,0.04)';
+  const textLight = '#fff';
+  const textDark = '#111';
+
+  const isLight = (opts.theme === 'light');
+
+  // --- Background: luxe rose gradient with subtle noise-ish vignette ---
+  const g = ctx.createLinearGradient(0, 0, size, size);
+  g.addColorStop(0, '#3a0b17'); // deep
+  g.addColorStop(0.35, '#5a1222');
+  g.addColorStop(1, '#1c0a12');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, size, size);
+
+  // soft diagonal glow top-left
+  const glow = ctx.createLinearGradient(0, 0, size * 0.7, size * 0.7);
+  glow.addColorStop(0, 'rgba(255,110,130,0.12)');
+  glow.addColorStop(1, 'rgba(0,0,0,0.0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, size, size);
+
+  // vignette
+  ctx.fillStyle = 'rgba(0,0,0,0.18)';
+  ctx.beginPath();
+  ctx.ellipse(size/2, size/2, size*0.55, size*0.55, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // subtle rounded card glass panel
+  ctx.save();
+  roundRectPath(ctx, 36, 36, size - 72, size - 72, 28);
+  ctx.fillStyle = 'rgba(255,255,255,0.035)';
+  ctx.fill();
+  // inner glow border
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.stroke();
+  ctx.restore();
+
+  // --- Header: names ---
+  ctx.textAlign = 'center';
+  ctx.fillStyle = textLight;
+  ctx.font = '700 42px Poppins, sans-serif';
+  const headerY = 160;
+  // Show names with space and a heart glyph between them
+  ctx.font = '800 48px Poppins, sans-serif';
+  const nameLine = `${name1}  ❤  ${name2}`;
+  // subtle text shadow for premium depth
+  ctx.shadowColor = 'rgba(0,0,0,0.5)';
+  ctx.shadowBlur = 12;
+  ctx.fillText(nameLine, size / 2, headerY);
+  ctx.shadowBlur = 0;
+
+  // small subtitle under names
+  ctx.font = '500 16px Poppins, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.88)';
+  ctx.fillText('Soul chemistry • Numerology • Private', size/2, headerY + 28);
+
+  // --- Main: percentage ring in center ---
+  const cx = size/2;
+  const cy = size/2 + 20;
+  const outerR = 150;
+  // soft drop shadow behind ring
+  ctx.save();
+  ctx.beginPath();
+  ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  ctx.ellipse(cx + 6, cy + 10, outerR + 12, outerR + 8, 0, 0, Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+
+  // background ring (subtle)
+  ctx.beginPath();
+  ctx.lineWidth = 18;
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.arc(cx, cy, outerR, 0, Math.PI*2);
+  ctx.stroke();
+
+  // gradient arc for percent
+  const ringGrad = ctx.createLinearGradient(cx - outerR, cy, cx + outerR, cy);
+  ringGrad.addColorStop(0, accent1);
+  ringGrad.addColorStop(0.6, accent2);
+  ringGrad.addColorStop(1, roseGold);
+  ctx.lineCap = 'round';
+  ctx.lineWidth = 20;
+  ctx.strokeStyle = ringGrad;
+
+  const startAngle = -Math.PI/2;
+  const endAngle = startAngle + (Math.PI * 2) * (Math.max(0, Math.min(100, percent)) / 100);
+  ctx.beginPath();
+  ctx.arc(cx, cy, outerR, startAngle, endAngle);
+  ctx.stroke();
+
+  // inner glass circle for inner content
+  ctx.beginPath();
+  ctx.fillStyle = 'rgba(0,0,0,0.18)';
+  ctx.arc(cx, cy, outerR - 36, 0, Math.PI*2);
+  ctx.fill();
+
+  // big percent text
+  ctx.fillStyle = '#fff';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.font = '800 92px Poppins, sans-serif';
+  // soft gold glow for premium impression
+  ctx.shadowColor = 'rgba(255,110,140,0.28)';
+  ctx.shadowBlur = 24;
+  ctx.fillText(`${percent}%`, cx, cy - 6);
+  ctx.shadowBlur = 0;
+
+  // small halo heart animation-ish mark (static in image)
+  ctx.save();
+  ctx.fillStyle = accent2;
+  ctx.beginPath();
+  ctx.moveTo(cx + outerR - 28, cy + outerR - 20);
+  ctx.bezierCurveTo(cx + outerR + 6, cy + outerR - 70, cx + outerR + 90, cy + outerR - 20, cx + outerR - 28, cy + outerR + 36);
+  ctx.bezierCurveTo(cx + outerR - 130, cy + outerR - 20, cx + outerR - 20, cy + outerR - 70, cx + outerR - 28, cy + outerR - 20);
+  ctx.fill();
+  ctx.restore();
+
+  // --- Bottom: message + branding ---
+  const msg = messageForPercent(percent);
+  ctx.font = '600 18px Poppins, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.92)';
+  wrapTextCenter(ctx, msg, cx, cy + outerR + 48, size - 160, 26);
+
+  // tiny footer line
+  ctx.font = '500 12px Poppins, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  ctx.fillText('Love Alchemy • premium card • no data leaves your browser', cx, size - 48);
+
+  // final vignette overlay (soft)
+  ctx.fillStyle = 'rgba(0,0,0,0.06)';
+  ctx.fillRect(36, 36, size - 72, size - 72);
+
+  // return PNG blob (high quality)
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      resolve(blob);
+    }, 'image/png', 0.96);
+  });
+}
+
+/* --- helper: rounded rectangle path (no immediate fill) --- */
+function roundRectPath(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+/* --- helper: center-wrapping text (multi-line) --- */
+function wrapTextCenter(ctx, text, cx, startY, maxWidth, lineHeight) {
+  const words = text.split(' ');
+  let line = '';
+  const lines = [];
+  for (let i = 0; i < words.length; i++) {
+    const test = line + words[i] + ' ';
+    const metrics = ctx.measureText(test);
+    if (metrics.width > maxWidth && line.length > 0) {
+      lines.push(line.trim());
+      line = words[i] + ' ';
+    } else {
+      line = test;
+    }
+  }
+  if (line.trim()) lines.push(line.trim());
+  // draw centered lines
+  ctx.textAlign = 'center';
+  for (let i = 0; i < lines.length; i++) {
+    ctx.fillText(lines[i], cx, startY + i * lineHeight);
+  }
+}
+
+
+function drawMiniHearts(ctx, x, y) {
+  ctx.save();
+  ctx.fillStyle = '#ff7a7a';
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.bezierCurveTo(x-10, y-20, x-50, y+2, x, y+28);
+  ctx.bezierCurveTo(x+50, y+2, x+10, y-20, x, y);
+  ctx.fill();
+  ctx.restore();
+}
 const shareWhatsapp = document.getElementById("shareWhatsapp");
 const shareTwitter = document.getElementById("shareTwitter");
 const shareFacebook = document.getElementById("shareFacebook");
