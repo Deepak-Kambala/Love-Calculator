@@ -28,7 +28,8 @@ body{
   color:#fff;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
-  overflow:hidden;
+  overflow-x:hidden;
+  overflow-y:auto;
 }
 
 /* ambient animated blobs */
@@ -50,6 +51,7 @@ body{
   gap:18px;
   padding:28px;
   position:relative; z-index:1;
+  padding-bottom:80px;
 }
 
 /* top bar */
@@ -146,7 +148,7 @@ body{
 .panel ol, .panel ul{margin:0; padding-left:18px; color:var(--muted); font-size:13px}
 .history-list{max-height:240px; overflow:auto; padding-top:8px}
 .history-item{display:flex; justify-content:space-between; gap:8px; padding:8px; border-radius:8px; background: rgba(255,255,255,0.02); margin-bottom:8px; font-size:13px}
-.history-actions{display:flex; justify-content:flex-end; margin-top:8px}
+.history-actions{display:flex; justify-content:flex-end; gap:8px; margin-top:8px}
 
 /* canvas covers */
 .particle-canvas{position:fixed; inset:0; z-index:3; pointer-events:none}

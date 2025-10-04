@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="style.css">
   <!-- Optional: you can comment/remove this if you prefer system fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <!-- jsPDF for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
   <main class="app">
@@ -117,6 +119,7 @@
           <h3>History</h3>
           <div id="historyList" class="history-list"></div>
           <div class="history-actions">
+            <button id="exportHistoryPDF" class="outline">📄 Export PDF</button>
             <button id="clearHistory" class="outline">Clear history</button>
           </div>
         </div>
