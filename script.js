@@ -536,3 +536,37 @@ setRing(0);
     console.error("Error loading theme or URL params:", e);
   }
 })();
+
+//Export Chats
+
+
+const exportHistoryBtn = document.getElementById('exportHistoryBtn');
+
+exportHistoryBtn.addEventListener('click', () => {
+  const history = getHistory();
+  if (history.length === 0) {
+    alert("No history to export!");
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  doc.setFontSize(16);
+  doc.text("💖 Love Calculator History 💖", 14, 20);
+  doc.setFontSize(12);
+
+  let y = 30;
+  history.forEach((entry, index) => {
+    const text = `${index+1}. ${entry.name1} + ${entry.name2} → ${entry.percent}% | ${entry.msg} | ${new Date(entry.t).toLocaleString()}`;
+    doc.text(text, 14, y);
+    y += 8;
+    if (y > 280) {
+      doc.addPage();
+      y = 20;
+    }
+  });
+
+  doc.save("love_history.pdf");
+});
+
