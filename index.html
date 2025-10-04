@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" href="hearts.png" type="image/x-icon">
+
   <title>Love Alchemy — Advanced Love Calculator 💘</title>
   <link rel="stylesheet" href="style.css">
   <!-- Optional: you can comment/remove this if you prefer system fonts -->
@@ -96,7 +98,16 @@
       </div>
 
       <div class="right">
-        <div class="panel">
+        <div class="panel tips-panel">
+          <h3>Tips</h3>
+          <ul>
+            <li>Same names → same result (unless jitter is allowed).</li>
+            <li>Toggle confetti or sound for a surprise.</li>
+            <li>You can share results via a short URL (copy to clipboard).</li>
+          </ul>
+        </div>
+
+        <div class="panel how-it-works-panel">
           <h3>How it works</h3>
           <ol>
             <li>We convert letters using <strong>Pythagorean numerology</strong>.</li>
@@ -106,14 +117,6 @@
           </ol>
         </div>
 
-        <div class="panel">
-          <h3>Tips</h3>
-          <ul>
-            <li>Same names → same result (unless jitter is allowed).</li>
-            <li>Toggle confetti or sound for a surprise.</li>
-            <li>You can share results via a short URL (copy to clipboard).</li>
-          </ul>
-        </div>
 
         <div class="panel history-panel hidden" id="historyPanel">
           <h3>History</h3>
@@ -130,6 +133,22 @@
     <audio id="chime" src="data:audio/mp3;base64,//uQZAAAAAAAAAAAAAAAAAAAA..."></audio>
     <!-- Dummy data URL for safety: replace with a real small base64 mp3 if you want sound -->
   </main>
+
+  <!-- History Popup Modal -->
+  <div class="history-popup-overlay hidden" id="historyPopupOverlay">
+    <div class="history-popup" id="historyPanel">
+      <div class="history-popup-header">
+        <h3>History</h3>
+        <button class="close-popup" id="closeHistoryPopup" title="Close">✕</button>
+      </div>
+      <div class="history-popup-content">
+        <div id="historyList" class="history-list"></div>
+        <div class="history-actions">
+          <button id="clearHistory" class="outline">Clear history</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <footer class="footer">
     Made with ❤️ • Numerology logic (Pythagorean) • No data leaves your browser

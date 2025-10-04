@@ -35,6 +35,8 @@ const useMasterEl = document.getElementById('useMaster');
 const resetBtn = document.getElementById('resetBtn');
 const historyBtn = document.getElementById('historyBtn');
 const historyPanel = document.getElementById('historyPanel');
+const historyPopupOverlay = document.getElementById('historyPopupOverlay');
+const closeHistoryPopup = document.getElementById('closeHistoryPopup');
 const historyList = document.getElementById('historyList');
 const clearHistory = document.getElementById('clearHistory');
 const exportHistoryPDF = document.getElementById('exportHistoryPDF');
@@ -515,20 +517,30 @@ function animateRingTo(targetPercent) {
    Sound
    ============================ */
 function playChime(percent) {
-  // play a tiny web-audio beep instead of external file for portability
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const o = ctx.createOscillator();
-    const g = ctx.createGain();
-    o.type = 'sine';
-    o.frequency.value = 220 + percent*2;
-    g.gain.value = 0.0001;
-    o.connect(g); g.connect(ctx.destination);
-    o.start();
-    g.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 0.02);
-    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.6);
-    o.stop(ctx.currentTime + 0.7);
-  } catch(e){}
+    
+    // tiny romantic arpeggio sequence
+    const notes = [440, 550, 660]; // simple rising notes
+    const startTime = ctx.currentTime;
+
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle'; // softer and pleasant
+      osc.frequency.value = freq + (percent); // vary slightly by percent
+      gain.gain.value = 0.0001; // start almost silent
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      // fade in/out quickly
+      gain.gain.linearRampToValueAtTime(0.08, startTime + i*0.1 + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startTime + i*0.1 + 0.4);
+
+      osc.start(startTime + i*0.1);
+      osc.stop(startTime + i*0.1 + 0.5);
+    });
+  } catch(e){ console.error(e); }
 }
 
 /* ============================
@@ -578,9 +590,28 @@ resetBtn.addEventListener('click', () => {
   animateRingTo(0);
 });
 
+// History popup functionality
 historyBtn.addEventListener('click', () => {
-  historyPanel.classList.toggle('hidden');
+  historyPopupOverlay.classList.remove('hidden');
   renderHistory();
+});
+
+closeHistoryPopup.addEventListener('click', () => {
+  historyPopupOverlay.classList.add('hidden');
+});
+
+// Close popup when clicking on overlay
+historyPopupOverlay.addEventListener('click', (e) => {
+  if (e.target === historyPopupOverlay) {
+    historyPopupOverlay.classList.add('hidden');
+  }
+});
+
+// Close popup with Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !historyPopupOverlay.classList.contains('hidden')) {
+    historyPopupOverlay.classList.add('hidden');
+  }
 });
 
 clearHistory.addEventListener('click', () => {
