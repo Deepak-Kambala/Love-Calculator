@@ -36,12 +36,12 @@
         <form id="loveForm" class="form" autocomplete="off" onsubmit="return false;">
           <div class="inputs">
             <label class="input-wrap">
-              <input id="name1" type="text" placeholder="Your name" aria-label="Your name" maxlength="40">
+              <input id="name1" type="text" placeholder="Romeo" aria-label="Your name" maxlength="40">
               <span class="label">You</span>
             </label>
 
             <label class="input-wrap">
-              <input id="name2" type="text" placeholder="Their name" aria-label="Their name" maxlength="40">
+              <input id="name2" type="text" placeholder="Juliet" aria-label="Their name" maxlength="40">
               <span class="label">Crush</span>
             </label>
           </div>
@@ -54,6 +54,14 @@
           <div class="actions">
             <button id="calcBtn" class="primary">Calculate Love ❤️</button>
             <button id="shareBtn" class="ghost-btn" title="Share result">🔗 Share</button>
+          </div>
+
+          <div class="social-share">
+            <p>Share your love result:</p>
+            <a href="#" id="shareWhatsapp" target="_blank" title="Share on WhatsApp">📱 WhatsApp</a>
+            <a href="#" id="shareTwitter" target="_blank" title="Share on Twitter">🐦 Twitter</a>
+            <a href="#" id="shareFacebook" target="_blank" title="Share on Facebook">📘 Facebook</a>
+            <button id="copyLinkBtn" title="Copy link">🔗 Copy Link</button>
           </div>
         </form>
 
@@ -113,7 +121,7 @@
 
     <audio id="soundEffect" src="soundeffect.mp3" loop></audio>
     <audio id="chime" src="data:audio/mp3;base64,//uQZAAAAAAAAAAAAAAAAAAAA..."></audio>
-    </main>
+  </main>
 
   <div class="history-popup-overlay hidden" id="historyPopupOverlay">
     <div class="history-popup" id="historyPanel">
@@ -124,11 +132,29 @@
       <div class="history-popup-content">
         <div id="historyList" class="history-list"></div>
         <div class="history-actions">
+          <button id="exportHistoryBtn">Export History as PDF</button>
           <button id="clearHistory" class="outline">Clear history</button>
         </div>
       </div>
     </div>
   </div>
+
+<div class="share-preview-overlay hidden" id="sharePreviewOverlay" role="dialog" aria-modal="true" aria-labelledby="sharePreviewTitle">
+  <div class="share-preview">
+    <div class="share-header">
+      <h3 id="sharePreviewTitle">Shareable Card</h3>
+      <button class="close-popup" id="closeSharePreview" title="Close">✕</button>
+    </div>
+    <div class="share-body">
+      <canvas id="shareCanvas" width="900" height="900" style="max-width:100%; height:auto; border-radius:12px; display:block; margin: 0 auto;"></canvas>
+    </div>
+    <div class="share-footer">
+      <button id="downloadImageBtn" class="primary">Download Image</button>
+      <button id="copyImageBtn" class="ghost-btn">Copy Image</button>
+      <button id="nativeShareBtn" class="ghost-btn">Native Share</button>
+    </div>
+  </div>
+</div>
 
   <footer class="footer">
     Made with ❤️ • Numerology logic (Pythagorean) • No data leaves your browser
