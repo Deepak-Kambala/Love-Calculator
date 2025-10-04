@@ -808,6 +808,7 @@ function drawMiniHearts(ctx, x, y) {
   ctx.fill();
   ctx.restore();
 }
+// here the social media 
 const shareWhatsapp = document.getElementById("shareWhatsapp");
 const shareTwitter = document.getElementById("shareTwitter");
 const shareFacebook = document.getElementById("shareFacebook");
@@ -821,25 +822,24 @@ function getShareText() {
   return `Check our love compatibility! 💖 ${name1} + ${name2} = ${percent}\nSee more: ${url}`;
 }
 
-// WhatsApp
+//  here all social media 
 shareWhatsapp.addEventListener("click", () => {
   const text = encodeURIComponent(getShareText());
   shareWhatsapp.href = `https://wa.me/?text=${text}`;
 });
 
-// Twitter
+
 shareTwitter.addEventListener("click", () => {
   const text = encodeURIComponent(getShareText());
   shareTwitter.href = `https://twitter.com/intent/tweet?text=${text}`;
 });
 
-// Facebook
+
 shareFacebook.addEventListener("click", () => {
   const url = encodeURIComponent(window.location.href);
   shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
 });
 
-// Copy Link
 copyLinkBtn.addEventListener("click", () => {
   navigator.clipboard.writeText(window.location.href)
     .then(() => alert("Link copied to clipboard!"))
