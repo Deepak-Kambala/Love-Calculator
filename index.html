@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" href="hearts.png" type="image/x-icon">
+
   <title>Love Alchemy — Advanced Love Calculator 💘</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
@@ -132,11 +134,31 @@
       <div class="history-popup-content">
         <div id="historyList" class="history-list"></div>
         <div class="history-actions">
+          <button id="exportHistoryBtn">Export History as PDF</button>
+
           <button id="clearHistory" class="outline">Clear history</button>
         </div>
       </div>
     </div>
   </div>
+
+<div class="share-preview-overlay hidden" id="sharePreviewOverlay" role="dialog" aria-modal="true" aria-labelledby="sharePreviewTitle">
+  <div class="share-preview">
+    <div class="share-header">
+      <h3 id="sharePreviewTitle">Shareable Card</h3>
+      <button class="close-popup" id="closeSharePreview" title="Close">✕</button>
+    </div>
+    <div class="share-body">
+      <canvas id="shareCanvas" width="900" height="900" style="max-width:100%; height:auto; border-radius:12px; display:block; margin: 0 auto;"></canvas>
+
+    </div>
+    <div class="share-footer">
+      <button id="downloadImageBtn" class="primary">Download Image</button>
+      <button id="copyImageBtn" class="ghost-btn">Copy Image</button>
+      <button id="nativeShareBtn" class="ghost-btn">Native Share</button>
+    </div>
+  </div>
+</div>
 
   <footer class="footer">
     Made with ❤️ • Numerology logic (Pythagorean) • No data leaves your browser
