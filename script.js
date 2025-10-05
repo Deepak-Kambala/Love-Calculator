@@ -41,6 +41,13 @@ const historyList = document.getElementById('historyList');
 const clearHistory = document.getElementById('clearHistory');
 const chime = document.getElementById('chime');
 const themeToggleBtn = document.getElementById('themeToggleBtn');
+// Premium UI elements
+const app = document.querySelector('.app');
+const moodIndicator = document.getElementById('moodIndicator');
+const moodIcon = document.getElementById('moodIcon');
+const moodLabel = document.getElementById('moodLabel');
+const loveOracle = document.getElementById('loveOracle');
+const oracleText = document.getElementById('oracleText');
 // share preview modal elements
 const sharePreviewOverlay = document.getElementById('sharePreviewOverlay');
 const closeSharePreview = document.getElementById('closeSharePreview');
@@ -48,6 +55,32 @@ const shareCanvas = document.getElementById('shareCanvas');
 const downloadImageBtn = document.getElementById('downloadImageBtn');
 const copyImageBtn = document.getElementById('copyImageBtn');
 const nativeShareBtn = document.getElementById('nativeShareBtn');
+
+
+
+
+const feedbackBtn = document.getElementById('feedbackBtn');
+const feedbackPopupOverlay = document.getElementById('feedbackPopupOverlay');
+const closeFeedbackPopup = document.getElementById('closeFeedbackPopup');
+const feedbackForm = document.getElementById('feedbackForm');
+const cancelFeedback = document.getElementById('cancelFeedback');
+const feedbackSuccess = document.getElementById('feedbackSuccess');
+const feedbackList = document.getElementById('feedbackList');
+const clearFeedbackBtn = document.getElementById('clearFeedback');
+const ratingStars = document.querySelectorAll('.rating-stars .star');
+const feedbackRatingInput = document.getElementById('feedbackRating');
+const feedbackMessage = document.getElementById('feedbackMessage');
+const charCount = document.getElementById('charCount');
+
+
+
+
+
+
+
+
+
+let feedbacks = JSON.parse(localStorage.getItem('lovecalc_feedbacks')) || [];
 
 
 let confettiEnabled = true;
@@ -149,6 +182,161 @@ function messageForPercent(p) {
   if (p >= 50) return "✨ Promising — work & communicate!";
   if (p >= 30) return "🤍 Some sparks — effort required.";
   return "💔 Friendly vibes — maybe best as friends.";
+}
+
+/* ============================
+    Mood & Tips System
+   ============================ */
+
+// Mood data with icons and CSS classes
+const MOODS = {
+  dreamy: { icon: '💫', label: 'Dreamy', class: 'mood-dreamy' },
+  passionate: { icon: '🔥', label: 'Passionate', class: 'mood-passionate' },
+  adventurous: { icon: '🌟', label: 'Adventurous', class: 'mood-adventurous' },
+  flirty: { icon: '😍', label: 'Flirty', class: 'mood-flirty' },
+  playful: { icon: '✨', label: 'Playful', class: 'mood-playful' },
+  curious: { icon: '🤔', label: 'Curious', class: 'mood-curious' },
+  friendly: { icon: '😊', label: 'Friendly', class: 'mood-friendly' },
+  chill: { icon: '🤝', label: 'Chill', class: 'mood-chill' }
+};
+
+// Mood-specific tip collections
+const MOOD_TIPS = {
+  dreamy: [
+    "🌙 Stargaze together tonight",
+    "💌 Write them a heartfelt letter",
+    "🎵 Create a dreamy playlist for them",
+    "🌸 Leave a sweet note on their pillow",
+    "☁️ Plan a cozy afternoon nap together"
+  ],
+  passionate: [
+    "💋 Surprise them with a passionate kiss",
+    "🌹 Leave rose petals on their path",
+    "🕯️ Set up a candlelit dinner",
+    "💃 Dance together to your favorite song",
+    "🔥 Write them a love poem"
+  ],
+  adventurous: [
+    "🗺️ Plan a spontaneous mini-adventure",
+    "🥾 Go on an unexpected hike together",
+    "🎢 Try something new and exciting",
+    "📍 Explore a new place in your city",
+    "🎯 Challenge them to a fun competition"
+  ],
+  flirty: [
+    "😉 Send them a cheeky text",
+    "💄 Leave a lipstick mark on their mirror",
+    "🍓 Feed them something sweet",
+    "💐 Surprise them with their favorite flowers",
+    "📱 Send a cute selfie with a flirty caption"
+  ],
+  playful: [
+    "🎈 Plan a silly photo shoot together",
+    "🎮 Have a game night with their favorite games",
+    "🍕 Build a blanket fort and order pizza",
+    "🎭 Do silly impressions of each other",
+    "🧩 Work on a puzzle together"
+  ],
+  curious: [
+    "❓ Ask them about their wildest dream",
+    "📚 Share an interesting article with them",
+    "🔍 Explore a new hobby together",
+    "🎨 Try creating something artistic together",
+    "🌟 Learn something new about each other"
+  ],
+  friendly: [
+    "☕ Share a warm cup of coffee",
+    "🤗 Give them an unexpected hug",
+    "📞 Call them just to hear their voice",
+    "🍪 Bake their favorite treat together",
+    "💬 Have a deep, meaningful conversation"
+  ],
+  chill: [
+    "🛋️ Have a relaxing movie marathon",
+    "🧘 Try meditation or yoga together",
+    "🍵 Enjoy a peaceful tea time",
+    "📖 Read books in comfortable silence",
+    "🌅 Watch the sunrise or sunset together"
+  ]
+};
+
+// Get mood based on compatibility score
+function getMoodForPercent(p) {
+  if (p >= 90) return MOODS.dreamy;
+  if (p >= 80) return MOODS.passionate;
+  if (p >= 70) return MOODS.adventurous;
+  if (p >= 60) return MOODS.flirty;
+  if (p >= 50) return MOODS.playful;
+  if (p >= 40) return MOODS.curious;
+  if (p >= 30) return MOODS.friendly;
+  return MOODS.chill;
+}
+
+// Get random tip based on mood
+function getRandomTipForMood(moodKey) {
+  const tips = MOOD_TIPS[moodKey] || MOOD_TIPS.playful;
+  return tips[Math.floor(Math.random() * tips.length)];
+}
+
+// Apply mood theme to entire page
+function applyMoodTheme(mood) {
+  // Remove all existing mood classes
+  Object.values(MOODS).forEach(m => app.classList.remove(m.class));
+  
+  // Add current mood class
+  app.classList.add(mood.class);
+  
+  // Update mood indicator
+  moodIcon.textContent = mood.icon;
+  moodLabel.textContent = mood.label;
+  moodIndicator.classList.remove('hidden');
+}
+
+// Enhanced Oracle Messages with mystical flair
+
+
+// Get mystical oracle message based on mood
+function getMysticalOracleMessage(moodKey) {
+  const messages = ORACLE_MESSAGES[moodKey] || ORACLE_MESSAGES.playful;
+  return messages[Math.floor(Math.random() * messages.length)];
+}
+
+// Show Love Oracle with magical animation
+function showLoveOracle(message) {
+  oracleText.textContent = message;
+  loveOracle.classList.remove('hidden');
+  
+  // Add typewriter effect delay
+  setTimeout(() => {
+    oracleText.style.animation = 'typewriterReveal 3s ease-out forwards';
+  }, 200);
+}
+
+
+// Hide mood and oracle displays
+function hideMoodAndTips() {
+  moodIndicator.classList.add('hidden');
+  loveOracle.classList.add('hidden');
+  
+  // Remove all mood classes
+  Object.values(MOODS).forEach(m => app.classList.remove(m.class));
+}
+function getRandomTip() {
+  const tips = [
+    "💌 Send a sweet message today",
+    "☕ Plan a surprise coffee date",
+    "🌅 Watch the sunrise together",
+    "🎵 Share your favorite song",
+    "🌸 Leave a cute note somewhere",
+    "🍕 Cook something special together",
+    "📚 Read the same book",
+    "🌙 Stargaze tonight",
+    "🎨 Try a creative activity together",
+    "💐 Surprise with flowers",
+    "🚶‍♀️ Take a romantic walk",
+    "📷 Take a silly photo together"
+  ];
+  return tips[Math.floor(Math.random() * tips.length)];
 }
 
 /* ============================
@@ -325,6 +513,11 @@ function makeShareableUrl(name1, name2, percent) {
   return `${base}?${params.toString()}`;
 }
 
+function isValidName(name) {
+  // Allows letters, spaces; rejects numbers, symbols
+ return /^[A-Za-z\s]+$/.test(name.trim());
+}
+
 /* ============================
    Main calculate function
    ============================ */
@@ -339,6 +532,12 @@ function calculateLove() {
     alert('Please enter both names to calculate love ✨');
     return;
   }
+
+  if (!isValidName(name1) || !isValidName(name2)) {
+    alert("Please enter valid names: letters, spaces only.");
+    return;
+  }
+
 
   // Compute numerology numbers
   const num1 = nameToNumber(name1, supportMaster);
@@ -361,12 +560,19 @@ function calculateLove() {
   heading.textContent = `${name1} + ${name2}`;
   description.textContent = message;
 
+  // Apply premium mood theme to entire page
+  const mood = getMoodForPercent(percent);
+  const romanticTip = getRandomTipForMood(mood.label.toLowerCase());
+  
+  applyMoodTheme(mood);
+  showLoveOracle(romanticTip);
+
   // trigger party
   if (confettiEnabled) triggerCelebration(percent);
   if (soundEnabled) playChime(percent);
 
-  // store in history
-  saveHistory({name1, name2, percent, msg: message, t: Date.now()});
+  // store in history (including mood and romantic tip)
+  saveHistory({name1, name2, percent, msg: message, mood: mood.label, tip: romanticTip, t: Date.now()});
 }
 
 function animateRingTo(targetPercent) {
@@ -445,6 +651,11 @@ shareBtn.addEventListener('click', (ev) => {
   const num2 = nameToNumber(name2, useMasterEl.checked);
   const combined = combineNumbers(num1, num2, useMasterEl.checked);
   const percent = mapToPercent(combined, num1, num2);
+
+    if (!isValidName(name1) || !isValidName(name2) || !name1 || !name2) {
+    alert("Please enter valid names: letters, spaces only.");
+    return;
+  }
 
   // 1) copy classic URL to clipboard (existing behaviour)
   const url = makeShareableUrl(name1, name2, percent);
@@ -845,3 +1056,299 @@ copyLinkBtn.addEventListener("click", () => {
     .then(() => alert("Link copied to clipboard!"))
     .catch(() => alert("Failed to copy link"));
 });
+
+historyBtn.addEventListener('click', () => {
+  historyPopupOverlay.classList.remove('hidden');
+});
+
+closeHistoryPopup.addEventListener('click', () => {
+  historyPopupOverlay.classList.add('hidden');
+});
+
+
+(function attachHistoryDeleteButtons() {
+  function getKeyFromItem(itemEl) {
+    try {
+      const left = itemEl.querySelector('div:first-child') || itemEl.children[0];
+      const right = itemEl.querySelector('div:last-child') || itemEl.children[itemEl.children.length - 1];
+      let leftText = left ? left.innerText : itemEl.innerText;
+      leftText = leftText.split('\n')[0].trim();
+      const percentMatch = itemEl.innerText.match(/(\d{1,3})\s*%/);
+      const percent = percentMatch ? parseInt(percentMatch[1], 10) : null;
+      return { leftText, percent };
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function removeHistoryEntryByKey(key) {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return false;
+      const arr = JSON.parse(raw);
+      const idx = arr.findIndex(it => {
+        const candidate = `${it.name1} + ${it.name2}`;
+        const a = (candidate || '').trim().toLowerCase();
+        const b = (key.leftText || '').trim().toLowerCase();
+        const percentMatch = it.percent == key.percent;
+        return a === b && percentMatch;
+      });
+      if (idx >= 0) {
+        arr.splice(idx, 1);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+        return true;
+      }
+      if (key.percent != null) {
+        const idx2 = arr.findIndex(it => it.percent == key.percent);
+        if (idx2 >= 0) {
+          arr.splice(idx2, 1);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+          return true;
+        }
+      }
+    } catch (e) {
+      console.error('removeHistoryEntryByKey error', e);
+    }
+    return false;
+  }
+
+  function makeDeleteButton() {
+    const btn = document.createElement('button');
+    btn.className = 'delete-history-btn';
+    btn.title = 'Delete entry';
+    btn.setAttribute('aria-label', 'Delete this history entry');
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 6h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 6v14a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10 11v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M14 11v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 6l1-2h4l1 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>`;
+    return btn;
+  }
+
+  function injectButtonIntoItem(itemEl) {
+    if (itemEl.querySelector('.delete-history-btn')) return;
+    const right = itemEl.querySelector('div:last-child');
+    const btn = makeDeleteButton();
+    btn.addEventListener('click', ev => {
+      ev.stopPropagation();
+      const key = getKeyFromItem(itemEl);
+      itemEl.animate(
+        [
+          { opacity: 1, transform: 'translateX(0) scale(1)' },
+          { opacity: 0, transform: 'translateX(20px) scale(0.98)' }
+        ],
+        { duration: 240, easing: 'cubic-bezier(.2,.8,.2,1)' }
+      );
+      setTimeout(() => {
+        const removed = removeHistoryEntryByKey(key || {});
+        renderHistory();
+        if (!removed) console.warn('Could not deterministically remove entry; storage unchanged.');
+      }, 240);
+    });
+    if (right) {
+      const wrapper = document.createElement('div');
+      wrapper.style.display = 'flex';
+      wrapper.style.justifyContent = 'flex-end';
+      wrapper.style.marginTop = '6px';
+      wrapper.appendChild(btn);
+      right.appendChild(wrapper);
+    } else {
+      itemEl.appendChild(btn);
+    }
+  }
+
+  const observer = new MutationObserver(mutations => {
+    for (const m of mutations) {
+      if (m.type === 'childList' && m.addedNodes.length) {
+        m.addedNodes.forEach(node => {
+          if (node.nodeType === 1 && node.classList.contains('history-item')) injectButtonIntoItem(node);
+        });
+      }
+    }
+    historyList.querySelectorAll('.history-item').forEach(el => injectButtonIntoItem(el));
+  });
+
+  if (historyList) {
+    observer.observe(historyList, { childList: true, subtree: false });
+    historyList.querySelectorAll('.history-item').forEach(el => injectButtonIntoItem(el));
+  }
+})();
+
+
+
+feedbackBtn.addEventListener('click', () => {
+  feedbackPopupOverlay.classList.remove('hidden');
+  renderFeedbackList();
+});
+
+// Close feedback popup
+closeFeedbackPopup.addEventListener('click', () => {
+  feedbackPopupOverlay.classList.add('hidden');
+  resetFeedbackForm();
+});
+
+cancelFeedback.addEventListener('click', () => {
+  feedbackPopupOverlay.classList.add('hidden');
+  resetFeedbackForm();
+});
+
+// Close on overlay click
+feedbackPopupOverlay.addEventListener('click', (e) => {
+  if (e.target === feedbackPopupOverlay) {
+    feedbackPopupOverlay.classList.add('hidden');
+    resetFeedbackForm();
+  }
+});
+
+// Rating stars functionality
+ratingStars.forEach(star => {
+  star.addEventListener('click', () => {
+    const rating = parseInt(star.getAttribute('data-rating'));
+    feedbackRatingInput.value = rating;
+    
+    ratingStars.forEach(s => {
+      const starRating = parseInt(s.getAttribute('data-rating'));
+      if (starRating <= rating) {
+        s.classList.add('active');
+      } else {
+        s.classList.remove('active');
+      }
+    });
+  });
+  
+  star.addEventListener('mouseenter', () => {
+    const rating = parseInt(star.getAttribute('data-rating'));
+    ratingStars.forEach(s => {
+      const starRating = parseInt(s.getAttribute('data-rating'));
+      if (starRating <= rating) {
+        s.style.filter = 'grayscale(0%)';
+        s.style.opacity = '1';
+      } else {
+        s.style.filter = 'grayscale(100%)';
+        s.style.opacity = '0.4';
+      }
+    });
+  });
+});
+
+document.querySelector('.rating-stars').addEventListener('mouseleave', () => {
+  const currentRating = parseInt(feedbackRatingInput.value);
+  ratingStars.forEach(s => {
+    const starRating = parseInt(s.getAttribute('data-rating'));
+    if (starRating <= currentRating) {
+      s.style.filter = 'grayscale(0%)';
+      s.style.opacity = '1';
+    } else {
+      s.style.filter = 'grayscale(100%)';
+      s.style.opacity = '0.4';
+    }
+  });
+});
+
+// Character count for textarea
+feedbackMessage.addEventListener('input', () => {
+  charCount.textContent = feedbackMessage.value.length;
+});
+
+// Submit feedback
+feedbackForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  
+  const name = document.getElementById('feedbackName').value.trim() || 'Anonymous';
+  const email = document.getElementById('feedbackEmail').value.trim();
+  const rating = parseInt(feedbackRatingInput.value);
+  const message = feedbackMessage.value.trim();
+  
+  if (rating === 0) {
+    alert('Please select a rating!');
+    return;
+  }
+  
+  if (!message) {
+    alert('Please enter your feedback!');
+    return;
+  }
+  
+  const feedback = {
+    id: Date.now(),
+    name,
+    email,
+    rating,
+    message,
+    date: new Date().toISOString()
+  };
+  
+  feedbacks.unshift(feedback);
+  localStorage.setItem('lovecalc_feedbacks', JSON.stringify(feedbacks));
+  
+  // Show success message
+  feedbackForm.style.display = 'none';
+  feedbackSuccess.classList.remove('hidden');
+  
+  // Play sound if enabled
+  if (soundEnabled) {
+    playChime();
+  }
+  
+  // Reset after 2 seconds
+  setTimeout(() => {
+    feedbackForm.style.display = 'flex';
+    feedbackSuccess.classList.add('hidden');
+    resetFeedbackForm();
+    renderFeedbackList();
+  }, 2000);
+});
+
+// Render feedback list
+function renderFeedbackList() {
+  if (feedbacks.length === 0) {
+    feedbackList.innerHTML = '<p style="text-align:center; color: var(--text-secondary);">No feedback yet. Be the first!</p>';
+    return;
+  }
+  
+  feedbackList.innerHTML = feedbacks.map(fb => {
+    const date = new Date(fb.date);
+    const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const stars = '⭐'.repeat(fb.rating);
+    
+    return `
+      <div class="feedback-item">
+        <div class="feedback-item-header">
+          <span class="feedback-item-name">${escapeHtml(fb.name)}</span>
+          <span class="feedback-item-rating">${stars}</span>
+        </div>
+        <div class="feedback-item-date">${formattedDate}</div>
+        <div class="feedback-item-message">${escapeHtml(fb.message)}</div>
+        ${fb.email ? `<div class="feedback-item-email">${escapeHtml(fb.email)}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+// Clear all feedbacks
+clearFeedbackBtn.addEventListener('click', () => {
+  if (confirm('Are you sure you want to clear all feedback?')) {
+    feedbacks = [];
+    localStorage.removeItem('lovecalc_feedbacks');
+    renderFeedbackList();
+  }
+});
+
+// Reset feedback form
+function resetFeedbackForm() {
+  feedbackForm.reset();
+  feedbackRatingInput.value = '0';
+  ratingStars.forEach(s => s.classList.remove('active'));
+  charCount.textContent = '0';
+  feedbackSuccess.classList.add('hidden');
+  feedbackForm.style.display = 'flex';
+}
+
+// Escape HTML to prevent XSS
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
