@@ -8,22 +8,39 @@
   <title>Love Alchemy — Advanced Love Calculator 💘</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+  
+  <!-- Google Translate -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'es,fr,en,de,it,pt,ru,zh,ja,ko,ar,hi,tr,pl,nl,sv',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 <body>
   <main class="app">
     <div class="bg-ambience"></div>
-
     <header class="top">
       <div class="logo">
-        <svg viewBox="0 0 24 24" class="logo-icon" aria-hidden="true">
-          <path d="M12 21s-7-4.5-9.5-8.5S3.2 3.5 12 7c8.8-3.5 9.5 5.5 9.5 5.5S19 16.5 12 21z"/>
-        </svg>
-        <span>Love Alchemy</span>
+        <img src="/logo.svg" alt="" srcset="" width="200px">
+      </div>
+
+      <!-- Mood indicator for entire page -->
+      <div id="moodIndicator" class="mood-indicator hidden">
+        <span id="moodIcon" class="mood-icon">✨</span>
+        <span id="moodLabel" class="mood-label">Playful</span>
       </div>
 
       <div class="controls">
         <button id="historyBtn" class="ghost-btn" title="View history">📜 History</button>
+        <button id="feedbackBtn" class="ghost-btn" title="Give Feedback">💬 Feedback</button>
         <button id="resetBtn" class="ghost-btn" title="Reset inputs">🔁 Reset</button>
+        <div id="google_translate_element" class="translate-widget"></div>
         <button id="themeToggleBtn" class="ghost-btn" title="Theme">🌙 Theme</button>
       </div>
     </header>
@@ -55,6 +72,8 @@
             <button id="calcBtn" class="primary">Calculate Love ❤️</button>
             <button id="shareBtn" class="ghost-btn" title="Share result">🔗 Share</button>
           </div>
+
+          
 
           <!-- Social share buttons -->
           <div class="social-share">
@@ -88,6 +107,47 @@
           <div class="score-meta">
             <div id="heading" class="heading">Waiting for names...</div>
             <div id="description" class="description">Try entering your names and press Calculate.</div>
+          </div>
+        </div>
+
+        <!-- Mystical Love Oracle -->
+        <div id="loveOracle" class="love-oracle hidden " style="margin-top: 4rem; margin-bottom: 4rem;">
+          <div class="oracle-container">
+            <!-- Magical sparkles background -->
+            <div class="oracle-sparkles">
+              <div class="sparkle sparkle-1">✨</div>
+              <div class="sparkle sparkle-2">⭐</div>
+              <div class="sparkle sparkle-3">💫</div>
+              <div class="sparkle sparkle-4">🌟</div>
+              <div class="sparkle sparkle-5">✨</div>
+            </div>
+            
+            <!-- Oracle scroll/parchment -->
+            <div class="oracle-scroll">
+              <div class="scroll-header">
+                <div class="crystal-ball">🔮</div>
+                <div class="oracle-title">Love Oracle Whispers...</div>
+              </div>
+              
+              <div class="scroll-content">
+                <div class="oracle-border-top"></div>
+                <div class="oracle-message">
+                  <p id="oracleText" class="oracle-text">The stars align to reveal your romantic destiny...</p>
+                </div>
+                <div class="oracle-border-bottom"></div>
+              </div>
+              
+              <!-- Decorative elements -->
+              <div class="oracle-decoration oracle-decoration-left">🌹</div>
+              <div class="oracle-decoration oracle-decoration-right">💝</div>
+            </div>
+            
+            <!-- Floating hearts/petals for mood -->
+            <div class="oracle-mood-effects">
+              <div class="floating-element floating-heart">💗</div>
+              <div class="floating-element floating-star">⭐</div>
+              <div class="floating-element floating-flower">🌸</div>
+            </div>
           </div>
         </div>
 
@@ -135,7 +195,6 @@
         <div id="historyList" class="history-list"></div>
         <div class="history-actions">
           <button id="exportHistoryBtn">Export History as PDF</button>
-
           <button id="clearHistory" class="outline">Clear history</button>
         </div>
       </div>
@@ -160,8 +219,69 @@
   </div>
 </div>
 
+
+  <!-- Feedback Popup Modal -->
+<div class="feedback-popup-overlay hidden" id="feedbackPopupOverlay">
+  <div class="feedback-popup" id="feedbackPanel">
+    <div class="feedback-popup-header">
+      <h3>💬 Send Feedback</h3>
+      <button class="close-popup" id="closeFeedbackPopup" title="Close">✕</button>
+    </div>
+    <div class="feedback-popup-content">
+      <form id="feedbackForm" class="feedback-form">
+        <label for="feedbackName" class="feedback-label">
+          Name (Optional)
+          <input type="text" id="feedbackName" placeholder="Your name" maxlength="50">
+        </label>
+        
+        <label for="feedbackEmail" class="feedback-label">
+          Email (Optional)
+          <input type="email" id="feedbackEmail" placeholder="your@email.com" maxlength="100">
+        </label>
+        
+        <label for="feedbackRating" class="feedback-label">
+          Rating
+          <div class="rating-stars" id="ratingStars">
+            <span class="star" data-rating="1">⭐</span>
+            <span class="star" data-rating="2">⭐</span>
+            <span class="star" data-rating="3">⭐</span>
+            <span class="star" data-rating="4">⭐</span>
+            <span class="star" data-rating="5">⭐</span>
+          </div>
+          <input type="hidden" id="feedbackRating" value="0">
+        </label>
+        
+        <label for="feedbackMessage" class="feedback-label">
+          Your Feedback *
+          <textarea id="feedbackMessage" placeholder="Tell us what you think..." rows="5" maxlength="500" required></textarea>
+          <span class="char-count"><span id="charCount">0</span>/500</span>
+        </label>
+        
+        <div class="feedback-actions">
+          <button type="submit" class="primary">Submit Feedback ✨</button>
+          <button type="button" id="cancelFeedback" class="outline">Cancel</button>
+        </div>
+      </form>
+      
+      <div id="feedbackSuccess" class="feedback-success hidden">
+        <div class="success-icon">✅</div>
+        <h4>Thank you for your feedback!</h4>
+        <p>We appreciate you taking the time to share your thoughts.</p>
+      </div>
+      
+      <div class="feedback-list-section">
+        <h4>Recent Feedback</h4>
+        <div id="feedbackList" class="feedback-list"></div>
+        <!-- <button id="clearFeedback" class="outline">Clear All Feedback</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
   <footer class="footer">
-    Made with ❤️ • Numerology logic (Pythagorean) • No data leaves your browser
+    <div class="footer-content">
+      <p>Made with ❤️ • Numerology logic (Pythagorean) • No data leaves your browser</p>
+    </div>
   </footer>
 
   <script src="script.js"></script>
