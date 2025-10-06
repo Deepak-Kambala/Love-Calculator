@@ -2343,3 +2343,189 @@ body.dark-mode .feedback-list-section {
 	background: linear-gradient(135deg, #ff5c9a, #ff7cab);
 	transform: scale(1.05);
 }
+
+:root {
+    --bg-color: #11121a;
+    --button-bg: rgba(255, 255, 255, 0.05);
+    --button-hover: #ff4e6a;
+    --button-accent: #ff7a7a;
+    --text-color: #ffffff;
+    --hover-scale: 1.1;
+    --transition-speed: 0.3s;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    margin: 20px auto;
+    width: fit-content;
+}
+
+.button {
+    background: var(--button-bg);
+    border: 2px solid var(--button-accent);
+    color: var(--text-color);
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.button:hover {
+    background: var(--button-hover);
+    transform: scale(var(--hover-scale));
+    border-color: #ff2e63;
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+.button:active {
+    transform: scale(1);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+
+/* Specific icons size adjustment */
+.button span {
+    font-size: 1.2rem;
+}
+:root {
+    --bg-color: #11121a;
+    --card-bg: rgba(255, 255, 255, 0.04);
+    --button-bg: rgba(255, 255, 255, 0.05);
+    --button-hover: linear-gradient(45deg, #ff4e6a, #ff7a7a);
+    --button-text: #fff;
+    --button-shadow: rgba(255, 46, 99, 0.5);
+    --transition-speed: 0.3s;
+}
+
+/* Base body styles */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--button-text);
+}
+
+/* Controls container */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    margin: 16px auto;
+}
+
+/* General button styling */
+button, .primary, .ghost-btn, .outline {
+    background: var(--button-bg);
+    color: var(--button-text);
+    border: 2px solid transparent;
+    border-radius: 14px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all var(--transition-speed) ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    min-width: 110px;
+    justify-content: center;
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* Primary buttons (e.g., Calculate, Love Spinner) */
+.primary {
+    background: linear-gradient(45deg, #ff7a7a, #ff2e63);
+    color: #fff;
+    border: none;
+}
+
+.primary:hover, .primary:focus {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px var(--button-shadow);
+}
+
+/* Ghost buttons (History, Reset, Theme, Confetti, Sound) */
+.ghost-btn {
+    background: var(--button-bg);
+    border: 2px solid rgba(255,255,255,0.2);
+    color: #fff;
+}
+
+.ghost-btn:hover, .ghost-btn:focus {
+    background: var(--button-hover);
+    transform: scale(1.1);
+    color: #fff;
+    border-color: #ff2e63;
+    box-shadow: 0 6px 20px var(--button-shadow);
+}
+
+/* Outline buttons */
+.outline {
+    background: transparent;
+    border: 2px solid #ff2e63;
+    color: #ff2e63;
+}
+
+.outline:hover, .outline:focus {
+    background: #ff2e63;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* Active click effect */
+button:active {
+    transform: scale(0.97);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+
+/* Responsive text/icon sizing */
+button span, button {
+    font-size: 1.05rem;
+}
+
+/* Social share buttons */
+.social-share a, .social-share button {
+    margin: 6px 4px;
+}
+
+/* Extras buttons (Confetti, Sound) */
+.extras button {
+    margin-right: 8px;
+}
+
+/* Small screens */
+@media (max-width: 480px) {
+    .controls, .extras {
+        flex-direction: column;
+        gap: 10px;
+    }
+    button, .primary, .ghost-btn {
+        width: 90%;
+        font-size: 1rem;
+        padding: 12px;
+    }
+}
