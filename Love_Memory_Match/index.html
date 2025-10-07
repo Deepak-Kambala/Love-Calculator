@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💘 Love Memory Match</title>
+  <link rel="shortcut icon" href="../hearts.png" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="floating-hearts"></div>
+  <div class="board-wrap">
+    <header>
+      <h1>💘 Love Memory Match</h1>
+      <div class="stats">
+        <div class="small">Moves: <span id="moves">0</span></div>
+        <div class="small">Matches: <span id="matches">0</span>/8</div>
+        <button id="restart" class="btn">Restart</button>
+      </div>
+    </header>
+
+    <div id="grid" class="grid"></div>
+    <div class="message" id="message"></div>
+
+    <div class="footer">
+      <div class="small">Best: <span id="best">—</span></div>
+      <div class="small">Tip: Try to remember card positions! 💡</div>
+    </div>
+  </div>
+
+  <!-- Result Modal -->
+  <div id="resultModal" class="modal">
+    <div class="modal-content">
+      <button class="close-modal">&times;</button>
+      <h2 class="result-title" id="resultTitle"></h2> <!-- Empty initially -->
+      <div class="result-icon">💖</div>
+      <h3 class="result-text" id="resultText"></h3>
+      <div class="result-description" id="resultDescription"></div>
+      <div class="result-actions" id="resultActions" style="display:none;">
+        <button id="shareWhatsApp" class="action-btn whatsapp-btn">Share on WhatsApp 📱</button>
+        <button id="copyResult" class="action-btn copy-btn">Copy Result 📋</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
