@@ -1165,7 +1165,8 @@ body {
 .ghost-btn:hover {
 	background: rgba(255, 255, 255, 0.02);
 	border-color: rgba(255, 255, 255, 0.08);
-	transform: translateY(-1px);
+	/* transform: translateY(-1px); */
+	transform: scale(1.05);
 }
 
 /* Google Translate Widget Styling */
