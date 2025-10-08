@@ -613,52 +613,88 @@ function alertDialog(message, title = 'Warning') {
    ============================ */
 
 function calculateLove() {
-	const name1 = name1El.value.trim()
-	const name2 = name2El.value.trim()
-	const allowJitter = allowJitterEl.checked
-	const supportMaster = useMasterEl.checked
+	const name1 = name1El.value.trim();
+	const name2 = name2El.value.trim();
+	const allowJitter = allowJitterEl.checked;
+	const supportMaster = useMasterEl.checked;
 
 	if (!name1 || !name2) {
-		alertDialog('Please enter both names to calculate love ✨')
-		return
+		alertDialog('Please enter both names to calculate love ✨');
+		return;
 	}
 
 	if (!isValidName(name1) || !isValidName(name2)) {
-		alertDialog('Please enter valid names: letters, spaces only.', 'Invalid Input')
-		return
+		alertDialog('Please enter valid names: letters, spaces only.', 'Invalid Input');
+		return;
 	}
 
 	// Compute numerology numbers
-	const num1 = nameToNumber(name1, supportMaster)
-	const num2 = nameToNumber(name2, supportMaster)
-	const combined = combineNumbers(num1, num2, supportMaster)
+	const num1 = nameToNumber(name1, supportMaster);
+	const num2 = nameToNumber(name2, supportMaster);
+	const combined = combineNumbers(num1, num2, supportMaster);
 
 	// percent mapping
-	let percent = mapToPercent(combined, num1, num2)
+	let percent = mapToPercent(combined, num1, num2);
 
 	// optional small random jitter for 'surprise' toggle
 	if (allowJitter) {
-		const jitter = Math.round(random(-5, 5))
-		percent = Math.max(1, Math.min(100, percent + jitter))
+		const jitter = Math.round(random(-5, 5));
+		percent = Math.max(1, Math.min(100, percent + jitter));
 	}
 
 	// UI update: progress ring
-	// animate ring smoothly
-	animateRingTo(percent)
-	const message = messageForPercent(percent)
-	heading.textContent = `${name1} + ${name2}`
-	description.textContent = message
+	animateRingTo(percent);
+	const message = messageForPercent(percent);
+	heading.textContent = `${name1} + ${name2}`;
+	description.textContent = message;
 
 	// Apply premium mood theme to entire page
-	const mood = getMoodForPercent(percent)
-	const romanticTip = getRandomTipForMood(mood.label.toLowerCase())
+	const mood = getMoodForPercent(percent);
+	const romanticTip = getRandomTipForMood(mood.label.toLowerCase());
 
-	applyMoodTheme(mood)
-	showLoveOracle(romanticTip)
+	applyMoodTheme(mood);
+	showLoveOracle(romanticTip);
 
 	// trigger party
-	if (confettiEnabled) triggerCelebration(percent)
-	if (soundEnabled) playChime(percent)
+	if (confettiEnabled) triggerCelebration(percent);
+	if (soundEnabled) playChime(percent);
+
+	// -----------------------
+	// Play result music (robust)
+	// -----------------------
+	if (soundEnabled) {
+		let music = document.getElementById('resultMusic');
+
+		// fallback: create audio if not present
+		if (!music) {
+			// Put your music file name/path here (same folder as index.html is simplest)
+			music = new Audio('heigh.mp4');
+			music.id = 'resultMusic';
+			music.preload = 'auto';
+			// optional: append so you can inspect it in DOM (not necessary)
+			document.body.appendChild(music);
+		}
+
+		try {
+			// reset and stop any previous playback
+			if (!music.paused) {
+				music.pause();
+			}
+			music.currentTime = 0;
+
+			// attempt to play; handle browsers that reject autoplay
+			const playPromise = music.play();
+			if (playPromise !== undefined) {
+				playPromise.catch((err) => {
+					// Most common: Uncaught (in promise) DOMException: play() failed because the user didn't interact with the document first.
+					console.warn('Result music play prevented:', err);
+					// You can optionally show a small "Play" button if autoplay is blocked.
+				});
+			}
+		} catch (err) {
+			console.warn('Cannot play result music:', err);
+		}
+	}
 
 	// store in history (including mood and romantic tip)
 	saveHistory({
@@ -669,8 +705,9 @@ function calculateLove() {
 		mood: mood.label,
 		tip: romanticTip,
 		t: Date.now(),
-	})
+	});
 }
+
 
 function animateRingTo(targetPercent) {
 	const raw = percentText.textContent || ''
