@@ -2,13 +2,20 @@
 
 # ❤️ Love Calculator 
 
-A fun web app built with HTML, CSS, and JavaScript that calculates a random "love score" between two names.  
-This project is just for fun — results are not scientific or serious 😄
-
+A light‑hearted web app that playfully generates a “love compatibility score” between two names. It’s designed purely for fun and entertainment — no science involved, just smiles and surprises. 💖
 
 
 ---
+## 🛠️ Tech Used
 
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+
+
+---
 ## ✨ Features
 - 🎯 Enter two names and get a love percentage (0-100%)
 - 📱 Simple, responsive UI that works on all devices
@@ -39,33 +46,42 @@ Open index.html in your favorite browser.
 Type two names → Click the button → See your love score 💖
 
 ## ⚙️ How It Works
-🔤 Takes two input names
+- 🔤 Takes two input names
 
-🎲 Applies simple random or character-based algorithm
+- 🎲 Applies simple random or character-based algorithm
 
-📊 Generates a percentage between 0-100%
+- 📊 Generates a percentage between 0-100%
 
-💬 Displays fun messages based on score ranges
+- 💬 Displays fun messages based on score ranges
 
-Logic can be easily customized by contributors!
+### Logic can be easily customized by contributors!
 
 ## 🔮 Future Enhancements
 
-🎭 Add animations & emojis 🎉
+- 📲 PWA (Progressive Web App) 
 
-🧠 Better scoring algorithm (numerology-based)
+- 💬 Chatbot / Love Guru Mode
 
-🌙 Dark/Light mode toggle
+- 🎙️ Voice Input / Output 
 
-💬 Dynamic messages for different score ranges
-
-📤 Share results feature
-
-🌈 Color themes customization
 
 ## 🤝 Contributing
 
-We love contributions! Here's how you can help:
+ We love contributions! Here's how you can help:
+
+- 🐛 Report bugs
+
+- 💡 Suggest new features
+
+- 🎨 Improve UI/UX
+
+- 📚 Improve documentation
+
+- 🧪 Add tests
+
+- 🔧 Fix issues
+
+- 📈 Improve and optimize site Performance
 
 ### 🎯 For Hacktoberfest Participants:
 Look for issues labeled hacktoberfest or good-first-issue
@@ -73,13 +89,11 @@ Look for issues labeled hacktoberfest or good-first-issue
 Check the help-wanted tag for specific needs
 
 ## 📝 Contribution Steps:
-⭐ Star the repository (Required)
+- ⭐ Star the repository 
 
-👤 Follow my profile (Required)
+- 🍴 Fork the repository
 
-🍴 Fork the repository
-
-🌿 Create a feature branch
+- 🌿 Create a feature branch
 
 ```
 git checkout -b amazing-feature
@@ -96,13 +110,23 @@ git push origin amazing-feature
 ```
 🔔 Open a Pull Request
 
-# ⚠️ IMPORTANT: Your PR will only be accepted if you've starred the repo and followed my profile!
+
+## 📜 Code of Conduct
+
+This project follows a Code of Conduct to keep the community welcoming and respectful. By participating you agree to abide by it. 
+
+📖 Please read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before contributing.
+
+To report unacceptable behavior, contact the maintainers via [@Deepak-Kambala](https://github.com/Deepak-Kambala) or open a private issue.
+
+---
+
 
 ## 📄 License
-This project is licensed under the MIT License — see the LICENSE file for details.
+This project is licensed under the **MIT License** — see the LICENSE file for details.
 
-# 👨‍💻 Maintainer
-Deepak Kambala
+## 👨‍💻 Maintainer
+### *Deepak Kambala*
 
 Passionate about creating fun web experiences 🚀
 

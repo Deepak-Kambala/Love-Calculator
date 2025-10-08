@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glassmorphism Test</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Additional test styles to make sure glassmorphism is visible */
+        body {
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .test-container {
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        /* Proper glassmorphism - translucent not opaque */
+        .card {
+            background: rgba(255, 255, 255, 0.08) !important;
+            backdrop-filter: blur(25px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        }
+        
+        .card .left, .card .right {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(20px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="card">
+            <div class="left">
+                <h1 class="title" style="color: #333;">✨ Love Calculator</h1>
+                <p class="subtitle" style="color: #555;">
+                    Testing glassmorphism effect - should be translucent with blur
+                </p>
+                <div style="padding: 20px; color: #444;">
+                    <p>This card should have:</p>
+                    <ul>
+                        <li>Semi-transparent background</li>
+                        <li>Blurred backdrop</li>
+                        <li>Subtle borders</li>
+                        <li>Glass-like appearance</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="right">
+                <div class="panel">
+                    <h3 style="color: #333;">Test Panel</h3>
+                    <p style="color: #555;">
+                        If you can see the animated background through this card with a blurred effect, 
+                        the glassmorphism is working correctly!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../hearts.png" type="image/x-icon">
+    <title>Spin the Wheel of Love 💖</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="floating-hearts"></div>
+
+    <div class="container">
+        <header>
+            <h1 class="title">Spin the Wheel of Love</h1>
+            <p class="subtitle">What's your love destiny today? 💕</p>
+        </header>
+
+        <div class="stats-bar">
+            <div class="love-points">
+                <span class="heart-icon">❤️</span>
+                <span id="pointsDisplay">0</span> Love Points
+            </div>
+            <div class="love-title" id="loveTitle">New Player</div>
+        </div>
+
+        <div class="theme-selector">
+            <button class="theme-btn" data-theme="romantic" title="Romantic Red">❤️</button>
+            <button class="theme-btn" data-theme="playful" title="Playful Pink">💕</button>
+            <button class="theme-btn" data-theme="mystery" title="Mystery Night">🌙</button>
+            <button class="theme-btn" data-theme="candy" title="Candy Love">🍬</button>
+        </div>
+
+        <div class="love-calculator-input">
+            <input type="number" id="lovePercentage" placeholder="Enter Love %" min="0" max="100" step="1">
+            <button id="setLoveBtn" class="set-love-btn">Set Love %</button>
+        </div>
+
+        <!-- Custom Alert -->
+        <div id="alertOverlay" class="custom-alert-overlay">
+          <div class="custom-alert-box">
+            <h3 id="alertTitle">Alert</h3>
+            <p id="alertMessage">Message</p>
+            <button class="alert-btn" onclick="closeAlert()">OK</button>
+          </div>
+        </div>
+
+        <div class="wheel-container">
+            <div class="wheel-pointer">▼</div>
+            <canvas id="wheelCanvas"></canvas>
+        </div>
+
+        <button id="spinBtn" class="spin-button">
+            SPIN NOW 💖
+        </button>
+
+        <div class="love-meter-container">
+            <div class="love-meter-label">Love Meter</div>
+            <div class="love-meter">
+                <div class="love-meter-fill" id="loveMeterFill"></div>
+                <div class="love-meter-text" id="loveMeterText">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <h2 class="result-title">You Got...</h2>
+            <div class="result-icon">💖</div>
+            <h3 class="result-text" id="resultText"></h3>
+            <div class="result-description" id="resultDescription"></div>
+            <div class="result-actions">
+                <button id="shareWhatsApp" class="action-btn whatsapp-btn">
+                    Share on WhatsApp 📱
+                </button>
+                <button id="copyResult" class="action-btn copy-btn">
+                    Copy Result 📋
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="miniGameModal" class="modal">
+        <div class="modal-content mini-game-content">
+            <button class="close-modal">&times;</button>
+            <h2 id="miniGameTitle"></h2>
+            <div id="miniGameContent"></div>
+            <button class="action-btn" onclick="closeMiniGame()">Close</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
