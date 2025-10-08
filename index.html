@@ -89,6 +89,7 @@
                 class="fa-brands fa-square-instagram"></i> Instagram</a>
             <button id="copyLinkBtn" title="Copy link">🔗 Copy Link</button>
             <button id="generateLoveCard">♥️ Generate Love-Card</button>
+
           </div>
         </form>
 
@@ -180,4 +181,242 @@
   <script src="script.js"></script>
 </body>
 
-</html>
+					</div>
+				</form>
+
+				<div class="result-area" aria-live="polite">
+					<div class="ring-wrap">
+						<svg id="progressRing" class="progress-ring" width="160" height="160" viewBox="0 0 160 160">
+							<defs>
+								<linearGradient id="g1" x1="0" x2="1">
+									<stop offset="0%" stop-color="#ff7a7a" />
+									<stop offset="100%" stop-color="#ff2e63" />
+								</linearGradient>
+							</defs>
+							<circle class="ring-bg" cx="80" cy="80" r="64" stroke-width="14" fill="transparent" />
+							<circle class="ring" cx="80" cy="80" r="64" stroke-width="14" fill="transparent"
+								stroke="url(#g1)" stroke-linecap="round" stroke-dasharray="0 999" />
+							<g class="text-layer">
+								<text id="percentText" class="percent-text" x="50%" y="50%" dominant-baseline="middle"
+									text-anchor="middle">
+									--%
+								</text>
+							</g>
+						</svg>
+					</div>
+
+					<div class="score-meta">
+						<div id="heading" class="heading">Waiting for names...</div>
+						<div id="description" class="description">
+							Try entering your names and press Calculate.
+						</div>
+					</div>
+				</div>
+
+				<!-- Mystical Love Oracle -->
+				<div id="loveOracle" class="love-oracle hidden" style="margin-top: 4rem; margin-bottom: 4rem">
+					<div class="oracle-container">
+						<!-- Magical sparkles background -->
+						<div class="oracle-sparkles">
+							<div class="sparkle sparkle-1">✨</div>
+							<div class="sparkle sparkle-2">⭐</div>
+							<div class="sparkle sparkle-3">💫</div>
+							<div class="sparkle sparkle-4">🌟</div>
+							<div class="sparkle sparkle-5">✨</div>
+						</div>
+
+						<!-- Oracle scroll/parchment -->
+						<div class="oracle-scroll">
+							<div class="scroll-header">
+								<div class="crystal-ball">🔮</div>
+								<div class="oracle-title">Love Oracle Whispers...</div>
+							</div>
+
+							<div class="scroll-content">
+								<div class="oracle-border-top"></div>
+								<div class="oracle-message">
+									<p id="oracleText" class="oracle-text">
+										The stars align to reveal your romantic destiny...
+									</p>
+								</div>
+								<div class="oracle-border-bottom"></div>
+							</div>
+
+							<!-- Decorative elements -->
+							<div class="oracle-decoration oracle-decoration-left">🌹</div>
+							<div class="oracle-decoration oracle-decoration-right">💝</div>
+						</div>
+
+						<!-- Floating hearts/petals for mood -->
+						<div class="oracle-mood-effects">
+							<div class="floating-element floating-heart">💗</div>
+							<div class="floating-element floating-star">⭐</div>
+							<div class="floating-element floating-flower">🌸</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="extras">
+					<button id="confettiToggle" class="ghost-btn">🎊 Confetti</button>
+					<button id="soundToggle" class="ghost-btn">🔈 Sound</button>
+				</div>
+			</div>
+
+			<div class="right">
+				<div class="panel tips-panel">
+					<h3>Tips</h3>
+					<ul>
+						<li>Same names → same result (unless jitter is allowed).</li>
+						<li>Toggle confetti or sound for a surprise.</li>
+						<li>You can share results via a short URL (copy to clipboard).</li>
+					</ul>
+				</div>
+
+				<div class="panel how-it-works-panel">
+					<h3>How it works</h3>
+					<ol>
+						<li>We convert letters using <strong>Pythagorean numerology</strong>.</li>
+						<li>We reduce to single digits (optionally keep master numbers).</li>
+						<li>Combine numbers + apply modifiers to produce a compatibility %.</li>
+						<li>We animate hearts, confetti & ring for a delightful reveal ✨</li>
+					</ol>
+				</div>
+			</div>
+		</section>
+
+		<canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
+		<audio id="chime" src="data:audio/mp3;base64,//uQZAAAAAAAAAAAAAAAAAAAA..."></audio>
+	</main>
+
+	<!-- History Popup Modal -->
+	<div class="history-popup-overlay hidden" id="historyPopupOverlay">
+		<div class="history-popup" id="historyPanel">
+			<div class="history-popup-header">
+				<h3>History</h3>
+				<button class="close-popup" id="closeHistoryPopup" title="Close">✕</button>
+			</div>
+			<div class="history-popup-content">
+				<div id="historyList" class="history-list"></div>
+				<div class="history-actions">
+					<button id="exportHistoryBtn">Export History as PDF</button>
+					<button id="clearHistory" class="outline">Clear history</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="share-preview-overlay hidden" id="sharePreviewOverlay" role="dialog" aria-modal="true"
+		aria-labelledby="sharePreviewTitle">
+		<div class="share-preview">
+			<div class="share-header">
+				<h3 id="sharePreviewTitle">Shareable Card</h3>
+				<button class="close-popup" id="closeSharePreview" title="Close">✕</button>
+			</div>
+			<div class="share-body">
+				<canvas id="shareCanvas" width="900" height="900" style="
+							max-width: 100%;
+							height: auto;
+							border-radius: 12px;
+							display: block;
+							margin: 0 auto;
+						"></canvas>
+			</div>
+			<div class="share-footer">
+				<button id="downloadImageBtn" class="primary">Download Image</button>
+				<button id="copyImageBtn" class="ghost-btn">Copy Image</button>
+				<button id="nativeShareBtn" class="ghost-btn">Native Share</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Feedback Popup Modal -->
+	<div class="feedback-popup-overlay hidden" id="feedbackPopupOverlay">
+		<div class="feedback-popup" id="feedbackPanel">
+			<div class="feedback-popup-header">
+				<h3>💬 Send Feedback</h3>
+				<button class="close-popup" id="closeFeedbackPopup" title="Close">✕</button>
+			</div>
+			<div class="feedback-popup-content">
+				<form id="feedbackForm" class="feedback-form">
+					<label for="feedbackName" class="feedback-label">
+						Name
+						<input type="text" id="feedbackName" placeholder="Your name" maxlength="50" required />
+					</label>
+
+					<label for="feedbackEmail" class="feedback-label">
+						Email (Optional)
+						<input type="email" id="feedbackEmail" placeholder="your@email.com" maxlength="100" />
+					</label>
+
+					<label for="feedbackRating" class="feedback-label">
+						Rating
+						<div class="rating-stars" id="ratingStars">
+							<span class="star" data-rating="1">⭐</span>
+							<span class="star" data-rating="2">⭐</span>
+							<span class="star" data-rating="3">⭐</span>
+							<span class="star" data-rating="4">⭐</span>
+							<span class="star" data-rating="5">⭐</span>
+						</div>
+						<input type="hidden" id="feedbackRating" value="0" />
+					</label>
+
+					<label for="feedbackMessage" class="feedback-label">
+						Your Feedback *
+						<textarea id="feedbackMessage" placeholder="Tell us what you think..." rows="5" maxlength="500"
+							required></textarea>
+						<span class="char-count"><span id="charCount">0</span>/500</span>
+					</label>
+
+					<div class="feedback-actions">
+						<button type="submit" class="primary">Submit Feedback ✨</button>
+						<button type="button" id="cancelFeedback" class="outline">Cancel</button>
+					</div>
+				</form>
+
+				<div id="feedbackSuccess" class="feedback-success hidden">
+					<div class="success-icon">✅</div>
+					<h4>Thank you for your feedback!</h4>
+					<p>We appreciate you taking the time to share your thoughts.</p>
+				</div>
+
+				<div class="feedback-list-section">
+					<h4>Recent Feedback</h4>
+					<div id="feedbackList" class="feedback-list"></div>
+					<!-- <button id="clearFeedback" class="outline">Clear All Feedback</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ShareLink Popup Modal -->
+	<div class="sharelink-popup-overlay hidden" id="shareLinkPopupOverlay">
+		<div class="feedback-popup" id="shareLinkPanel">
+			<div class="feedback-popup-header">
+				<h3>🔗 Share Link</h3>
+				<button class="close-popup" id="closeShareLinkPopup" title="Close">✕</button>
+			</div>
+			<div class="feedback-popup-content">
+				<form id="shareLinkForm" class="feedback-form">
+					<div>
+						<p>Click on the copy link button to copy the link to your clipboard!</p>
+						<p>You can share it with your friends to show your love compatibility result. 💖</p>
+					</div>
+					<label for="shareLinkInput" class="shareLink-label">
+						Shareable Link
+						<input type="text" id="shareLinkInput" readonly />
+					</label>
+
+					<div class="feedback-actions">
+						<button type="button" id="copyShareLink" class="primary">Copy Link</button>
+						<button type="button" id="closeShareLink" class="outline">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<footer class="footer">
+		<div class="footer-content">
+			<p>Made with ❤️ • Numerology logic (Pythagorean) • No data leaves your browser</p>
+		</div>
+	</footer>
