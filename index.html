@@ -23,7 +23,16 @@
       <div class="controls">
         <button id="historyBtn" class="ghost-btn" title="View history">📜 History</button>
         <button id="resetBtn" class="ghost-btn" title="Reset inputs">🔁 Reset</button>
-        <button id="themeToggleBtn" class="ghost-btn" title="Theme">🌙 Theme</button>
+        <!-- <button id="themeToggleBtn" class="ghost-btn" title="Theme">🌙 Theme</button> -->
+         <div class="theme-switcher">
+          <label for="theme-select"> 🎨Choose Theme:</label>
+          <select id="theme-select">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+            <option value="blue">Blue</option>
+            <option value="sepia">Sepia</option>
+          </select>
+        </div>
       </div>
     </header>
 
@@ -61,7 +70,7 @@
             <svg id="progressRing" class="progress-ring" width="160" height="160" viewBox="0 0 160 160">
   <defs>
     <linearGradient id="g1" x1="0" x2="1">
-      <stop offset="0%" stop-color="#ff7a7a"/>
+      <stop offset="0%" stop-color="#ff2e63"/>
       <stop offset="100%" stop-color="#ff2e63"/>
     </linearGradient>
   </defs>
@@ -137,6 +146,8 @@
       </div>
     </div>
   </div>
+  
+
 
   <footer class="footer">
     Made with ❤️ • Numerology logic (Pythagorean) • No data leaves your browser

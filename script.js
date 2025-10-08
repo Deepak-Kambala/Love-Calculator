@@ -481,6 +481,18 @@ historyPopupOverlay.addEventListener('click', (e) => {
     historyPopupOverlay.classList.add('hidden');
   }
 });
+// Theme selection
+const themeSelect = document.getElementById("theme-select");
+const savedTheme = localStorage.getItem("theme") || "light";
+
+document.documentElement.setAttribute("data-theme", savedTheme);
+themeSelect.Value = savedTheme;
+
+themeSelect.addEventListener("change",() => {
+  const selectedTheme = themeSelect.value;
+  document.documentElement.setAttribute("data-theme",selectedTheme);
+  localStorage.setItem("theme",selectedTheme);
+});
 
 // Close popup with Escape key
 document.addEventListener('keydown', (e) => {
@@ -492,21 +504,37 @@ document.addEventListener('keydown', (e) => {
 clearHistory.addEventListener('click', () => {
   if (confirm('Clear saved history?')) clearHistoryStorage();
 });
-let currentTheme = localStorage.getItem('theme') || 'dark';
+/*let currentTheme = localStorage.getItem('theme') || 'dark';*/
 
-function applyTheme(theme) {
+/*function applyTheme(theme) {
   document.body.classList.toggle('light-theme', theme === 'light');
   themeToggleBtn.textContent = theme === 'light' ? '☀️ Theme' : '🌙 Theme';
   localStorage.setItem('theme', theme);
   currentTheme = theme;
-}
+}*/
 
-function toggleTheme() {
+/*function toggleTheme() {
   const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
   applyTheme(newTheme);
 }
 
-themeToggleBtn.addEventListener('click', toggleTheme);
+themeToggleBtn.addEventListener('click', toggleTheme);*/
+const themes = ['light', 'dark', 'blue', 'sepia'];
+const select = document.getElementById('theme-select');
+const body = document.body;
+
+// Set default theme
+body.classList.add('theme-light');
+
+// Change theme function
+select.addEventListener('change', (e) => {
+  // Remove old theme classes
+  themes.forEach(theme => body.classList.remove('theme-' + theme));
+  // Add new theme
+  const selected = e.target.value;
+  body.classList.add('theme-' + selected);
+});
+
 
 /* initialize */
 renderHistory();

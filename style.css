@@ -109,7 +109,7 @@ body{
   color:#fff;
   font-size:15px;
 }
-.input-wrap input::placeholder{color:rgba(255,255,255,0.35)}
+.input-wrap input::placeholder{color:rgba(6, 0, 0, 0.35)}
 .input-wrap .label{position:absolute; left:14px; top:-10px; background:transparent; color:var(--muted); font-size:12px; padding:0 6px}
 
 .options{display:flex; gap:12px; align-items:center; color:var(--muted); font-size:13px; margin-top:4px}
@@ -377,7 +377,7 @@ body{
 .hidden{display:none}
 
 /* light theme */
-body.light-theme {
+/*body.light-theme {
   --bg-1: #f4f7fc;
   --card: rgba(255,255,255,0.6);
   --glass: rgba(255,255,255,0.5);
@@ -389,7 +389,7 @@ body.light-theme {
               #f4f7fc;
   background-attachment: fixed;
   color: #1a1a1a;
-}
+}*/
 
 body.light-theme .logo span { color: #1a1a1a; }
 body.light-theme .card .left,
@@ -695,4 +695,74 @@ body.light-theme .footer {
     padding: 16px;
     font-size: 12px;
   }
+}
+/* Color Customization */
+:root {
+  --bg: #ffffff;
+  --fg: #000;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: sans-serif;
+}
+
+.theme-light {
+  /*--bg: #c61111;*/
+  --bg: #ffffff;
+  --fg: #171717;
+}
+
+.theme-dark {
+  --bg: #181822;
+  --fg: #eee;
+}
+
+.theme-blue {
+  --bg: #0e2431;
+  --fg: #5dcffd;
+}
+
+.theme-sepia {
+  --bg: #f9f4ef;
+  --fg: #5a3e1b;
+}
+
+/* Add more themes as needed */
+.theme-light, .theme-sepia {
+  color: var(--fg) !important; /* ensures text color overrides */
+}
+.theme-light *{
+  color: var(--fg) !important;
+}
+.theme-sepia *{
+  color: var(--fg) !important;
+}
+body.theme-light .ring-bg {
+  stroke: #dcd0d0 !important;
+}
+body.theme-light .ring {
+  stroke: #d40055 !important;
+  }
+.theme-light .progress-ring {
+  stroke: #d40055 !important;
+}
+body.theme-sepia .ring-bg {
+  stroke: #dcd0d0 !important;
+}
+body.theme-sepia .ring {
+  stroke: #5a3e1b !important;
+  }
+.theme-sepia .progress-ring {
+  stroke: #5a3e1b !important;
+}
+body.theme-blue .ring-bg {
+  stroke: #f9f4ef !important;
+}
+body.theme-blue .ring {
+  stroke: #5dcffd!important;
+  }
+.theme-blue .progress-ring {
+  stroke: #5dcffd !important;
 }

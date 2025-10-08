@@ -1,0 +1,25 @@
+{
+  "name": "love-calculator",
+  "version": "1.0.0",
+  "description": "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "start" : "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RahulDutta7/Love-Calculator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RahulDutta7/Love-Calculator/issues"
+  },
+  "homepage": "https://github.com/RahulDutta7/Love-Calculator#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
