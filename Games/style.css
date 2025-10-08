@@ -217,6 +217,28 @@ header {
     transform: scale(1.15);
 }
 
+.footer {
+    background: linear-gradient(135deg,var(--bg-end),var(--bg-start));
+    color: var(--text-light);
+    text-align:center;
+    padding:25px 10px;
+    font-size:0.9rem;
+    box-shadow:0 -5px 25px rgba(0,0,0,0.5);
+}
+
+.footer a { 
+    color:var(--accent);
+     text-decoration:none; 
+     margin:0 10px; font-weight:600; 
+     transition: all 0.3s ease; 
+}
+
+.footer a:hover 
+{ 
+    color: var(--primary); 
+    text-shadow:0 0 10px var(--wheel-glow);
+}
+
 .love-calculator-input {
     display: flex;
     justify-content: center;

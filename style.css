@@ -923,6 +923,79 @@ body {
 	display: none !important;
 }
 
+/* Footer Styles */
+.footer {
+  background: var(--bg-secondary);
+  color: #cbd5e1;
+  padding: 3rem 2rem 2rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff2e63;
+  margin-bottom: 1rem;
+}
+
+.footer-nav,
+.footer-socials {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-nav a,
+.footer-socials a {
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-nav a:hover,
+.footer-socials a:hover {
+  color: #ff2e63;
+}
+
+.footer-socials i {
+  margin-right: 0.5rem;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  border-top: 1px solid #334155;
+  padding-top: 1rem;
+  color: #94a3b8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-nav,
+  .footer-socials {
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+  }
+}
+
+
 /* card with enhanced glassmorphism */
 .card {
 	width: 100%;

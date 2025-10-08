@@ -15,14 +15,17 @@
 </head>
 
 <body>
+    <!-- Floating Hearts -->
     <div class="floating-hearts"></div>
 
     <div class="container">
+        <!-- Header -->
         <header>
             <h1 class="title">Spin the Wheel of Love</h1>
             <p class="subtitle">What's your love destiny today? 💕</p>
         </header>
 
+        <!-- Stats -->
         <div class="stats-bar">
             <div class="love-points">
                 <span class="heart-icon">❤️</span>
@@ -31,6 +34,7 @@
             <div class="love-title" id="loveTitle">New Player</div>
         </div>
 
+        <!-- Theme Selector -->
         <div class="theme-selector">
             <button class="theme-btn" data-theme="romantic" title="Romantic Red">❤️</button>
             <button class="theme-btn" data-theme="playful" title="Playful Pink">💕</button>
@@ -38,6 +42,7 @@
             <button class="theme-btn" data-theme="candy" title="Candy Love">🍬</button>
         </div>
 
+        <!-- Love Percentage Input -->
         <div class="love-calculator-input">
             <input type="number" id="lovePercentage" placeholder="Enter Love %" min="0" max="100" step="1">
             <button id="setLoveBtn" class="set-love-btn">Set Love %</button>
@@ -45,13 +50,14 @@
 
         <!-- Custom Alert -->
         <div id="alertOverlay" class="custom-alert-overlay">
-          <div class="custom-alert-box">
-            <h3 id="alertTitle">Alert</h3>
-            <p id="alertMessage">Message</p>
-            <button class="alert-btn" onclick="closeAlert()">OK</button>
-          </div>
+            <div class="custom-alert-box">
+                <h3 id="alertTitle">Alert</h3>
+                <p id="alertMessage">Message</p>
+                <button class="alert-btn" onclick="closeAlert()">OK</button>
+            </div>
         </div>
 
+        <!-- Wheel -->
         <div class="wheel-container">
             <div class="wheel-pointer">▼</div>
             <canvas id="wheelCanvas"></canvas>
@@ -61,6 +67,7 @@
             SPIN NOW 💖
         </button>
 
+        <!-- Love Meter -->
         <div class="love-meter-container">
             <div class="love-meter-label">Love Meter</div>
             <div class="love-meter">
@@ -70,6 +77,7 @@
         </div>
     </div>
 
+    <!-- Result Modal -->
     <div id="resultModal" class="modal">
         <div class="modal-content">
             <button class="close-modal">&times;</button>
@@ -88,6 +96,7 @@
         </div>
     </div>
 
+    <!-- Mini Game Modal -->
     <div id="miniGameModal" class="modal">
         <div class="modal-content mini-game-content">
             <button class="close-modal">&times;</button>
@@ -97,6 +106,20 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div>
+            💖 Love Alchemy &bull; Made with ❤️ &bull; No data leaves your browser
+        </div>
+        <div class="footer-socials">
+            <a href="#" target="_blank">WhatsApp</a>
+            <a href="#" target="_blank">X / Twitter</a>
+            <a href="#" target="_blank">Instagram</a>
+            <a href="#" target="_blank">Facebook</a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="script.js"></script>
 </body>
