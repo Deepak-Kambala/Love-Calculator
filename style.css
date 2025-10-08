@@ -12,6 +12,122 @@
 	--mood-secondary: var(--accent2);
 	--mood-glow: rgba(255, 122, 122, 0.3);
 	--mood-bg-overlay: rgba(255, 122, 122, 0.02);
+	--primary-color: #ff4d6d;
+  	--secondary-color: #ff7a7a;
+  	--accent-color: #ff9aa2;
+  	--bg-color: #0f172a;
+  	--card-bg: rgba(255, 255, 255, 0.05);
+  	--text-color: #ffffff;
+  	--shadow: 0 8px 24px rgba(0,0,0,0.2);
+  	--transition: 0.3s ease-in-out;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+header.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+header .logo img {
+  width: 180px;
+  filter: drop-shadow(0 0 8px var(--primary-color));
+}
+
+.nav-controls button {
+  margin-left: 0.5rem;
+}
+
+.card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.left, .right {
+  flex: 1 1 400px;
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition);
+}
+
+.left:hover, .right:hover {
+  transform: translateY(-5px);
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--primary-color);
+  text-shadow: 0 0 12px var(--secondary-color);
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--accent-color);
+  margin-bottom: 1.5rem;
+}
+
+.input-wrap {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.input-wrap input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  border: 2px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.05);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: border var(--transition), background var(--transition);
+}
+
+.input-wrap input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background: rgba(255,255,255,0.1);
+}
+
+.input-wrap .label {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,0.6);
+  pointer-events: none;
+  transition: all var(--transition);
+}
+
+.input-wrap input:focus + .label,
+.input-wrap input:not(:placeholder-shown) + .label {
+  top: -10px;
+  font-size: 0.8rem;
+  color: var(--primary-color);
+  background: var(--bg-color);
+  padding: 0 4px;
 }
 
 /* Premium delete button (additive) */
@@ -30,6 +146,22 @@
 	box-shadow: 0 6px 18px rgba(255, 46, 99, 0.06);
 	min-width: 44px;
 	justify-content: center;
+}
+
+.primary {
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  color: #fff;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255,77,109,0.5);
 }
 
 /* SVG icon color */
@@ -1022,6 +1154,7 @@ body {
 	gap: 18px;
 	margin-top: 18px;
 	align-items: center;
+	text-align: center;
 }
 
 .ring-wrap {
@@ -1036,6 +1169,7 @@ body {
 	width: 160px;
 	height: 160px;
 	display: block;
+	transform: rotate(-90deg);
 }
 
 .ring-bg {
@@ -1117,8 +1251,8 @@ body {
 .ghost-btn {
 	background: transparent;
 	border: 1px solid rgba(255, 255, 255, 0.04);
-	padding: 10px 12px;
-	border-radius: 10px;
+	padding: 0.6rem 1.6rem;
+	border-radius: 50px;
 	color: var(--muted);
 	cursor: pointer;
 	transition: all 0.2s ease;
@@ -1394,6 +1528,10 @@ body {
 	color: var(--muted);
 	z-index: 2;
 	position: relative;
+	text-align: center;
+  	padding: 1.5rem;
+	font-size: 0.9rem;
+  	border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 .footer-content {
@@ -1804,11 +1942,18 @@ body.light-theme .footer {
 	}
 
 	.percent-text {
-		font-size: 18px;
+  		font-size: 2rem;
+  		font-weight: 900;
+  		fill: var(--primary-color);
 	}
 
 	.panel {
 		padding: 14px;
+		background: rgba(255,255,255,0.05);
+  		padding: 1.5rem;
+  		border-radius: 16px;
+  		margin-bottom: 1.5rem;
+  		box-shadow: var(--shadow);
 	}
 
 	.panel ol,
