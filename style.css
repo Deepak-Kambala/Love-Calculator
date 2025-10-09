@@ -2529,3 +2529,23 @@ button span, button {
         padding: 12px;
     }
 }
+/* Zodiac Compatibility Button */
+.zodiac-button {
+  background: linear-gradient(135deg, #ff6699, #ff3366);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 10px;
+  box-shadow: 0 0 10px rgba(255, 102, 153, 0.5);
+  transition: all 0.3s ease;
+}
+
+.zodiac-button:hover {
+  background: linear-gradient(135deg, #ff3366, #ff0066);
+  box-shadow: 0 0 15px rgba(255, 0, 102, 0.7);
+  transform: scale(1.05);
+}
+

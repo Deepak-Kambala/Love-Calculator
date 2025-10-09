@@ -1694,3 +1694,9 @@ document.getElementById('generateLoveCard').addEventListener('click', async func
         alertDialog('Failed to generate love card. Error: ' + error.message, 'Error');
     }
 });
+
+// Zodiac Button Event
+document.getElementById('zodiacBtn').addEventListener('click', function () {
+  // Open zodiac compatibility page in a new tab
+  window.open('zodiac.html', '_blank');
+});

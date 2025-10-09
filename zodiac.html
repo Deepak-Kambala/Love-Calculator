@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Zodiac Compatibility</title>
+  <link rel="stylesheet" href="zodiac.css" />
+</head>
+<body>
+  <section class="zodiac-card" aria-labelledby="zodiac-title">
+    <h2 id="zodiac-title" class="zodiac-title">Zodiac Compatibility</h2>
+
+    <form id="zodiac-form" class="zodiac-form" onsubmit="return false;">
+      <div class="select-row">
+        <label>
+          You
+          <select id="signA" aria-label="Your zodiac sign">
+            <option value="">-- Select sign --</option>
+          </select>
+        </label>
+
+        <label>
+          Partner
+          <select id="signB" aria-label="Partner zodiac sign">
+            <option value="">-- Select sign --</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="controls">
+        <button id="checkBtn" class="btn primary">Check Compatibility</button>
+        <button id="swapBtn" type="button" class="btn ghost">Swap</button>
+      </div>
+    </form>
+
+    <div id="result" class="result" aria-live="polite" hidden>
+      <div class="result-score" id="scoreBubble">
+        <span id="scoreNumber">0%</span>
+      </div>
+      <div class="result-text" id="resultText"></div>
+      <div class="result-tip" id="resultTip"></div>
+    </div>
+
+    <p class="note">Tip: Compatibility here is a fun guideline — real relationships depend on communication, respect & time ❤️</p>
+  </section>
+
+  <script src="zodiac.js"></script>
+</body>
+</html>

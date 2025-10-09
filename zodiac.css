@@ -1,0 +1,179 @@
+/* zodiac.css
+   Scoped styles for the Zodiac Compatibility widget
+   Designed to blend with a Love-Calculator theme (soft pinks, rounded cards)
+*/
+
+:root{
+  --bg: #fff7fb;
+  --card: #ffffff;
+  --accent: #ff6b94;
+  --accent-2: #ff9ab8;
+  --muted: #7a7a86;
+  --glass: rgba(255,255,255,0.6);
+  --shadow: 0 8px 20px rgba(199, 72, 108, 0.12);
+  --success: #2ecc71;
+  --danger: #ff6b6b;
+}
+
+* { box-sizing: border-box; }
+body {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #fff0f6 0%, #fff7fb 60%);
+  margin: 0;
+  padding: 18px;
+  color: #222;
+}
+
+/* Card container */
+.zodiac-card {
+  max-width: 520px;
+  margin: 12px auto;
+  background: var(--card);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 107, 148, 0.06);
+}
+
+.zodiac-title {
+  margin: 0 0 12px 0;
+  font-size: 1.25rem;
+  color: #25121a;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Select row */
+.select-row{
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.select-row label{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.select-row select{
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(37,18,26,0.06);
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,250,252,0.9));
+  font-size: 0.95rem;
+  outline: none;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.select-row select:focus{
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255,154,184,0.12);
+  border-color: var(--accent);
+}
+
+/* Buttons */
+.controls {
+  display:flex;
+  gap:10px;
+  margin-bottom: 18px;
+}
+.btn{
+  cursor: pointer;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.btn.primary{
+  background: linear-gradient(90deg,var(--accent),var(--accent-2));
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(255,107,148,0.18);
+  flex: 1;
+}
+.btn.ghost{
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid rgba(255,107,148,0.12);
+  min-width: 90px;
+}
+
+/* Result area */
+.result{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  padding: 12px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,245,249,0.8), rgba(255,255,255,0.5));
+  border: 1px solid rgba(255,154,184,0.06);
+}
+.result-score{
+  min-width:86px;
+  height:86px;
+  border-radius:50%;
+  background: radial-gradient(circle at 30% 30%, #fff 0%, rgba(255,255,255,0.6) 40%, rgba(255,154,184,0.06) 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow: 0 8px 30px rgba(255,107,148,0.06);
+  flex-shrink: 0;
+}
+.result-score span{
+  font-size:1.35rem;
+  font-weight:800;
+  color: #411220;
+}
+
+/* Texts */
+.result-text{
+  font-weight:700;
+  color:#35111a;
+  font-size:1rem;
+}
+.result-tip{
+  font-size:0.9rem;
+  color:var(--muted);
+  margin-top:6px;
+}
+
+/* Notes */
+.note{
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+/* Animations for higher scores */
+.score-high {
+  background: conic-gradient(#ff9ab8, #ff6b94, #ffd1e0);
+  color: #fff;
+  animation: pop 650ms cubic-bezier(.2,.9,.3,1);
+}
+.score-medium {
+  background: conic-gradient(#ffd1e0, #ffb3c7);
+  color:#fff;
+  animation: pop 650ms cubic-bezier(.2,.9,.3,1);
+}
+.score-low {
+  background: conic-gradient(#f7caca, #ffb3b3);
+  color:#fff;
+  animation: pop 650ms cubic-bezier(.2,.9,.3,1);
+}
+
+@keyframes pop{
+  0%{ transform: scale(.85); opacity: 0.6; }
+  60%{ transform: scale(1.06); opacity: 1; }
+  100%{ transform: scale(1); }
+}
+
+/* Responsive */
+@media (max-width:440px){
+  .select-row { flex-direction: column; }
+  .controls { flex-direction: column; }
+  .btn.ghost { width: 100%; }
+  .result { flex-direction: column; align-items:flex-start; }
+}
