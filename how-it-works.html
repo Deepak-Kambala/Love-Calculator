@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<meta name="description" content="How Love Alchemy Works — Understanding the numerology behind our love calculator">
+	<link rel="icon" href="hearts.png" type="image/x-icon" />
+	<title>How It Works - Love Alchemy 💘</title>
+	<link rel="stylesheet" href="style.css" />
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script>
+		// Apply saved theme immediately
+		const savedTheme = localStorage.getItem('theme') || 'dark';
+		if (savedTheme === 'light') {
+			document.documentElement.classList.add('light-theme');
+		}
+	</script>
+	<style>
+		.how-it-works-container {
+			max-width: 900px;
+			margin: 3rem auto;
+			padding: 2rem;
+		}
+		
+		.page-header {
+			text-align: center;
+			margin-bottom: 3rem;
+		}
+		
+		.page-header h1 {
+			font-size: 3rem;
+			font-weight: 900;
+			background: linear-gradient(135deg, var(--accent1), var(--accent2));
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			margin-bottom: 1rem;
+		}
+		
+		.page-header p {
+			font-size: 1.2rem;
+			color: var(--muted);
+		}
+		
+		.content-section {
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			border-radius: 16px;
+			padding: 2rem;
+			margin-bottom: 2rem;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+		}
+		
+		.content-section h2 {
+			font-size: 1.8rem;
+			font-weight: 700;
+			color: var(--accent1);
+			margin-bottom: 1rem;
+		}
+		
+		.content-section h3 {
+			font-size: 1.4rem;
+			font-weight: 600;
+			color: var(--accent2);
+			margin-top: 1.5rem;
+			margin-bottom: 0.8rem;
+		}
+		
+		.content-section p {
+			line-height: 1.8;
+			color: rgba(255, 255, 255, 0.85);
+			margin-bottom: 1rem;
+		}
+		
+		.content-section ul, .content-section ol {
+			padding-left: 1.5rem;
+			margin-bottom: 1rem;
+		}
+		
+		.content-section li {
+			line-height: 1.8;
+			color: rgba(255, 255, 255, 0.85);
+			margin-bottom: 0.8rem;
+		}
+		
+		.back-button {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.875rem 1.5rem;
+			background: linear-gradient(135deg, var(--accent1), var(--accent2));
+			color: white;
+			text-decoration: none;
+			border-radius: 12px;
+			font-weight: 600;
+			transition: all 0.3s ease;
+			box-shadow: 0 4px 12px rgba(255, 46, 99, 0.3);
+			margin-bottom: 2rem;
+		}
+		
+		.back-button:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 8px 24px rgba(255, 46, 99, 0.4);
+		}
+		
+		.step-card {
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			border-radius: 12px;
+			padding: 1.5rem;
+			margin-bottom: 1.5rem;
+			transition: all 0.3s ease;
+		}
+		
+		.step-card:hover {
+			transform: translateX(10px);
+			box-shadow: 0 10px 30px rgba(255, 46, 99, 0.2);
+		}
+		
+		.step-number {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 40px;
+			height: 40px;
+			background: linear-gradient(135deg, var(--accent1), var(--accent2));
+			border-radius: 50%;
+			font-size: 1.2rem;
+			font-weight: 700;
+			margin-right: 1rem;
+			margin-bottom: 1rem;
+		}
+		
+		.step-card h4 {
+			font-size: 1.3rem;
+			font-weight: 600;
+			color: var(--accent1);
+			margin-bottom: 0.8rem;
+		}
+		
+		.example-box {
+			background: rgba(255, 122, 122, 0.05);
+			border-left: 4px solid var(--accent1);
+			border-radius: 8px;
+			padding: 1.5rem;
+			margin: 1.5rem 0;
+		}
+		
+		.example-box h4 {
+			font-size: 1.1rem;
+			font-weight: 600;
+			color: var(--accent1);
+			margin-bottom: 1rem;
+		}
+		
+		.letter-map {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+			gap: 0.5rem;
+			margin: 1rem 0;
+		}
+		
+		.letter-item {
+			background: rgba(255, 255, 255, 0.05);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			border-radius: 8px;
+			padding: 0.5rem;
+			text-align: center;
+			font-size: 0.9rem;
+		}
+		
+		.letter-item strong {
+			color: var(--accent1);
+		}
+		
+		code {
+			background: rgba(255, 255, 255, 0.1);
+			padding: 0.2rem 0.5rem;
+			border-radius: 4px;
+			font-family: 'Courier New', monospace;
+			color: var(--accent1);
+		}
+		
+		/* Light Theme Styles */
+		body.light-theme,
+		html.light-theme body {
+			background-color: #f4f7fc;
+			color: #1a1a1a;
+		}
+		
+		html.light-theme .content-section,
+		body.light-theme .content-section {
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+			border: 1px solid rgba(0, 0, 0, 0.1);
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		}
+		
+		html.light-theme .content-section h2,
+		body.light-theme .content-section h2 {
+			color: #ff2e63;
+		}
+		
+		html.light-theme .content-section h3,
+		body.light-theme .content-section h3 {
+			color: #ff7a7a;
+		}
+		
+		html.light-theme .content-section p,
+		body.light-theme .content-section p,
+		html.light-theme .content-section li,
+		body.light-theme .content-section li {
+			color: rgba(0, 0, 0, 0.8);
+		}
+		
+		html.light-theme .step-card,
+		body.light-theme .step-card {
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+			border: 1px solid rgba(0, 0, 0, 0.1);
+		}
+		
+		html.light-theme .step-card h4,
+		body.light-theme .step-card h4 {
+			color: #ff2e63;
+		}
+		
+		html.light-theme .step-card:hover,
+		body.light-theme .step-card:hover {
+			box-shadow: 0 10px 30px rgba(255, 46, 99, 0.15);
+		}
+		
+		html.light-theme .example-box,
+		body.light-theme .example-box {
+			background: rgba(255, 122, 122, 0.1);
+			border-left: 4px solid #ff2e63;
+		}
+		
+		html.light-theme .example-box h4,
+		body.light-theme .example-box h4 {
+			color: #ff2e63;
+		}
+		
+		html.light-theme .letter-item,
+		body.light-theme .letter-item {
+			background: rgba(0, 0, 0, 0.03);
+			border: 1px solid rgba(0, 0, 0, 0.1);
+		}
+		
+		html.light-theme code,
+		body.light-theme code {
+			background: rgba(0, 0, 0, 0.08);
+			color: #ff2e63;
+		}
+		
+		html.light-theme .bg-ambience,
+		body.light-theme .bg-ambience {
+			background-image: radial-gradient(circle at 20% 10%, rgba(255, 120, 150, 0.12), transparent 40%),
+				radial-gradient(circle at 80% 90%, rgba(120, 90, 255, 0.08), transparent 40%);
+		}
+	</style>
+</head>
+
+<body>
+	<main class="app">
+		<div class="bg-ambience"></div>
+		
+		<div class="how-it-works-container">
+			<a href="index.html" class="back-button">
+				<i class="fa-solid fa-arrow-left"></i>
+				<span>Back to Calculator</span>
+			</a>
+			
+			<div class="page-header">
+				<h1>⚙️ How It Works</h1>
+				<p>The science and magic behind Love Alchemy</p>
+			</div>
+			
+			<div class="content-section">
+				<h2>🔮 The Numerology Process</h2>
+				<p>
+					Love Alchemy uses <strong>Pythagorean numerology</strong>, an ancient system that assigns numerical values to letters. Here's the step-by-step process:
+				</p>
+				
+				<div class="step-card">
+					<span class="step-number">1</span>
+					<h4>Letter to Number Conversion</h4>
+					<p>
+						Each letter in a name is converted to a number (1-9) using the Pythagorean chart. This chart assigns numbers based on the position and vibrational energy of letters:
+					</p>
+					<div class="letter-map">
+						<div class="letter-item"><strong>1:</strong> A, J, S</div>
+						<div class="letter-item"><strong>2:</strong> B, K, T</div>
+						<div class="letter-item"><strong>3:</strong> C, L, U</div>
+						<div class="letter-item"><strong>4:</strong> D, M, V</div>
+						<div class="letter-item"><strong>5:</strong> E, N, W</div>
+						<div class="letter-item"><strong>6:</strong> F, O, X</div>
+						<div class="letter-item"><strong>7:</strong> G, P, Y</div>
+						<div class="letter-item"><strong>8:</strong> H, Q, Z</div>
+						<div class="letter-item"><strong>9:</strong> I, R</div>
+					</div>
+				</div>
+				
+				<div class="step-card">
+					<span class="step-number">2</span>
+					<h4>Sum and Reduce</h4>
+					<p>
+						We add up all the numerical values of the letters in each name, then reduce the sum to a single digit by repeatedly adding the digits together.
+					</p>
+					<p>
+						<strong>Special case:</strong> If "Support master numbers" is enabled, we preserve <code>11</code>, <code>22</code>, and <code>33</code> — these are considered master numbers with special spiritual significance.
+					</p>
+				</div>
+				
+				<div class="step-card">
+					<span class="step-number">3</span>
+					<h4>Combine Numbers</h4>
+					<p>
+						The two reduced numbers (one for each name) are then added together and reduced again to get a combined compatibility number.
+					</p>
+				</div>
+				
+				<div class="step-card">
+					<span class="step-number">4</span>
+					<h4>Map to Percentage</h4>
+					<p>
+						The combined number is mapped to a compatibility percentage using a carefully tuned formula that:
+					</p>
+					<ul>
+						<li>Gives higher scores to master numbers (11, 22, 33)</li>
+						<li>Adds bonuses when both names have the same core number</li>
+						<li>Applies special treatment to mystical numbers like 1 and 7</li>
+						<li>Ensures an engaging distribution of scores</li>
+					</ul>
+				</div>
+				
+				<div class="step-card">
+					<span class="step-number">5</span>
+					<h4>Present Results</h4>
+					<p>
+						The final percentage is displayed with:
+					</p>
+					<ul>
+						<li>An animated progress ring</li>
+						<li>A compatibility message</li>
+						<li>A mood-based theme</li>
+						<li>Romantic tips from the Love Oracle</li>
+						<li>Celebratory particle effects</li>
+						<li>Automatic sound effects</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="content-section">
+				<h2>📝 Example Calculation</h2>
+				
+				<div class="example-box">
+					<h4>Example: Romeo + Juliet</h4>
+					
+					<p><strong>Step 1 - Convert "ROMEO":</strong></p>
+					<p>R(9) + O(6) + M(4) + E(5) + O(6) = 30</p>
+					<p>Reduce: 3 + 0 = <strong>3</strong></p>
+					
+					<p><strong>Step 2 - Convert "JULIET":</strong></p>
+					<p>J(1) + U(3) + L(3) + I(9) + E(5) + T(2) = 23</p>
+					<p>Reduce: 2 + 3 = <strong>5</strong></p>
+					
+					<p><strong>Step 3 - Combine:</strong></p>
+					<p>3 + 5 = <strong>8</strong></p>
+					
+					<p><strong>Step 4 - Map to percentage:</strong></p>
+					<p>Combined number 8 → Base calculation = 30 + (8 × 7) = <strong>86%</strong></p>
+					<p>(Additional bonuses may apply based on special conditions)</p>
+				</div>
+			</div>
+			
+			<div class="content-section">
+				<h2>🎨 Visual Experience</h2>
+				
+				<h3>Mood-Based Themes</h3>
+				<p>
+					Your compatibility score determines the overall mood of the interface:
+				</p>
+				<ul>
+					<li><strong>90-100%:</strong> Dreamy 💫 — Soft, ethereal colors</li>
+					<li><strong>80-89%:</strong> Passionate 🔥 — Warm, intense reds</li>
+					<li><strong>70-79%:</strong> Adventurous 🌟 — Bold, exciting tones</li>
+					<li><strong>60-69%:</strong> Flirty 😍 — Playful pink hues</li>
+					<li><strong>50-59%:</strong> Playful ✨ — Light, fun colors</li>
+					<li><strong>40-49%:</strong> Curious 🤔 — Inquisitive tones</li>
+					<li><strong>30-39%:</strong> Friendly 😊 — Comfortable vibes</li>
+					<li><strong>0-29%:</strong> Chill 🤝 — Calm, relaxed colors</li>
+				</ul>
+				
+				<h3>Love Oracle</h3>
+				<p>
+					Based on your mood, the Love Oracle provides personalized romantic tips and suggestions. These appear with a magical typewriter effect and include mood-specific advice like stargazing for Dreamy moods or surprise adventures for Adventurous scores.
+				</p>
+				
+				<h3>Particle Effects</h3>
+				<p>
+					When you calculate your result, confetti and heart particles burst across the screen. Higher compatibility scores trigger larger, more impressive celebrations with more heart-shaped particles.
+				</p>
+				
+				<h3>Sound Effects</h3>
+				<p>
+					An automatic romantic chime plays when your result is calculated. The sound is dynamically generated using the Web Audio API and varies slightly based on your compatibility percentage, creating a unique audio signature for each result.
+				</p>
+			</div>
+			
+			<div class="content-section">
+				<h2>⚡ Additional Features</h2>
+				
+				<h3>Jitter Option</h3>
+				<p>
+					Enable "Allow small surprise (±5%)" to add a random variation of up to 5% to your result. This makes each calculation slightly unpredictable and fun!
+				</p>
+				
+				<h3>Master Numbers</h3>
+				<p>
+					In numerology, 11, 22, and 33 are "master numbers" with heightened spiritual significance. When this option is enabled (default), these numbers are preserved during reduction and receive special treatment in the compatibility calculation.
+				</p>
+				
+				<h3>History Tracking</h3>
+				<p>
+					All your calculations are saved locally in your browser. You can view your history, export it as a PDF, or clear it anytime. Your data never leaves your device.
+				</p>
+				
+				<h3>Shareable Results</h3>
+				<p>
+					Generate shareable URLs or download beautiful love card images to share your compatibility results on social media. Each link encodes the names and percentage, ensuring consistent results when shared.
+				</p>
+			</div>
+			
+			<div class="content-section">
+				<h2>🔐 Privacy & Security</h2>
+				<p>
+					<strong>Your privacy matters.</strong> Love Alchemy runs entirely in your browser:
+				</p>
+				<ul>
+					<li>No data is sent to any server</li>
+					<li>All calculations happen locally on your device</li>
+					<li>History is stored in your browser's local storage</li>
+					<li>No tracking, no analytics, no cookies</li>
+					<li>You can use it offline after the first load</li>
+				</ul>
+			</div>
+			
+			<div class="content-section">
+				<h2>💡 Tips for Best Results</h2>
+				<ul>
+					<li>Use <strong>first names</strong> for the most accurate numerological reading</li>
+					<li>Enter names with <strong>correct spelling</strong> — same names always give same results</li>
+					<li>Try <strong>different name variations</strong> (nicknames, full names) to see how they compare</li>
+					<li>Remember this is for <strong>entertainment</strong> — real compatibility involves much more!</li>
+					<li>Have fun and don't take the results too seriously 😊</li>
+				</ul>
+			</div>
+			
+			<a href="index.html" class="back-button">
+				<i class="fa-solid fa-arrow-left"></i>
+				<span>Back to Calculator</span>
+			</a>
+		</div>
+	</main>
+</body>
+</html>

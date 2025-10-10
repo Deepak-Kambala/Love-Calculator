@@ -258,6 +258,70 @@ header {
     box-shadow: 0 0 25px var(--wheel-glow);
 }
 
+/* Custom Alert Box */
+.custom-alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.custom-alert-overlay.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.custom-alert-box {
+  background: linear-gradient(145deg, var(--secondary), var(--accent));
+  color: var(--text-light);
+  padding: 25px 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 0 25px var(--text-glow);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.custom-alert-overlay.show .custom-alert-box {
+  transform: scale(1);
+}
+
+.custom-alert-box h3 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  text-shadow: 0 0 10px var(--text-glow);
+}
+
+.custom-alert-box p {
+  margin: 10px 0 20px;
+  font-size: 1rem;
+}
+
+.alert-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.alert-btn:hover {
+  background: var(--secondary);
+  color: var(--bg-start);
+}
+
 .wheel-container {
     position: relative;
     width: 400px;

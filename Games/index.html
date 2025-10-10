@@ -19,6 +19,7 @@
 
     <div class="container">
         <header>
+
             <h1 class="title">Spin the Wheel of Love</h1>
             <p class="subtitle">What's your love destiny today? 💕</p>
         </header>
@@ -41,6 +42,15 @@
         <div class="love-calculator-input">
             <input type="number" id="lovePercentage" placeholder="Enter Love %" min="0" max="100" step="1">
             <button id="setLoveBtn" class="set-love-btn">Set Love %</button>
+        </div>
+
+        <!-- Custom Alert -->
+        <div id="alertOverlay" class="custom-alert-overlay">
+          <div class="custom-alert-box">
+            <h3 id="alertTitle">Alert</h3>
+            <p id="alertMessage">Message</p>
+            <button class="alert-btn" onclick="closeAlert()">OK</button>
+          </div>
         </div>
 
         <div class="wheel-container">

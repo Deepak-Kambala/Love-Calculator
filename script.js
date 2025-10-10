@@ -45,7 +45,6 @@ const heading = document.getElementById('heading')
 const description = document.getElementById('description')
 const progressRing = document.querySelector('.ring')
 const confettiToggle = document.getElementById('confettiToggle')
-const soundToggle = document.getElementById('soundToggle')
 const particleCanvas = document.getElementById('particleCanvas')
 const allowJitterEl = document.getElementById('allowJitter')
 const useMasterEl = document.getElementById('useMaster')
@@ -93,7 +92,7 @@ const charCount = document.getElementById('charCount')
 let feedbacks = JSON.parse(localStorage.getItem('lovecalc_feedbacks')) || []
 
 let confettiEnabled = true
-let soundEnabled = false
+let soundEnabled = true
 
 // Setup canvas size
 const ctx = particleCanvas.getContext ? particleCanvas.getContext('2d') : null
@@ -125,11 +124,6 @@ function typeOracleText(elementId, text, delay = 50) {
         }
     }, delay);
 }
-
-
-/* ============================
-   Numerology Logic
-   ============================ */
 
 function sanitizeName(s) {
 	if (!s) return ''
@@ -181,9 +175,7 @@ function combineNumbers(num1, num2, supportMaster = true) {
 }
 
 function mapToPercent(combined, num1, num2) {
-	// A tuned mapping/formula for UX:
-	// Base formula: transform combined into an attractive distribution
-	// We treat master numbers with higher base values.
+
 	let base
 	if (combined === 11) base = 95
 	else if (combined === 22) base = 99
@@ -608,6 +600,23 @@ function alertDialog(message, title = 'Warning') {
 	}
 }
 
+// Lightweight toast notification
+function showToast(message) {
+    try {
+        const existing = document.querySelector('.lc-toast')
+        if (existing) existing.remove()
+        const toast = document.createElement('div')
+        toast.className = 'lc-toast'
+        toast.textContent = message
+        document.body.appendChild(toast)
+        // auto remove after animation
+        setTimeout(() => {
+            toast.classList.add('hide')
+            setTimeout(() => toast.remove(), 300)
+        }, 1800)
+    } catch (_) {}
+}
+
 /* ============================
    Main calculate function
    ============================ */
@@ -802,6 +811,18 @@ shareBtn.addEventListener('click', (ev) => {
 		?.writeText(url)
 		.then(() => {
 			// copied — proceed to image generation
+			const original = copyLinkBtn?.textContent
+			if (copyLinkBtn) {
+				copyLinkBtn.textContent = 'Copied!'
+				copyLinkBtn.disabled = true
+			}
+			showToast('Link copied to clipboard!')
+			setTimeout(() => {
+				if (copyLinkBtn) {
+					copyLinkBtn.textContent = original
+					copyLinkBtn.disabled = false
+				}
+			}, 1600)
 		})
 		.catch(() => {
 			// ignore copy errors; still proceed to image generation
@@ -876,12 +897,6 @@ confettiToggle.addEventListener('click', () => {
 	confettiToggle.textContent = confettiEnabled ? '🎊 Confetti (on)' : '🎊 Confetti (off)'
 })
 
-soundToggle.addEventListener('click', () => {
-	soundEnabled = !soundEnabled
-	soundToggle.classList.toggle('active', soundEnabled)
-	soundToggle.textContent = soundEnabled ? '🔈 Sound (on)' : '🔈 Sound (off)'
-})
-
 resetBtn.addEventListener('click', () => {
 	name1El.value = ''
 	name2El.value = ''
@@ -934,6 +949,8 @@ themeToggleBtn.addEventListener('click', toggleTheme)
 /* initialize */
 renderHistory()
 setRing(0)
+// Apply saved theme on load
+applyTheme(currentTheme)
 ;(function init() {
 	try {
 		const savedTheme = localStorage.getItem('theme') || 'dark'
@@ -1244,23 +1261,30 @@ shareInstagram.addEventListener('click', () => {
 
 // Copy Link
 copyLinkBtn.addEventListener('click', () => {
-	navigator.clipboard
-		.writeText(window.location.href)
-		.then(() => {
-			document.getElementById('shareLinkInput').value = window.location.href
-			shareLinkPopupOverlay.classList.remove('hidden')
-		})
-		.catch(() => alert('Failed to copy link'))
+    // Do NOT copy here. Only open the popup and prefill the link.
+    try {
+        document.getElementById('shareLinkInput').value = window.location.href
+        shareLinkPopupOverlay.classList.remove('hidden')
+    } catch (_) {}
 })
 
 copyShareLink.addEventListener('click', () => {
-	navigator.clipboard
-		.writeText(window.location.href)
-		.then(() => {
-			document.getElementById('shareLinkInput').value = window.location.href
-			shareLinkPopupOverlay.classList.remove('hidden')
-		})
-		.catch(() => alert('Failed to copy link'))
+    const original = copyShareLink.textContent
+    copyShareLink.disabled = true
+    navigator.clipboard
+        .writeText(window.location.href)
+        .then(() => {
+            copyShareLink.textContent = 'Copied!'
+            showToast('Link copied to clipboard!')
+            setTimeout(() => {
+                copyShareLink.textContent = original
+                copyShareLink.disabled = false
+            }, 1600)
+        })
+        .catch(() => {
+            alert('Failed to copy link')
+            copyShareLink.disabled = false
+        })
 })
 
 historyBtn.addEventListener('click', () => {
@@ -1575,71 +1599,76 @@ function escapeHtml(text) {
 
 /* ============================
   Love-Card Generator
-   ============================ */
+============================ */
 
 document.getElementById('generateLoveCard').addEventListener('click', async function() {
     
-    const percentText = document.getElementById('percentText').textContent;
-    
-    if (percentText === '0%') {
-        alertDialog('Please calculate love compatibility first!', 'Notice');
-        return;
-    }
-    
+  const percentText = document.getElementById('percentText').textContent;
+
+  if (percentText === '0%') {
+    alertDialog('Please calculate love compatibility first!', 'Notice');
+    return;
+  }
+
     //required elements to be captured in the love-card
-    const resultArea = document.querySelector('.result-area');
-    const loveOracle = document.getElementById('loveOracle');
+  const resultArea = document.querySelector('.result-area');
+  const loveOracle = document.getElementById('loveOracle');
 
     
     // check if oracle is visible and can be included
-    const includeOracle = !loveOracle.classList.contains('hidden');
-    
-    try {
-        // Create a temporary container with proper styling
-        const wrapper = document.createElement('div');
-        wrapper.style.cssText = `
-            position: absolute;
-            left: -99999px;
-            top: 0;
-            width: 600px;
-            padding: 40px;
-            background: linear-gradient(135deg, #2b0f1e 0%, #1c0a12 100%);
-            border-radius: 20px;
-            box-sizing: border-box;
-        `;
-        
+  const includeOracle = !loveOracle.classList.contains('hidden');
+
+  try {
+    // ✅ Lazy-load html2canvas if not already loaded
+    if (typeof html2canvas === 'undefined') {
+      await loadHtml2Canvas();
+    }
+
+    // Create a temporary container with proper styling
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = `
+      position: absolute;
+      left: -99999px;
+      top: 0;
+      width: 600px;
+      padding: 40px;
+      background: linear-gradient(135deg, #2b0f1e 0%, #1c0a12 100%);
+      border-radius: 20px;
+      box-sizing: border-box;
+    `;
+
         // Clone and add result area
-          const resultClone = resultArea.cloneNode(true);
-          resultClone.style.cssText = 'margin: 0; padding: 20px 0;';
-          wrapper.appendChild(resultClone);
+    const resultClone = resultArea.cloneNode(true);
+    resultClone.style.cssText = 'margin: 0; padding: 20px 0;';
+    wrapper.appendChild(resultClone);
 
         // Clone and add oracle if visible
-        if (includeOracle) {
+    if (includeOracle) {
     
-          const oracleClone = loveOracle.cloneNode(true);
-          oracleClone.classList.remove('hidden');
+      const oracleClone = loveOracle.cloneNode(true);
+      oracleClone.classList.remove('hidden');
           oracleClone.style.cssText = 'margin-top: 2rem; display: block !important; opacity: 1 !important;';
     
             // increasing opacity
             const allElements = oracleClone.querySelectorAll('*');
             allElements.forEach(e => {
-                e.style.opacity = '1';
-                e.style.animation = 'none';
-            });
+        e.style.opacity = '1';
+        e.style.animation = 'none';
+      });
     
-            wrapper.appendChild(oracleClone);
-            console.log('Oracle cloned and added');
+      wrapper.appendChild(oracleClone);
+      console.log('Oracle cloned and added');
                 }
           else {
               console.log('Failed to capture Oracle');
-          }
-        
+    }
+
         //appending wrapper to body
-        document.body.appendChild(wrapper);
+    document.body.appendChild(wrapper);
         
         // waiting for styles to apply
-        await new Promise(resolve => setTimeout(resolve, 100));
-        
+    await new Promise(resolve => setTimeout(resolve, 100));
+
         if (typeof html2canvas === 'undefined') {
             throw new Error('html2canvas library not loaded');
         }
@@ -1647,51 +1676,65 @@ document.getElementById('generateLoveCard').addEventListener('click', async func
         
         
         // capture the screenshot with html2canvas
-        const canvas = await html2canvas(wrapper, {
-            backgroundColor: '#2b0f1e',
-            scale: 2,
-            logging: true,
-            useCORS: true,
-            allowTaint: true,
-            width: wrapper.offsetWidth,
+    const canvas = await html2canvas(wrapper, {
+      backgroundColor: '#2b0f1e',
+      scale: 2,
+      logging: true,
+      useCORS: true,
+      allowTaint: true,
+      width: wrapper.offsetWidth,
             height: wrapper.offsetHeight
-        });
-        
+    });
+
         //removing the temporary wrapper
-        document.body.removeChild(wrapper);
-        
+    document.body.removeChild(wrapper);
+
         // blob conversion
-        canvas.toBlob(function(blob) {
+    canvas.toBlob(function(blob) {
             
             
-            if (!blob) {
-                alertDialog('Failed to generate image blob.', 'Error');
-                return;
-            }
+      if (!blob) {
+        alertDialog('Failed to generate image blob.', 'Error');
+        return;
+      }
+            
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      const name1 = document.getElementById('name1').value.replace(/[^a-z0-9]/gi, '_') || 'You';
+      const name2 = document.getElementById('name2').value.replace(/[^a-z0-9]/gi, '_') || 'Crush';
+      const filename = `love-card-${name1}-${name2}-${Date.now()}.png`;
+      link.download = filename;
+      link.href = url;
             
             
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            const name1 = document.getElementById('name1').value.replace(/[^a-z0-9]/gi, '_') || 'You';
-            const name2 = document.getElementById('name2').value.replace(/[^a-z0-9]/gi, '_') || 'Crush';
-            const filename = `love-card-${name1}-${name2}-${Date.now()}.png`;
-            link.download = filename;
-            link.href = url;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setTimeout(() => URL.revokeObjectURL(url), 100);
             
             
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            setTimeout(() => URL.revokeObjectURL(url), 100);
-            
-            
-            alertDialog('Love Card downloaded successfully! 💖', 'Success');
-        }, 'image/png');
+      alertDialog('Love Card downloaded successfully! 💖', 'Success');
+    }, 'image/png');
         
     } 
     catch (error) {
-        alertDialog('Failed to generate love card. Error: ' + error.message, 'Error');
+    alertDialog('Failed to generate love card. Error: ' + error.message, 'Error');
+  }
+});
+
+/* ============================
+  Lazy Load html2canvas
+============================ */
+
+async function loadHtml2Canvas() {
+  return new Promise((resolve, reject) => {
+    const existing = document.querySelector('script[data-html2canvas]');
+    if (existing) {
+      existing.addEventListener('load', resolve);
+      existing.addEventListener('error', reject);
+      return;
     }
 });
 

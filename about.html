@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<meta name="description" content="About Love Alchemy — Learn more about our advanced love calculator based on numerology">
+	<link rel="icon" href="hearts.png" type="image/x-icon" />
+	<title>About Love Alchemy 💘</title>
+	<link rel="stylesheet" href="style.css" />
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script>
+		// Apply saved theme immediately
+		const savedTheme = localStorage.getItem('theme') || 'dark';
+		if (savedTheme === 'light') {
+			document.documentElement.classList.add('light-theme');
+		}
+	</script>
+	<style>
+		.about-container {
+			max-width: 900px;
+			margin: 3rem auto;
+			padding: 2rem;
+		}
+		
+		.about-header {
+			text-align: center;
+			margin-bottom: 3rem;
+		}
+		
+		.about-header h1 {
+			font-size: 3rem;
+			font-weight: 900;
+			background: linear-gradient(135deg, var(--accent1), var(--accent2));
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			margin-bottom: 1rem;
+		}
+		
+		.about-header p {
+			font-size: 1.2rem;
+			color: var(--muted);
+		}
+		
+		.about-section {
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			border-radius: 16px;
+			padding: 2rem;
+			margin-bottom: 2rem;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+		}
+		
+		.about-section h2 {
+			font-size: 1.8rem;
+			font-weight: 700;
+			color: var(--accent1);
+			margin-bottom: 1rem;
+		}
+		
+		.about-section h3 {
+			font-size: 1.4rem;
+			font-weight: 600;
+			color: var(--accent2);
+			margin-top: 1.5rem;
+			margin-bottom: 0.8rem;
+		}
+		
+		.about-section p {
+			line-height: 1.8;
+			color: rgba(255, 255, 255, 0.85);
+			margin-bottom: 1rem;
+		}
+		
+		.about-section ul {
+			padding-left: 1.5rem;
+			margin-bottom: 1rem;
+		}
+		
+		.about-section li {
+			line-height: 1.8;
+			color: rgba(255, 255, 255, 0.85);
+			margin-bottom: 0.5rem;
+		}
+		
+		.back-button {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.875rem 1.5rem;
+			background: linear-gradient(135deg, var(--accent1), var(--accent2));
+			color: white;
+			text-decoration: none;
+			border-radius: 12px;
+			font-weight: 600;
+			transition: all 0.3s ease;
+			box-shadow: 0 4px 12px rgba(255, 46, 99, 0.3);
+			margin-bottom: 2rem;
+		}
+		
+		.back-button:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 8px 24px rgba(255, 46, 99, 0.4);
+		}
+		
+		.feature-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			gap: 1.5rem;
+			margin-top: 2rem;
+		}
+		
+		.feature-card {
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			border-radius: 12px;
+			padding: 1.5rem;
+			text-align: center;
+			transition: all 0.3s ease;
+		}
+		
+		.feature-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 10px 30px rgba(255, 46, 99, 0.2);
+		}
+		
+		.feature-icon {
+			font-size: 3rem;
+			margin-bottom: 1rem;
+		}
+		
+		.feature-card h4 {
+			font-size: 1.2rem;
+			font-weight: 600;
+			color: var(--accent1);
+			margin-bottom: 0.5rem;
+		}
+		
+		.feature-card p {
+			font-size: 0.95rem;
+			color: rgba(255, 255, 255, 0.75);
+			line-height: 1.6;
+		}
+		
+		/* Light Theme Styles */
+		body.light-theme,
+		html.light-theme body {
+			background-color: #f4f7fc;
+			color: #1a1a1a;
+		}
+		
+		html.light-theme .about-section,
+		body.light-theme .about-section {
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+			border: 1px solid rgba(0, 0, 0, 0.1);
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		}
+		
+		html.light-theme .about-section h2,
+		body.light-theme .about-section h2 {
+			color: #ff2e63;
+		}
+		
+		html.light-theme .about-section h3,
+		body.light-theme .about-section h3 {
+			color: #ff7a7a;
+		}
+		
+		html.light-theme .about-section p,
+		body.light-theme .about-section p,
+		html.light-theme .about-section li,
+		body.light-theme .about-section li {
+			color: rgba(0, 0, 0, 0.8);
+		}
+		
+		html.light-theme .feature-card,
+		body.light-theme .feature-card {
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+			border: 1px solid rgba(0, 0, 0, 0.1);
+		}
+		
+		html.light-theme .feature-card h4,
+		body.light-theme .feature-card h4 {
+			color: #ff2e63;
+		}
+		
+		html.light-theme .feature-card p,
+		body.light-theme .feature-card p {
+			color: rgba(0, 0, 0, 0.7);
+		}
+		
+		html.light-theme .feature-card:hover,
+		body.light-theme .feature-card:hover {
+			box-shadow: 0 10px 30px rgba(255, 46, 99, 0.15);
+		}
+		
+		html.light-theme .bg-ambience,
+		body.light-theme .bg-ambience {
+			background-image: radial-gradient(circle at 20% 10%, rgba(255, 120, 150, 0.12), transparent 40%),
+				radial-gradient(circle at 80% 90%, rgba(120, 90, 255, 0.08), transparent 40%);
+		}
+	</style>
+</head>
+
+<body>
+	<main class="app">
+		<div class="bg-ambience"></div>
+		
+		<div class="about-container">
+			<a href="index.html" class="back-button">
+				<i class="fa-solid fa-arrow-left"></i>
+				<span>Back to Calculator</span>
+			</a>
+			
+			<div class="about-header">
+				<h1>✨ About Love Alchemy</h1>
+				<p>Where numerology meets modern romance</p>
+			</div>
+			
+			<div class="about-section">
+				<h2>🎯 Our Mission</h2>
+				<p>
+					Love Alchemy is a unique love calculator that combines ancient Pythagorean numerology with modern web technology to help you discover your romantic compatibility. We believe that numbers hold mystical significance, and when applied thoughtfully, they can reveal fascinating insights about relationships.
+				</p>
+				<p>
+					Our goal is to provide an entertaining, visually stunning, and meaningful experience that brings joy and curiosity to your romantic explorations. Whether you're testing compatibility with a crush, surprising your partner, or simply having fun with friends, Love Alchemy offers a delightful journey into the world of numerical romance.
+				</p>
+			</div>
+			
+			<div class="about-section">
+				<h2>✨ Key Features</h2>
+				<div class="feature-grid">
+					<div class="feature-card">
+						<div class="feature-icon">🔮</div>
+						<h4>Pythagorean Numerology</h4>
+						<p>Based on ancient numerical wisdom that assigns mystical significance to letters and numbers</p>
+					</div>
+					
+					<div class="feature-card">
+						<div class="feature-icon">🎨</div>
+						<h4>Mood-Based Themes</h4>
+						<p>The entire interface adapts to your compatibility score with beautiful themed colors and moods</p>
+					</div>
+					
+					<div class="feature-card">
+						<div class="feature-icon">🎵</div>
+						<h4>Audio Experience</h4>
+						<p>Automatic sound effects play when your result is calculated, creating an immersive experience</p>
+					</div>
+					
+					<div class="feature-card">
+						<div class="feature-icon">💫</div>
+						<h4>Particle Effects</h4>
+						<p>Beautiful confetti and heart animations celebrate your love results</p>
+					</div>
+					
+					<div class="feature-card">
+						<div class="feature-icon">📜</div>
+						<h4>Love Oracle</h4>
+						<p>Receive mystical romantic tips and advice based on your compatibility mood</p>
+					</div>
+					
+					<div class="feature-card">
+						<div class="feature-icon">🔐</div>
+						<h4>Privacy First</h4>
+						<p>All calculations happen in your browser. No data leaves your device</p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="about-section">
+				<h2>🌟 What Makes Us Different</h2>
+				<p>
+					Unlike simple love calculators that use random algorithms, Love Alchemy is built on the foundation of Pythagorean numerology — a system dating back to ancient Greece. This method assigns numerical values to letters and reduces them to single digits (or master numbers), revealing the energetic signature of names.
+				</p>
+				
+				<h3>Consistent Results</h3>
+				<p>
+					The same pair of names will always produce the same result (unless you enable the "surprise" jitter option). This deterministic approach means you can share results with friends and they'll see the same compatibility score.
+				</p>
+				
+				<h3>Master Numbers</h3>
+				<p>
+					We support master numbers (11, 22, 33) — special numbers in numerology that carry heightened spiritual significance and are not reduced to single digits.
+				</p>
+				
+				<h3>Beautiful Design</h3>
+				<p>
+					Every element has been crafted with care — from the glassmorphism effects to the smooth animations, creating a premium experience that feels magical and engaging.
+				</p>
+			</div>
+			
+			<div class="about-section">
+				<h2>💝 For Entertainment Purposes</h2>
+				<p>
+					While Love Alchemy is based on numerological principles, it's designed primarily for entertainment and fun. Real compatibility depends on many factors including communication, shared values, mutual respect, and emotional connection.
+				</p>
+				<p>
+					Use our calculator as a playful tool to spark conversations, create memorable moments, and explore the mystical side of romance — but remember that true love is built through genuine connection and understanding.
+				</p>
+			</div>
+			
+			<div class="about-section">
+				<h2>🚀 Technology</h2>
+				<p>
+					Love Alchemy is built with modern web technologies:
+				</p>
+				<ul>
+					<li><strong>Pure JavaScript</strong> — No frameworks, just clean vanilla JS for optimal performance</li>
+					<li><strong>CSS3 Animations</strong> — Smooth, hardware-accelerated animations</li>
+					<li><strong>HTML5 Canvas</strong> — For particle effects and downloadable love cards</li>
+					<li><strong>Local Storage</strong> — Save your calculation history privately in your browser</li>
+					<li><strong>Web Audio API</strong> — Dynamic sound generation for audio feedback</li>
+					<li><strong>Responsive Design</strong> — Works beautifully on all devices</li>
+				</ul>
+			</div>
+			
+			<div class="about-section">
+				<h2>❤️ Made with Love</h2>
+				<p>
+					Love Alchemy was created with passion and attention to detail. We hope it brings joy, laughter, and maybe even a little bit of magic to your day.
+				</p>
+				<p>
+					Thank you for using Love Alchemy! We'd love to hear your feedback and ideas for improvement.
+				</p>
+			</div>
+			
+			<a href="index.html" class="back-button">
+				<i class="fa-solid fa-arrow-left"></i>
+				<span>Back to Calculator</span>
+			</a>
+		</div>
+	</main>
+</body>
+</html>

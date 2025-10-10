@@ -451,6 +451,21 @@ function loadProgress() {
 
 spinBtn.addEventListener('click', spinWheel);
 
+//alert box
+const alertOverlay = document.getElementById('alertOverlay');
+const alertTitle = document.getElementById('alertTitle');
+const alertMessage = document.getElementById('alertMessage');
+
+function showAlert(message, title = 'Alert') {
+  alertTitle.textContent = title;
+  alertMessage.textContent = message;
+  alertOverlay.classList.add('show');
+}
+
+function closeAlert() {
+  alertOverlay.classList.remove('show');
+}
+
 document.getElementById('setLoveBtn').addEventListener('click', () => {
     const input = document.getElementById('lovePercentage');
     const value = parseInt(input.value);
@@ -460,9 +475,9 @@ document.getElementById('setLoveBtn').addEventListener('click', () => {
         updateLoveMeter(value);
         localStorage.setItem('loveMeterPercent', value);
         checkSecretMode();
-        alert(`Love percentage set to ${value}%! 💕`);
+        showAlert(`Love percentage set to ${value}%! 💕`, 'Success');
     } else {
-        alert('Please enter a value between 0 and 100!');
+        showAlert('Please enter a value between 0 and 100!', 'Error');
     }
 });
 

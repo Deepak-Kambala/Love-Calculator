@@ -26,6 +26,7 @@
 		}
 	</script>
 	<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -42,13 +43,18 @@
 				<span id="moodLabel" class="mood-label">Playful</span>
 			</div>
 
-			<div class="controls">
-				<button id="historyBtn" class="ghost-btn" title="View history">📜 History</button>
-				<button id="feedbackBtn" class="ghost-btn" title="Give Feedback">💬 Feedback</button>
-				<button id="resetBtn" class="ghost-btn" title="Reset inputs">🔁 Reset</button>
-				<div id="google_translate_element" class="translate-widget"></div>
-				<button id="themeToggleBtn" class="ghost-btn" title="Theme">🌙 Theme</button>
-			</div>
+		<button id="menu-toggle" class="menu-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <!-- Your navigation controls -->
+            <div id="nav-controls" class="controls">
+                <button id="historyBtn" class="ghost-btn" title="View history">📜 History</button>
+                <button id="feedbackBtn" class="ghost-btn" title="Give Feedback">💬 Feedback</button>
+                <button id="resetBtn" class="ghost-btn" title="Reset inputs">🔁 Reset</button>
+                <div id="google_translate_element" class="translate-widget"></div>
+                <button id="themeToggleBtn" class="ghost-btn" title="Theme">🌙 Theme</button>
+            </div>
 		</header>
 
 		<section class="card">
@@ -88,7 +94,6 @@
 
 					<div class="actions">
 						<button id="calcBtn" class="primary">Calculate Love ❤️</button>
-						<button id="shareBtn" class="ghost-btn" title="Share result">🔗 Share</button>
 						<a href="./Games/index.html" class="primary NG">Love Spinner ❤️</a>
 						<!-- Zodiac Compatibility Button -->
                         <button id="zodiacBtn" class="zodiac-button">🔮 Zodiac Compatibility</button>
@@ -135,6 +140,7 @@
 						</div>
 					</div>
 				</div>
+				</form>
 
 				<!-- Mystical Love Oracle -->
 				<div id="loveOracle" class="love-oracle hidden" style="margin-top: 4rem; margin-bottom: 4rem">
@@ -178,31 +184,73 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="extras">
-					<button id="confettiToggle" class="ghost-btn">🎊 Confetti</button>
-					<button id="soundToggle" class="ghost-btn">🔈 Sound</button>
-				</div>
 			</div>
 
 			<div class="right">
 				<div class="panel tips-panel">
-					<h3>Tips</h3>
+					<h3>Quick Links</h3>
 					<ul>
-						<li>Same names → same result (unless jitter is allowed).</li>
-						<li>Toggle confetti or sound for a surprise.</li>
-						<li>You can share results via a short URL (copy to clipboard).</li>
+						<li><a href="about.html" class="panel-link">📖 About Love Alchemy</a></li>
+						<li><a href="how-it-works.html" class="panel-link">⚙️ How It Works</a></li>
+						<li>Same names → same result (unless jitter is allowed)</li>
+						<li>Share your results with friends below!</li>
 					</ul>
 				</div>
 
 				<div class="panel how-it-works-panel">
-					<h3>How it works</h3>
-					<ol>
-						<li>We convert letters using <strong>Pythagorean numerology</strong>.</li>
-						<li>We reduce to single digits (optionally keep master numbers).</li>
-						<li>Combine numbers + apply modifiers to produce a compatibility %.</li>
-						<li>We animate hearts, confetti & ring for a delightful reveal ✨</li>
-					</ol>
+					<h3>Features</h3>
+					<ul>
+						<li>✨ <strong>Pythagorean numerology</strong> based calculations</li>
+						<li>🎵 <strong>Auto sound effects</strong> when result is calculated</li>
+						<li>🎨 <strong>Mood-based themes</strong> adapt to your score</li>
+						<li>💖 <strong>Beautiful animations</strong> & confetti effects</li>
+						<li>📜 <strong>History tracking</strong> of all calculations</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<!-- Social share buttons - moved to bottom -->
+		<section class="share-section">
+			<div class="share-container">
+				<h2 class="share-title">✨ Share Your Love Result</h2>
+				<p class="share-subtitle">Let the world know your compatibility score!</p>
+				
+				<div class="social-share-bottom">
+					<button id="shareBtn" class="share-btn share-link" title="Share result">
+						<i class="fa-solid fa-link"></i>
+						<span>Share Link</span>
+					</button>
+					<a href="#" id="shareWhatsapp" target="_blank" class="share-btn share-whatsapp" title="Share on WhatsApp">
+						<i class="fa-brands fa-whatsapp"></i>
+						<span>WhatsApp</span>
+					</a>
+					<a href="#" id="shareTwitter" target="_blank" class="share-btn share-twitter" title="Share on Twitter">
+						<i class="fa-brands fa-x-twitter"></i>
+						<span>Twitter</span>
+					</a>
+					<a href="#" id="shareFacebook" target="_blank" class="share-btn share-facebook" title="Share on Facebook">
+						<i class="fa-brands fa-facebook"></i>
+						<span>Facebook</span>
+					</a>
+					<a href="#" id="shareInstagram" class="share-btn share-instagram" title="Share on Instagram">
+						<i class="fa-brands fa-instagram"></i>
+						<span>Instagram</span>
+					</a>
+				</div>
+				
+				<div class="download-options">
+					<h3 class="download-title">💝 Download & Copy</h3>
+					<div class="download-buttons">
+						<button id="generateLoveCard" class="download-btn">
+							<i class="fa-solid fa-heart"></i>
+							<span>Generate Love Card</span>
+						</button>
+						<button id="copyLinkBtn" class="download-btn" title="Copy link">
+							<i class="fa-solid fa-copy"></i>
+							<span>Copy Link</span>
+						</button>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -263,7 +311,7 @@
 				<form id="feedbackForm" class="feedback-form">
 					<label for="feedbackName" class="feedback-label">
 						Name
-						<input type="text" id="feedbackName" placeholder="Your name" maxlength="50" />
+						<input type="text" id="feedbackName" placeholder="Your name" maxlength="50" required />
 					</label>
 
 					<label for="feedbackEmail" class="feedback-label">
@@ -321,7 +369,7 @@
 			<div class="feedback-popup-content">
 				<form id="shareLinkForm" class="feedback-form">
 					<div>
-						<p>The link has been copied to your clipboard!</p>
+						<p>Click on the copy link button to copy the link to your clipboard!</p>
 						<p>You can share it with your friends to show your love compatibility result. 💖</p>
 					</div>
 					<label for="shareLinkInput" class="shareLink-label">
@@ -344,7 +392,6 @@
 		</div>
 	</footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 		<script src="script.js"></script>
 <audio id="resultMusic" src="heigh.mp4" preload="auto"></audio>
 
