@@ -35,6 +35,7 @@ const LETTER_MAP = {
 	R: 9,
 }
 
+
 // DOM elements
 const name1El = document.getElementById('name1')
 const name2El = document.getElementById('name2')
@@ -49,12 +50,6 @@ const particleCanvas = document.getElementById('particleCanvas')
 const allowJitterEl = document.getElementById('allowJitter')
 const useMasterEl = document.getElementById('useMaster')
 const resetBtn = document.getElementById('resetBtn')
-const historyBtn = document.getElementById('historyBtn')
-const historyPanel = document.getElementById('historyPanel')
-const historyPopupOverlay = document.getElementById('historyPopupOverlay')
-const closeHistoryPopup = document.getElementById('closeHistoryPopup')
-const historyList = document.getElementById('historyList')
-const clearHistory = document.getElementById('clearHistory')
 const chime = document.getElementById('chime')
 const themeToggleBtn = document.getElementById('themeToggleBtn')
 // Premium UI elements
@@ -514,60 +509,6 @@ function createFloatingHeart() {
 setInterval(createFloatingHeart, 700)
 
 /* ============================
-   Storage: history
-   ============================ */
-
-const STORAGE_KEY = 'love_alchemy_history_v1'
-
-function saveHistory(item) {
-	const h = getHistory()
-	h.unshift(item)
-	// keep last 10
-	while (h.length > 10) h.pop()
-	localStorage.setItem(STORAGE_KEY, JSON.stringify(h))
-	renderHistory()
-}
-
-function getHistory() {
-	try {
-		const raw = localStorage.getItem(STORAGE_KEY)
-		return raw ? JSON.parse(raw) : []
-	} catch (e) {
-		return []
-	}
-}
-
-function clearHistoryStorage() {
-	localStorage.removeItem(STORAGE_KEY)
-	renderHistory()
-}
-
-function renderHistory() {
-	const h = getHistory()
-	historyList.innerHTML = ''
-	if (h.length === 0) {
-		historyList.innerHTML =
-			'<div style="color:var(--muted); font-size:13px">No history yet — calculate something romantic!</div>'
-		return
-	}
-	for (const entry of h) {
-		const el = document.createElement('div')
-		el.className = 'history-item'
-		const left = document.createElement('div')
-		left.innerHTML = `<strong>${entry.name1}</strong> + <strong>${
-			entry.name2
-		}</strong><div style="color:var(--muted); font-size:12px">${new Date(
-			entry.t
-		).toLocaleString()}</div>`
-		const right = document.createElement('div')
-		right.innerHTML = `<div style="text-align:right"><span style="font-weight:800">${entry.percent}%</span><div style="font-size:12px;color:var(--muted)">${entry.msg}</div></div>`
-		el.appendChild(left)
-		el.appendChild(right)
-		historyList.appendChild(el)
-	}
-}
-
-/* ============================
    Share / URL
    ============================ */
 
@@ -668,19 +609,11 @@ function calculateLove() {
 	// trigger party
 	if (confettiEnabled) triggerCelebration(percent)
 	if (soundEnabled) playChime(percent)
-
-	// store in history (including mood and romantic tip)
-	saveHistory({
-		name1,
-		name2,
-		percent,
-		msg: message,
-		mood: mood.label,
-		tip: romanticTip,
-		t: Date.now(),
-	})
+    if (typeof window.historyManager !== 'undefined') {
+        const mood = getMoodForPercent(percent);
+        window.historyManager.addToHistory(name1, name2, percent, mood.label, message);
+    }
 }
-
 function animateRingTo(targetPercent) {
 	const raw = percentText.textContent || ''
 	const parsed = parseInt(raw.replace(/[^\d]/g, ''), 10)
@@ -868,11 +801,6 @@ resetBtn.addEventListener('click', () => {
 	animateRingTo(0)
 })
 
-// History popup functionality
-closeSharePreview.addEventListener('click', () => {
-	sharePreviewOverlay.classList.add('hidden')
-})
-
 // also close on overlay click / ESC if you want:
 sharePreviewOverlay.addEventListener('click', (e) => {
 	if (e.target === sharePreviewOverlay) sharePreviewOverlay.classList.add('hidden')
@@ -882,18 +810,6 @@ document.addEventListener('keydown', (e) => {
 		sharePreviewOverlay.classList.add('hidden')
 	}
 })
-
-// Close popup with Escape key
-document.addEventListener('keydown', (e) => {
-	if (e.key === 'Escape' && !historyPopupOverlay.classList.contains('hidden')) {
-		historyPopupOverlay.classList.add('hidden')
-	}
-})
-
-clearHistory.addEventListener('click', () => {
-	if (confirm('Clear saved history?')) clearHistoryStorage()
-})
-let currentTheme = localStorage.getItem('theme') || 'dark'
 
 function applyTheme(theme) {
 	document.body.classList.toggle('light-theme', theme === 'light')
@@ -909,8 +825,6 @@ function toggleTheme() {
 
 themeToggleBtn.addEventListener('click', toggleTheme)
 
-/* initialize */
-renderHistory()
 setRing(0)
 // Apply saved theme on load
 applyTheme(currentTheme)
@@ -1250,124 +1164,6 @@ copyShareLink.addEventListener('click', () => {
         })
 })
 
-historyBtn.addEventListener('click', () => {
-	historyPopupOverlay.classList.remove('hidden')
-})
-
-closeHistoryPopup.addEventListener('click', () => {
-	historyPopupOverlay.classList.add('hidden')
-})
-;(function attachHistoryDeleteButtons() {
-	function getKeyFromItem(itemEl) {
-		try {
-			const left = itemEl.querySelector('div:first-child') || itemEl.children[0]
-			const right =
-				itemEl.querySelector('div:last-child') || itemEl.children[itemEl.children.length - 1]
-			let leftText = left ? left.innerText : itemEl.innerText
-			leftText = leftText.split('\n')[0].trim()
-			const percentMatch = itemEl.innerText.match(/(\d{1,3})\s*%/)
-			const percent = percentMatch ? parseInt(percentMatch[1], 10) : null
-			return { leftText, percent }
-		} catch (e) {
-			return null
-		}
-	}
-
-	function removeHistoryEntryByKey(key) {
-		try {
-			const raw = localStorage.getItem(STORAGE_KEY)
-			if (!raw) return false
-			const arr = JSON.parse(raw)
-			const idx = arr.findIndex((it) => {
-				const candidate = `${it.name1} + ${it.name2}`
-				const a = (candidate || '').trim().toLowerCase()
-				const b = (key.leftText || '').trim().toLowerCase()
-				const percentMatch = it.percent == key.percent
-				return a === b && percentMatch
-			})
-			if (idx >= 0) {
-				arr.splice(idx, 1)
-				localStorage.setItem(STORAGE_KEY, JSON.stringify(arr))
-				return true
-			}
-			if (key.percent != null) {
-				const idx2 = arr.findIndex((it) => it.percent == key.percent)
-				if (idx2 >= 0) {
-					arr.splice(idx2, 1)
-					localStorage.setItem(STORAGE_KEY, JSON.stringify(arr))
-					return true
-				}
-			}
-		} catch (e) {
-			console.error('removeHistoryEntryByKey error', e)
-		}
-		return false
-	}
-
-	function makeDeleteButton() {
-		const btn = document.createElement('button')
-		btn.className = 'delete-history-btn'
-		btn.title = 'Delete entry'
-		btn.setAttribute('aria-label', 'Delete this history entry')
-		btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 6h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M8 6v14a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M10 11v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M14 11v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M9 6l1-2h4l1 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>`
-		return btn
-	}
-
-	function injectButtonIntoItem(itemEl) {
-		if (itemEl.querySelector('.delete-history-btn')) return
-		const right = itemEl.querySelector('div:last-child')
-		const btn = makeDeleteButton()
-		btn.addEventListener('click', (ev) => {
-			ev.stopPropagation()
-			const key = getKeyFromItem(itemEl)
-			itemEl.animate(
-				[
-					{ opacity: 1, transform: 'translateX(0) scale(1)' },
-					{ opacity: 0, transform: 'translateX(20px) scale(0.98)' },
-				],
-				{ duration: 240, easing: 'cubic-bezier(.2,.8,.2,1)' }
-			)
-			setTimeout(() => {
-				const removed = removeHistoryEntryByKey(key || {})
-				renderHistory()
-				if (!removed) console.warn('Could not deterministically remove entry; storage unchanged.')
-			}, 240)
-		})
-		if (right) {
-			const wrapper = document.createElement('div')
-			wrapper.style.display = 'flex'
-			wrapper.style.justifyContent = 'flex-end'
-			wrapper.style.marginTop = '6px'
-			wrapper.appendChild(btn)
-			right.appendChild(wrapper)
-		} else {
-			itemEl.appendChild(btn)
-		}
-	}
-
-	const observer = new MutationObserver((mutations) => {
-		for (const m of mutations) {
-			if (m.type === 'childList' && m.addedNodes.length) {
-				m.addedNodes.forEach((node) => {
-					if (node.nodeType === 1 && node.classList.contains('history-item'))
-						injectButtonIntoItem(node)
-				})
-			}
-		}
-		historyList.querySelectorAll('.history-item').forEach((el) => injectButtonIntoItem(el))
-	})
-
-	if (historyList) {
-		observer.observe(historyList, { childList: true, subtree: false })
-		historyList.querySelectorAll('.history-item').forEach((el) => injectButtonIntoItem(el))
-	}
-})()
 
 feedbackBtn.addEventListener('click', () => {
 	feedbackPopupOverlay.classList.remove('hidden')
@@ -1708,22 +1504,42 @@ async function loadHtml2Canvas() {
     document.body.appendChild(script);
   });
 }
-//Navbar toggle
+/* ============================
+   Navbar Toggle
+   ============================ */
+document.addEventListener('DOMContentLoaded', () => {
+  const menuToggle = document.getElementById('menu-toggle');
+  const navControls = document.getElementById('nav-controls');
+  if (menuToggle && navControls) {
+    menuToggle.addEventListener('click', () => {
+      navControls.classList.toggle('active');
+    });
+  }
+});
 
- document.addEventListener('DOMContentLoaded', () => {
-            const menuToggle = document.getElementById('menu-toggle');
-            const navControls = document.getElementById('nav-controls');
+/* ============================
+   Google Translate
+   ============================ */
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
 
-            if (menuToggle && navControls) {
-                menuToggle.addEventListener('click', () => {
-                    navControls.classList.toggle('active');
-                });
-            }
-        });
+/* ============================
+   Expose functions globally
+   ============================ */
+window.animateRingTo = animateRingTo;
+window.getMoodForPercent = getMoodForPercent;
+window.applyMoodTheme = applyMoodTheme;
+window.getRandomTipForMood = getRandomTipForMood;
+window.showLoveOracle = showLoveOracle;
+window.triggerCelebration = triggerCelebration;
+window.confettiEnabled = confettiEnabled;
+window.showToast = showToast;
 
-	function googleTranslateElementInit() {
-		new google.translate.TranslateElement({
-			pageLanguage: 'en',
-			layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-		}, 'google_translate_element');
-	}
+window.saveHistory = saveHistory;
+window.renderHistory = renderHistory;
+window.clearHistory = clearHistory;
+window.exportHistory = exportHistory;
