@@ -45,7 +45,6 @@ const heading = document.getElementById('heading')
 const description = document.getElementById('description')
 const progressRing = document.querySelector('.ring')
 const confettiToggle = document.getElementById('confettiToggle')
-const soundToggle = document.getElementById('soundToggle')
 const particleCanvas = document.getElementById('particleCanvas')
 const allowJitterEl = document.getElementById('allowJitter')
 const useMasterEl = document.getElementById('useMaster')
@@ -93,7 +92,7 @@ const charCount = document.getElementById('charCount')
 let feedbacks = JSON.parse(localStorage.getItem('lovecalc_feedbacks')) || []
 
 let confettiEnabled = true
-let soundEnabled = false
+let soundEnabled = true
 
 // Setup canvas size
 const ctx = particleCanvas.getContext ? particleCanvas.getContext('2d') : null
@@ -125,11 +124,6 @@ function typeOracleText(elementId, text, delay = 50) {
         }
     }, delay);
 }
-
-
-/* ============================
-   Numerology Logic
-   ============================ */
 
 function sanitizeName(s) {
 	if (!s) return ''
@@ -181,9 +175,7 @@ function combineNumbers(num1, num2, supportMaster = true) {
 }
 
 function mapToPercent(combined, num1, num2) {
-	// A tuned mapping/formula for UX:
-	// Base formula: transform combined into an attractive distribution
-	// We treat master numbers with higher base values.
+
 	let base
 	if (combined === 11) base = 95
 	else if (combined === 22) base = 99
@@ -868,12 +860,6 @@ confettiToggle.addEventListener('click', () => {
 	confettiToggle.textContent = confettiEnabled ? '🎊 Confetti (on)' : '🎊 Confetti (off)'
 })
 
-soundToggle.addEventListener('click', () => {
-	soundEnabled = !soundEnabled
-	soundToggle.classList.toggle('active', soundEnabled)
-	soundToggle.textContent = soundEnabled ? '🔈 Sound (on)' : '🔈 Sound (off)'
-})
-
 resetBtn.addEventListener('click', () => {
 	name1El.value = ''
 	name2El.value = ''
@@ -928,6 +914,8 @@ select.addEventListener('change', (e) => {
 /* initialize */
 renderHistory()
 setRing(0)
+// Apply saved theme on load
+applyTheme(currentTheme)
 ;(function init() {
 	try {
 		const savedTheme = localStorage.getItem('theme') || 'dark'
