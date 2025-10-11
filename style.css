@@ -2392,3 +2392,50 @@ body.dark-mode .feedback-list-section {
 #generateLoveCard:hover{
 	transform:translateY(-6px);
 }
+/* back to top button */
+.backtop {
+            position: fixed;
+            bottom: 24px; /* Matches m-4 (1.5rem or 24px) */
+            right: 24px;  /* Matches m-4 (1.5rem or 24px) */
+            z-index: 1000; /* Ensure it stays above other content */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        /* Class added by JavaScript when scrolling down */
+        .backtop.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Styling for the anchor link button */
+       .backtop a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            /* PRIMARY PINK COLOR matching the main buttons in your theme */
+            background-color: #F4436A; 
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            /* Soft shadow to match the overall look */
+            box-shadow: 0 4px 12px rgba(244, 67, 106, 0.5); 
+            text-decoration: none;
+            transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            font-size: 1.2rem;
+        }
+
+        .backtop a:hover {
+            /* DARKER PINK on hover */
+            background-color: #E91E63; 
+            transform: scale(1.05);
+            /* Slightly more intense shadow on hover */
+            box-shadow: 0 6px 16px rgba(233, 30, 99, 0.7); 
+        }
+
+*{
+  scroll-behavior: smooth;
+}

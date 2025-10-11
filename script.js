@@ -1684,3 +1684,25 @@ async function loadHtml2Canvas() {
     document.body.appendChild(script);
   });
 }
+
+
+//back to top button
+ document.addEventListener('DOMContentLoaded', () => {
+            const backToTopButton = document.querySelector('.backtop');
+            
+            // Function to toggle the 'visible' class based on scroll position
+            const toggleVisibility = () => {
+                // Show button when user scrolls down more than 300 pixels
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            };
+
+            // Attach the function to the window scroll event
+            window.addEventListener('scroll', toggleVisibility);
+            
+            // Run the check once when the page loads (in case of refresh)
+            toggleVisibility();
+        });
