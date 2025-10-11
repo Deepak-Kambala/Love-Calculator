@@ -113,6 +113,8 @@ function showResult(result) {
 
     resultModal.style.display = 'block';
 
+    // resultModal.scrollIntoView({ behavior: "smooth", block: "center" });
+
     setTimeout(() => {
         handleMiniGame(result.text);
     }, 1000);
@@ -460,6 +462,8 @@ function showAlert(message, title = 'Alert') {
   alertTitle.textContent = title;
   alertMessage.textContent = message;
   alertOverlay.classList.add('show');
+
+  spinBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function closeAlert() {

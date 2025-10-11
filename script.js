@@ -45,7 +45,6 @@ const heading = document.getElementById('heading')
 const description = document.getElementById('description')
 const progressRing = document.querySelector('.ring')
 const confettiToggle = document.getElementById('confettiToggle')
-const soundToggle = document.getElementById('soundToggle')
 const particleCanvas = document.getElementById('particleCanvas')
 const allowJitterEl = document.getElementById('allowJitter')
 const useMasterEl = document.getElementById('useMaster')
@@ -93,7 +92,7 @@ const charCount = document.getElementById('charCount')
 let feedbacks = JSON.parse(localStorage.getItem('lovecalc_feedbacks')) || []
 
 let confettiEnabled = true
-let soundEnabled = false
+let soundEnabled = true
 
 // Setup canvas size
 const ctx = particleCanvas.getContext ? particleCanvas.getContext('2d') : null
@@ -125,11 +124,6 @@ function typeOracleText(elementId, text, delay = 50) {
         }
     }, delay);
 }
-
-
-/* ============================
-   Numerology Logic
-   ============================ */
 
 function sanitizeName(s) {
 	if (!s) return ''
@@ -181,9 +175,7 @@ function combineNumbers(num1, num2, supportMaster = true) {
 }
 
 function mapToPercent(combined, num1, num2) {
-	// A tuned mapping/formula for UX:
-	// Base formula: transform combined into an attractive distribution
-	// We treat master numbers with higher base values.
+
 	let base
 	if (combined === 11) base = 95
 	else if (combined === 22) base = 99
@@ -608,6 +600,23 @@ function alertDialog(message, title = 'Warning') {
 	}
 }
 
+// Lightweight toast notification
+function showToast(message) {
+    try {
+        const existing = document.querySelector('.lc-toast')
+        if (existing) existing.remove()
+        const toast = document.createElement('div')
+        toast.className = 'lc-toast'
+        toast.textContent = message
+        document.body.appendChild(toast)
+        // auto remove after animation
+        setTimeout(() => {
+            toast.classList.add('hide')
+            setTimeout(() => toast.remove(), 300)
+        }, 1800)
+    } catch (_) {}
+}
+
 /* ============================
    Main calculate function
    ============================ */
@@ -670,6 +679,19 @@ function calculateLove() {
 		tip: romanticTip,
 		t: Date.now(),
 	})
+
+	const resultSection = document.querySelector(".result-area");
+    const shareSection = document.querySelector(".social-share");
+
+    if (shareSection && resultSection) {
+       const yOffset = shareSection.offsetHeight + 50;
+       window.scrollTo({
+        	top: resultSection.offsetTop + yOffset,
+        	behavior: "smooth",
+    });
+  }
+
+
 }
 
 function animateRingTo(targetPercent) {
@@ -765,6 +787,18 @@ shareBtn.addEventListener('click', (ev) => {
 		?.writeText(url)
 		.then(() => {
 			// copied — proceed to image generation
+			const original = copyLinkBtn?.textContent
+			if (copyLinkBtn) {
+				copyLinkBtn.textContent = 'Copied!'
+				copyLinkBtn.disabled = true
+			}
+			showToast('Link copied to clipboard!')
+			setTimeout(() => {
+				if (copyLinkBtn) {
+					copyLinkBtn.textContent = original
+					copyLinkBtn.disabled = false
+				}
+			}, 1600)
 		})
 		.catch(() => {
 			// ignore copy errors; still proceed to image generation
@@ -839,12 +873,6 @@ confettiToggle.addEventListener('click', () => {
 	confettiToggle.textContent = confettiEnabled ? '🎊 Confetti (on)' : '🎊 Confetti (off)'
 })
 
-soundToggle.addEventListener('click', () => {
-	soundEnabled = !soundEnabled
-	soundToggle.classList.toggle('active', soundEnabled)
-	soundToggle.textContent = soundEnabled ? '🔈 Sound (on)' : '🔈 Sound (off)'
-})
-
 resetBtn.addEventListener('click', () => {
 	name1El.value = ''
 	name2El.value = ''
@@ -897,6 +925,8 @@ themeToggleBtn.addEventListener('click', toggleTheme)
 /* initialize */
 renderHistory()
 setRing(0)
+// Apply saved theme on load
+applyTheme(currentTheme)
 ;(function init() {
 	try {
 		const savedTheme = localStorage.getItem('theme') || 'dark'
@@ -1207,23 +1237,30 @@ shareInstagram.addEventListener('click', () => {
 
 // Copy Link
 copyLinkBtn.addEventListener('click', () => {
-	navigator.clipboard
-		.writeText(window.location.href)
-		.then(() => {
-			document.getElementById('shareLinkInput').value = window.location.href
-			shareLinkPopupOverlay.classList.remove('hidden')
-		})
-		.catch(() => alert('Failed to copy link'))
+    // Do NOT copy here. Only open the popup and prefill the link.
+    try {
+        document.getElementById('shareLinkInput').value = window.location.href
+        shareLinkPopupOverlay.classList.remove('hidden')
+    } catch (_) {}
 })
 
 copyShareLink.addEventListener('click', () => {
-	navigator.clipboard
-		.writeText(window.location.href)
-		.then(() => {
-			document.getElementById('shareLinkInput').value = window.location.href
-			shareLinkPopupOverlay.classList.remove('hidden')
-		})
-		.catch(() => alert('Failed to copy link'))
+    const original = copyShareLink.textContent
+    copyShareLink.disabled = true
+    navigator.clipboard
+        .writeText(window.location.href)
+        .then(() => {
+            copyShareLink.textContent = 'Copied!'
+            showToast('Link copied to clipboard!')
+            setTimeout(() => {
+                copyShareLink.textContent = original
+                copyShareLink.disabled = false
+            }, 1600)
+        })
+        .catch(() => {
+            alert('Failed to copy link')
+            copyShareLink.disabled = false
+        })
 })
 
 historyBtn.addEventListener('click', () => {
@@ -1686,6 +1723,7 @@ async function loadHtml2Canvas() {
 }
 
 
+
 //back to top button
  document.addEventListener('DOMContentLoaded', () => {
             const backToTopButton = document.querySelector('.backtop');
@@ -1706,3 +1744,24 @@ async function loadHtml2Canvas() {
             // Run the check once when the page loads (in case of refresh)
             toggleVisibility();
         });
+
+//Navbar toggle
+
+ document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const navControls = document.getElementById('nav-controls');
+
+            if (menuToggle && navControls) {
+                menuToggle.addEventListener('click', () => {
+                    navControls.classList.toggle('active');
+                });
+            }
+        });
+
+	function googleTranslateElementInit() {
+		new google.translate.TranslateElement({
+			pageLanguage: 'en',
+			layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+		}, 'google_translate_element');
+	}
+
