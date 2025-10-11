@@ -231,7 +231,7 @@ header {
     background: rgba(255, 255, 255, 0.1);
     color: var(--text-light);
     font-size: 1rem;
-    width: 150px;
+    width: 155px;
     text-align: center;
     outline: none;
     transition: all 0.3s ease;
@@ -240,6 +240,15 @@ header {
 #lovePercentage:focus {
     box-shadow: 0 0 20px var(--wheel-glow);
     transform: scale(1.05);
+}
+
+#lovePercentage::-webkit-inner-spin-button,
+#lovePercentage::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#lovePercentage {
+  -moz-appearance: textfield;
 }
 
 .set-love-btn {

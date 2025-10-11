@@ -55,7 +55,7 @@ const historyPopupOverlay = document.getElementById('historyPopupOverlay')
 const closeHistoryPopup = document.getElementById('closeHistoryPopup')
 const historyList = document.getElementById('historyList')
 const clearHistory = document.getElementById('clearHistory')
-const chime = document.getElementById('chime')
+// const chime = document.getElementById('chime') // unused audio element removed from DOM
 const themeToggleBtn = document.getElementById('themeToggleBtn')
 // Premium UI elements
 const app = document.querySelector('.app')
@@ -679,6 +679,19 @@ function calculateLove() {
 		tip: romanticTip,
 		t: Date.now(),
 	})
+
+	const resultSection = document.querySelector(".result-area");
+    const shareSection = document.querySelector(".social-share");
+
+    if (shareSection && resultSection) {
+       const yOffset = shareSection.offsetHeight + 50;
+       window.scrollTo({
+        	top: resultSection.offsetTop + yOffset,
+        	behavior: "smooth",
+    });
+  }
+
+
 }
 
 function animateRingTo(targetPercent) {
@@ -854,11 +867,13 @@ shareBtn.addEventListener('click', (ev) => {
 		})
 })
 
-confettiToggle.addEventListener('click', () => {
-	confettiEnabled = !confettiEnabled
-	confettiToggle.classList.toggle('active', confettiEnabled)
-	confettiToggle.textContent = confettiEnabled ? '🎊 Confetti (on)' : '🎊 Confetti (off)'
-})
+if (confettiToggle) {
+	confettiToggle.addEventListener('click', () => {
+		confettiEnabled = !confettiEnabled
+		confettiToggle.classList.toggle('active', confettiEnabled)
+		confettiToggle.textContent = confettiEnabled ? '🎊 Confetti (on)' : '🎊 Confetti (off)'
+	})
+}
 
 resetBtn.addEventListener('click', () => {
 	name1El.value = ''
@@ -1181,48 +1196,46 @@ function getShareText() {
 }
 
 // WhatsApp
-shareWhatsapp.addEventListener('click', () => {
-	const text = encodeURIComponent(getShareText())
-	shareWhatsapp.href = `https://wa.me/?text=${text}`
-})
+if (shareWhatsapp) {
+	shareWhatsapp.addEventListener('click', () => {
+		const text = encodeURIComponent(getShareText())
+		shareWhatsapp.href = `https://wa.me/?text=${text}`
+	})
+}
 
 // Twitter
-shareTwitter.addEventListener('click', () => {
-	const text = encodeURIComponent(getShareText())
-	shareTwitter.href = `https://twitter.com/intent/tweet?text=${text}`
-})
+if (shareTwitter) {
+	shareTwitter.addEventListener('click', () => {
+		const text = encodeURIComponent(getShareText())
+		shareTwitter.href = `https://twitter.com/intent/tweet?text=${text}`
+	})
+}
 
 // Facebook
-shareFacebook.addEventListener('click', () => {
-	const url = encodeURIComponent(window.location.href)
-	shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`
-})
+if (shareFacebook) {
+	shareFacebook.addEventListener('click', () => {
+		const url = encodeURIComponent(window.location.href)
+		shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`
+	})
+}
 
 // Instagram
-shareInstagram.addEventListener('click', () => {
-    const pageUrl = window.location.href;
-
-    navigator.clipboard.writeText(pageUrl).then(() => {
-        // --- This part gives the user feedback ---
-
-        // 1. Let the user know the link was copied successfully
-        alert('Link copied! You can now paste it into your Instagram story or bio.');
-
-        // 2. (Optional) Temporarily change the button's text
-        const originalText = shareInstagram.textContent;
-        shareInstagram.textContent = 'Copied!';
-
-        // 3. Change it back after a few seconds
-        setTimeout(() => {
-            shareInstagram.textContent = originalText;
-        }, 3000); // 3000 milliseconds = 3 seconds
-
-    }).catch(err => {
-        // If it fails, log the error and inform the user
-        console.error('Failed to copy the link:', err);
-        alert('Sorry, we could not copy the link to your clipboard.');
-    });
-});
+if (shareInstagram) {
+	shareInstagram.addEventListener('click', () => {
+		const pageUrl = window.location.href
+		navigator.clipboard.writeText(pageUrl).then(() => {
+			alert('Link copied! You can now paste it into your Instagram story or bio.')
+			const originalText = shareInstagram.textContent
+			shareInstagram.textContent = 'Copied!'
+			setTimeout(() => {
+				shareInstagram.textContent = originalText
+			}, 3000)
+		}).catch(err => {
+			console.error('Failed to copy the link:', err)
+			alert('Sorry, we could not copy the link to your clipboard.')
+		})
+	})
+}
 
 // Copy Link
 copyLinkBtn.addEventListener('click', () => {
@@ -1710,9 +1723,8 @@ async function loadHtml2Canvas() {
     document.body.appendChild(script);
   });
 }
-//Navbar toggle
-
- document.addEventListener('DOMContentLoaded', () => {
+// Navbar toggle
+document.addEventListener('DOMContentLoaded', () => {
             const menuToggle = document.getElementById('menu-toggle');
             const navControls = document.getElementById('nav-controls');
 
@@ -1722,10 +1734,3 @@ async function loadHtml2Canvas() {
                 });
             }
         });
-
-	function googleTranslateElementInit() {
-		new google.translate.TranslateElement({
-			pageLanguage: 'en',
-			layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-		}, 'google_translate_element');
-	}

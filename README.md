@@ -26,11 +26,26 @@ A light‑hearted web app that playfully generates a “love compatibility score
 
 ## 📁 Project Structure
 ```
-Love-Calculator/
-│
-├── 📄 index.html # Main page
-├── 🎨 style.css # Styling
-└── ⚡ script.js # Love score logic
+💖 Love-Calculator/
+├─ 🧩 .vscode/
+│  └─ ⚙ settings.json
+├─ 🎮 Games/
+│  ├─ 🏠 index.html
+│  ├─ 💻 script.js
+│  └─ 🎨 style.css
+├─ ℹ about.html
+├─ 📜 CODE_OF_CONDUCT.md
+├─ 🤝 CONTRIBUTING.md
+├─ 🌌 dark-bg.jpeg
+├─ ❤ hearts.png
+├─ 🧠 how-it-works.html
+├─ 🏡 index.html
+├─ 📄 LICENSE
+├─ 🖼 logo.svg
+├─ 🪶 README.md
+├─ ⚡ script.js
+├─ 🎀 style.css
+└─ 🧊 test-glassmorphism.html
 ```
 
 ## 🚀 Quick Start
