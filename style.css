@@ -2,7 +2,7 @@
 	--bg-1: #11121a;
 	--card: rgba(255, 255, 255, 0.04);
 	--glass: rgba(255, 255, 255, 0.06);
-	--accent1: #ff7a7a;
+	--accent1: #be8888;
 	--accent2: #ff2e63;
 	--muted: rgba(255, 255, 255, 0.7);
 	--glass-border: rgba(255, 255, 255, 0.06);
@@ -119,7 +119,7 @@
 
 .app.mood-friendly {
 	--mood-primary: #dc2626;
-	--mood-secondary: #991b1b;
+	--mood-secondary: #8d3f3f;
 	--mood-glow: rgba(220, 38, 38, 0.3);
 	--mood-bg-overlay: rgba(220, 38, 38, 0.02);
 }
@@ -134,7 +134,7 @@
 .social-share {
 	margin-top: 1rem;
 	display: flex;
-	gap: 0.5rem;
+	gap: 1rem;
 	flex-wrap: wrap;
 	align-items: center;
 }
@@ -146,18 +146,18 @@
 	border-radius: 8px;
 	text-decoration: none;
 	background-color: #ff2e63;
-	color: white;
+	color: rgb(223, 206, 206);
 	cursor: pointer;
 	transition: 0.2s;
 }
 
 .social-share a:hover,
 .social-share button:hover {
-	background-color: #ff7a7a;
+	background-color: #da4646;
 }
 
 .percent-text {
-	font-size: 22px;
+	font-size: 25px;
 	fill: #fff;
 	font-weight: 800;
 	pointer-events: none;
@@ -432,6 +432,7 @@ body {
 	display: flex;
 	align-items: center;
 	gap: 10px;
+	margin-top: 10px;
 	font-weight: 700;
 }
 
@@ -1481,9 +1482,9 @@ body.light-theme .card {
 
 body.light-theme .card::before {
 	background: linear-gradient(45deg, 
-		rgba(255, 122, 122, 0.2), 
+		rgba(244, 145, 145, 0.2), 
 		rgba(255, 46, 99, 0.15), 
-		rgba(255, 122, 122, 0.2));
+		rgba(172, 113, 113, 0.2));
 }
 
 body.light-theme .card .left,
