@@ -25,7 +25,7 @@
 			)
 		}
 	</script>
-	<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+	<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
@@ -35,7 +35,7 @@
 		<header class="top">
 			<div class="logo">
   <a href="index.html">
-    <img src="/logo.svg" alt="Logo" width="200px" />
+    <img src="logo.svg" alt="Logo" />
   </a>
 </div>
 
@@ -55,7 +55,7 @@
                 <button id="historyBtn" class="ghost-btn" title="View history">📜 History</button>
                 <button id="feedbackBtn" class="ghost-btn" title="Give Feedback">💬 Feedback</button>
                 <button id="resetBtn" class="ghost-btn" title="Reset inputs">🔁 Reset</button>
-                <div id="google_translate_element" class="translate-widget"></div>
+                <div id="google_translate_element"></div>
 				<button id="confettiToggle" class="ghost-btn" title="Toggle confetti">🎊 Confetti (on)</button>
                 <button id="themeToggleBtn" class="ghost-btn" title="Theme">🌙 Theme</button>
             </div>
@@ -180,8 +180,8 @@
 				<div class="panel tips-panel">
 					<h3>Quick Links</h3>
 					<ul>
-						<li><a href="about.html" class="panel-link">📖 About Love Alchemy</a></li>
-						<li><a href="how-it-works.html" class="panel-link">⚙️ How It Works</a></li>
+						<li><a href="about.html" class="panel-link" target="_blank">📖 About Love Alchemy</a></li>
+						<li><a href="how-it-works.html" class="panel-link" target="_blank">⚙️ How It Works</a></li>
 						<li>Same names → same result (unless jitter is allowed)</li>
 						<li>Share your results with friends below!</li>
 					</ul>
@@ -258,7 +258,7 @@
 			<div class="history-popup-content">
 				<div id="historyList" class="history-list"></div>
 				<div class="history-actions">
-					<button id="exportHistoryBtn">Export History as PDF</button>
+					<button id="exportHistoryBtn" class="primary">Export History as PDF</button>
 					<button id="clearHistory" class="outline">Clear history</button>
 				</div>
 			</div>
