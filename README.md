@@ -58,7 +58,7 @@ cd Love-Calculator
 ```
 Open index.html in your favorite browser.
 
-Type two names → Click the button → See your love score 💖
+Type two names → Click the button → See your love score 
 
 ## ⚙️ How It Works
 - 🔤 Takes two input names
