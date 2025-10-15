@@ -1345,11 +1345,11 @@ body {
 }
 
 .ghost-btn {
-	background: transparent;
+	background: var(--nav-bg);
 	border: 1px solid rgba(255, 255, 255, 0.04);
 	padding: 10px 12px;
 	border-radius: 10px;
-	color: var(--muted);
+	color: var(--nav-text);
 	cursor: pointer;
 	transition: all 0.2s ease;
 	font-size: 13px;
@@ -1826,14 +1826,14 @@ body.light-theme .sparkle {
 }
 
 body.light-theme .ghost-btn {
-	background: rgba(209, 204, 204, 0.08);
-	color: #ffffff;
-	border-color: rgba(0, 0, 0, 0.417);
+	background: var(--nav-bg);
+	color: var(--nav-text);
+	border-color: rgba(0, 0, 0, 0.08);
 }
 
 body.light-theme .ghost-btn:hover {
-	background: rgba(0, 0, 0, 0.178);
-	color: #ffffff;
+	background: rgba(0, 0, 0, 0.04);
+	color: var(--nav-text);
 	border-color: rgba(0, 0, 0, 0.15);
 	transition: all 0.25s ease;
 }
@@ -2309,6 +2309,9 @@ body {
 	--muted: #a0a0a0;
 	--accent: #ff2e63;
 	--card-bg: #1e1e2f;
+	/* nav / control colors (theme-aware) */
+	--nav-text: var(--muted);
+	--nav-bg: transparent;
 }
 
 body.light-theme {
@@ -2317,6 +2320,8 @@ body.light-theme {
 	--muted: #666;
 	--accent: #ff2e63;
 	--card-bg: #f6f6f6;
+	--nav-text: #1a1a1a; /* explicit nav text for light mode */
+	--nav-bg: rgba(0,0,0,0.03);
 }
 
 /* Example for card / container */
@@ -2939,10 +2944,24 @@ body.dark-mode .feedback-list-section {
 	
 	.controls .ghost-btn,
 	.controls #google_translate_element {
-		text-align: center;
-		padding: 0.75rem;
-		width: 100%;
-		justify-content: center;
+	text-align: center;
+	padding: 0.75rem;
+	width: 100%;
+	justify-content: center;
+	color: var(--nav-text);
+	}
+
+	/* Ensure icons and SVGs inside nav controls follow theme color */
+	.controls i,
+	.controls .fa,
+	.controls svg,
+	.controls button,
+	.controls a {
+		color: var(--nav-text) !important;
+	}
+
+	.controls svg path {
+		fill: var(--nav-text) !important;
 	}
 
 	/* This class is toggled by JS to show the menu */
