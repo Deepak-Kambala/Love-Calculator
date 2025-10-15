@@ -2,7 +2,7 @@
 
 # ❤️ Love Calculator 
 
-A light‑hearted web app that playfully generates a “love compatibility score” between two names. It’s designed purely for fun and entertainment — no science involved, just smiles and surprises. 💖
+A light‑hearted web app that playfully generates a “love compatibility score” between two names. It’s designed purely for fun and entertainment — no science involved, just smiles and surprises. 
 
 
 ---
