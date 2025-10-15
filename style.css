@@ -3281,3 +3281,66 @@ body.light-theme .download-options {
 	color: #ddd;
 	margin-top: 10px;
 }
+
+.navbar_buttons {
+  position: relative;
+  display: inline-block;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  background: #111;
+  border: 2px solid #ff0055;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055 inset;
+}
+
+.navbar_buttons:hover {
+  color: #fff;
+  border-color: #ff00ff;
+  background: linear-gradient(90deg, #ff0055, #ff00ff, #ff66cc, #ff0055);
+  background-size: 400%;
+  animation: neonGlow 1.5s infinite linear, colorShift 3s infinite linear;
+  box-shadow: 0 0 25px #ff00ff, 0 0 50px #ff00ff, 0 0 75px #ff00ff;
+  transform: scale(1.1) rotate(1deg);
+}
+
+.navbar_buttons::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: all 0.4s;
+}
+
+.navbar_buttons:hover::before {
+  left: 100%;
+  transition: all 0.7s;
+}
+
+@keyframes neonGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px #ff0055, 0 0 20px #ff00ff, 0 0 40px #ff66cc;
+  }
+  50% {
+    box-shadow: 0 0 20px #ff00ff, 0 0 40px #ff66cc, 0 0 80px #ff00ff;
+  }
+}
+
+@keyframes colorShift {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 400%;
+  }
+}
+
