@@ -1,0 +1,322 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+   background: linear-gradient(135deg, #f5d0c5 0%, #f5b5a8 50%, #d4a5a5 100%);
+    min-height: 100vh;
+    color: hsl(20, 25%, 25%);
+    overflow-x: hidden;
+}
+
+
+#floating-hearts {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.floating-heart {
+    position: absolute;
+    color: hsla(340, 82%, 52%, 0.2);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+}
+
+.container {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 3rem 1rem;
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 28rem;
+}
+
+
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.7s ease-out;
+}
+
+.heart-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, hsl(340, 82%, 62%) 0%, hsl(290, 80%, 65%) 100%);
+    margin-bottom: 1rem;
+    animation: pulse-love 2s ease-in-out infinite;
+}
+
+.title {
+    font-size: 2.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, hsl(340, 82%, 52%) 0%, hsl(290, 80%, 65%) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    color: hsl(20, 20%, 45%);
+}
+
+
+.glass-card {
+     background: rgba(255, 252, 248, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+   border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    animation: fadeInUp 0.7s ease-out 0.15s backwards;
+}
+
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+   color: hsl(20, 25%, 25%);
+}
+
+label.text-center {
+    text-align: center;
+}
+
+/* Inputs and Textarea */
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+   background: rgba(255, 252, 248, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: hsl(330, 40%, 20%);
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+textarea::placeholder {
+     color: hsl(20, 15%, 55%);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: hsla(340, 82%, 52%, 0.5);
+    box-shadow: 0 0 0 3px hsla(340, 82%, 52%, 0.1);
+}
+
+textarea {
+    resize: none;
+}
+
+/* Heart Rating */
+.heart-rating {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 0.75rem;
+}
+
+.heart-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+    color: hsl(330, 20%, 50%);
+}
+
+.heart-btn:hover,
+.heart-btn:focus {
+    transform: scale(1.1);
+    outline: none;
+}
+
+.heart-btn.active {
+    color: hsl(340, 82%, 52%);
+    animation: pulse-love 2s ease-in-out infinite;
+}
+
+.heart-btn.active svg {
+    fill: hsl(340, 82%, 52%);
+}
+
+@keyframes pulse-love {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, hsl(340, 82%, 62%) 0%, hsl(290, 80%, 65%) 100%);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px hsla(340, 82%, 52%, 0.3);
+}
+
+.submit-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+.submit-btn:active {
+    transform: scale(0.98);
+}
+
+
+.footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+   color: hsl(20, 20%, 45%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    animation: fadeInUp 0.7s ease-out 0.3s backwards;
+}
+
+.footer svg {
+    display: inline-block;
+}
+
+
+#toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.toast {
+    background: rgba(255, 252, 248, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+   border: 1.5px solid rgba(255, 255, 255, 0.5);
+    border-radius: 0.75rem;
+    padding: 1rem 1.5rem;
+   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    max-width: 24rem;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.toast.success {
+    border-left: 4px solid hsl(142, 76%, 36%);
+}
+
+.toast.error {
+    border-left: 4px solid hsl(0, 84%, 60%);
+}
+
+.toast-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: hsl(20, 25%, 25%);
+}
+
+.toast-description {
+    font-size: 0.875rem;
+     color: hsl(20, 20%, 45%);
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+    .title {
+        font-size: 1.875rem;
+    }
+
+    .glass-card {
+        padding: 1.5rem;
+    }
+
+    #toast-container {
+        left: 1rem;
+        right: 1rem;
+    }
+
+    .toast {
+        max-width: 100%;
+    }
+}
+
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(135deg, #f5d0c5 0%, #f5b5a8 50%, #d4a5a5 100%);
+        color: hsl(20, 25%, 25%);
+    }
+}
