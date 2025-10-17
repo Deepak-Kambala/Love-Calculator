@@ -107,6 +107,14 @@ const ctx = particleCanvas.getContext ? particleCanvas.getContext('2d') : null
 const MAX_CANVAS_WIDTH = 1920
 const MAX_CANVAS_HEIGHT = 1080
 
+let performanceMetrics = {
+    particleCount: 0,
+    lastFrameTime: 0,
+    averageFrameTime: 0,
+    frameTimeHistory: [],
+    droppedFrames: 0,
+    canvasResizeCount: 0
+};
 function resizeCanvas() {
 	const width = Math.min(window.innerWidth, MAX_CANVAS_WIDTH)
 	const height = Math.min(window.innerHeight, MAX_CANVAS_HEIGHT)
@@ -619,6 +627,77 @@ function animateParticles(now) {
 	if (particles.length > 0) particleAnimId = requestAnimationFrame(animateParticles)
 	else particleAnimId = null
 }
+
+
+/* ============================
+   🎵 Couple’s Song Feature
+   ============================ */
+
+// Song mapping by percentage range
+const SONGS = [
+  { range: [0, 29],  title: "Someone Like You", artist: "Adele", mood: "Heartfelt reflection", link: "https://www.youtube.com/watch?v=hLQl3WQQoQ0" },
+  { range: [30, 39], title: "Let Her Go", artist: "Passenger", mood: "Bittersweet emotions", link: "https://www.youtube.com/watch?v=RBumgq5yVrA" },
+  { range: [40, 49], title: "Perfect", artist: "Ed Sheeran", mood: "Sweet beginnings", link: "https://www.youtube.com/watch?v=2Vv-BfVoq4g" },
+  { range: [50, 59], title: "Lucky", artist: "Jason Mraz ft. Colbie Caillat", mood: "Charming affection", link: "https://www.youtube.com/watch?v=acvIVA9-FMQ" },
+  { range: [60, 69], title: "Just The Way You Are", artist: "Bruno Mars", mood: "Simple and sincere love", link: "https://www.youtube.com/watch?v=LjhCEhWiKXk" },
+  { range: [70, 79], title: "Love Story", artist: "Taylor Swift", mood: "Romantic & hopeful", link: "https://www.youtube.com/watch?v=8xg3vE8Ie_E" },
+  { range: [80, 89], title: "All of Me", artist: "John Legend", mood: "Deep devotion", link: "https://www.youtube.com/watch?v=450p7goxZqg" },
+  { range: [90, 100], title: "Perfect Duet", artist: "Ed Sheeran & Beyoncé", mood: "Eternal love", link: "https://www.youtube.com/watch?v=817P8W8-mGE" },
+];
+
+// Get modal elements
+const coupleSongBtn = document.getElementById("couplesSongBtn");
+const songModal = document.getElementById("songModalOverlay");
+
+const closeSongModal = document.getElementById("closeSongModal");
+const songForm = document.getElementById("songForm");
+const lovePercentInput = document.getElementById("lovePercentInput");
+const songResult = document.getElementById("songResult");
+
+// Open modal
+if (coupleSongBtn) {
+  coupleSongBtn.addEventListener("click", () => {
+    songModal.classList.remove("hidden");
+  });
+}
+
+// Close modal
+if (closeSongModal) {
+  closeSongModal.addEventListener("click", () => {
+    songModal.classList.add("hidden");
+    songResult.innerHTML = "";
+    songForm.reset();
+  });
+}
+
+const getSongBtn = document.getElementById("getSongBtn");
+
+if (getSongBtn) {
+  getSongBtn.addEventListener("click", () => {
+    const val = parseInt(lovePercentInput.value.trim());
+    if (isNaN(val) || val < 0 || val > 100) {
+      songResult.innerHTML = `<p style="color:red;">Please enter a valid percentage (0-100).</p>`;
+      songResult.classList.remove("hidden");
+      return;
+    }
+
+    const song = SONGS.find((s) => val >= s.range[0] && val <= s.range[1]);
+    if (!song) {
+      songResult.innerHTML = `<p>No matching song found!</p>`;
+      songResult.classList.remove("hidden");
+      return;
+    }
+
+    songResult.innerHTML = `
+      <h3>${song.title} — ${song.artist}</h3>
+      <p><em>${song.mood}</em></p>
+      <a href="${song.link}" target="_blank" class="yt-link">🎧 Listen on YouTube</a>
+    `;
+    songResult.classList.remove("hidden");
+  });
+}
+
+
 
 function triggerCelebration(percent) {
 	// Skip if confetti is disabled
@@ -2036,14 +2115,7 @@ function resetAll() {
 document.getElementById('resetAllBtn').addEventListener('click', resetAll);
 
 // Performance monitoring (development/debugging helper)
-let performanceMetrics = {
-    particleCount: 0,
-    lastFrameTime: 0,
-    averageFrameTime: 0,
-    frameTimeHistory: [],
-    droppedFrames: 0,
-    canvasResizeCount: 0
-};
+
 
 function updatePerformanceMetrics(frameTime) {
     performanceMetrics.lastFrameTime = frameTime;

@@ -98,10 +98,12 @@
 
 					<div class="actions">
 						<button id="calcBtn" class="primary">Calculate Love ❤️</button>
-						 <button type="button" id="resetAllBtn" class="primary">Reset All 🔄</button>
+						<button type="button" id="resetAllBtn" class="primary">Reset All 🔄</button>
 						<a href="./Games/index.html" class="primary NG">Love Spinner ❤️</a>
 						<a href="./Letter/index.html" class="primary NG">Write a letter</a>
+						<button type="button" id="couplesSongBtn" class="primary NG">🎵 Couple’s Song</button>
 					</div>
+
 
 					<div class="result-area" aria-live="polite">
 						<div class="ring-wrap">
@@ -378,6 +380,28 @@
 			</div>
 		</div>
 	</div>
+	<!-- Couple's Song Modal -->
+<div class="song-modal-overlay hidden" id="songModalOverlay">
+  <div class="song-modal">
+    <div class="song-modal-header">
+      <h3>🎵 Couple's Song Recommendation</h3>
+      <button class="close-popup" id="closeSongModal">✕</button>
+    </div>
+    <div class="song-modal-content">
+      <label for="lovePercentInput">
+        Enter your love percentage (0-100):
+      </label>
+      <input type="number" id="lovePercentInput" min="0" max="100" placeholder="e.g. 85" />
+      <button id="getSongBtn" class="primary">Get Song 💖</button>
+
+      <div id="songResult" class="song-result hidden">
+        <h4 id="songTitle"></h4>
+        <p id="songMood"></p>
+        <a id="songLink" href="#" target="_blank" class="primary">🎧 Listen on YouTube</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 	<footer class="footer">
   <div class="footer-content">
