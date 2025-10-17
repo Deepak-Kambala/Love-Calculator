@@ -53,7 +53,7 @@
             <!-- Your navigation controls -->
             <div id="nav-controls" class="controls">
                 <button id="historyBtn" class="ghost-btn" title="View history">📜 History</button>
-                <button id="feedbackBtn" class="ghost-btn" title="Give Feedback">💬 Feedback</button>
+                <a href="feedback/feedback-form.html" class="ghost-btn" title="Give Feedback">💬 Feedback</a>
                 <button id="resetBtn" class="ghost-btn" title="Reset inputs">🔁 Reset</button>
                 <div id="google_translate_element"></div>
 				<button id="confettiToggle" class="ghost-btn" title="Toggle confetti">🎊 Confetti (on)</button>
@@ -294,63 +294,7 @@
 		</div>
 	</div>
 
-	<!-- Feedback Popup Modal -->
-	<div class="feedback-popup-overlay hidden" id="feedbackPopupOverlay">
-		<div class="feedback-popup" id="feedbackPanel">
-			<div class="feedback-popup-header">
-				<h3>💬 Send Feedback</h3>
-				<button class="close-popup" id="closeFeedbackPopup" title="Close">✕</button>
-			</div>
-			<div class="feedback-popup-content">
-				<form id="feedbackForm" class="feedback-form">
-					<label for="feedbackName" class="feedback-label">
-						Name
-						<input type="text" id="feedbackName" placeholder="Your name" maxlength="50" required />
-					</label>
-
-					<label for="feedbackEmail" class="feedback-label">
-						Email (Optional)
-						<input type="email" id="feedbackEmail" placeholder="your@email.com" maxlength="100" />
-					</label>
-
-					<label for="feedbackRating" class="feedback-label">
-						Rating
-						<div class="rating-stars" id="ratingStars">
-							<span class="star" data-rating="1">⭐</span>
-							<span class="star" data-rating="2">⭐</span>
-							<span class="star" data-rating="3">⭐</span>
-							<span class="star" data-rating="4">⭐</span>
-							<span class="star" data-rating="5">⭐</span>
-						</div>
-						<input type="hidden" id="feedbackRating" value="0" />
-					</label>
-
-					<label for="feedbackMessage" class="feedback-label">
-						Your Feedback *
-						<textarea id="feedbackMessage" placeholder="Tell us what you think..." rows="5" maxlength="500"
-							required></textarea>
-						<span class="char-count"><span id="charCount">0</span>/500</span>
-					</label>
-
-					<div class="feedback-actions">
-						<button type="submit" class="primary">Submit Feedback ✨</button>
-						<button type="button" id="cancelFeedback" class="outline">Cancel</button>
-					</div>
-				</form>
-
-				<div id="feedbackSuccess" class="feedback-success hidden">
-					<div class="success-icon">✅</div>
-					<h4>Thank you for your feedback!</h4>
-					<p>We appreciate you taking the time to share your thoughts.</p>
-				</div>
-
-				<div class="feedback-list-section">
-					<h4>Recent Feedback</h4>
-					<div id="feedbackList" class="feedback-list"></div>
-				</div>
-			</div>
-		</div>
-	</div>
+	
 
 	<!-- ShareLink Popup Modal -->
 	<div class="sharelink-popup-overlay hidden" id="shareLinkPopupOverlay">

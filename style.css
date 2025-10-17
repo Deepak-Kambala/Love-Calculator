@@ -1353,6 +1353,7 @@ body {
 	cursor: pointer;
 	transition: all 0.2s ease;
 	font-size: 13px;
+	text-decoration: none;
 }
 
 .ghost-btn:hover {
