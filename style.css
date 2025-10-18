@@ -535,22 +535,21 @@ body {
 
 /* top bar */
 .top {
-	width: 100%;
-	max-width: 1200px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 12px;
-	padding: 1rem 1.5rem;
-	background-color: rgba(40, 37, 63, 0.8);
-	backdrop-filter: blur(10px);
-	border-radius: 12px;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-	color: var(--muted);
-	position: relative;
-	flex-wrap: wrap;
-	gap: 1rem;
+ position: relative;
+  top: 0;
+  width: 100%;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 28px;
+  z-index: 1000;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 .controls {
