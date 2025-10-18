@@ -1344,23 +1344,27 @@ body {
 	flex-wrap: wrap;
 }
 
-.ghost-btn {
-	background: transparent;
-	border: 1px solid rgba(255, 255, 255, 0.04);
-	padding: 10px 12px;
+.top .ghost-btn {
+	background: rgba(255, 255, 255, 0.05);
+	border: 1px solid rgba(255, 255, 255, 0.1); 
+	padding: 10px 14px;
 	border-radius: 10px;
-	color: black;
+	color: rgba(255, 255, 255, 0.85); 
 	cursor: pointer;
 	transition: all 0.2s ease;
 	font-size: 13px;
+	font-weight: 500;
+	backdrop-filter: blur(5px);
 }
 
-.ghost-btn:hover {
-	background: rgba(255, 255, 255, 0.02);
-	border-color: rgba(255, 255, 255, 0.08);
-	/* transform: translateY(-1px); */
-	transform: scale(1.05);
+.top .ghost-btn:hover {
+	background: rgba(255, 255, 255, 0.1);
+	border-color: rgba(255, 255, 255, 0.2);
+	color: #fff;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
+
 
 /* Google Translate Widget Styling */
 #google_translate_element {
@@ -1825,17 +1829,17 @@ body.light-theme .sparkle {
 	opacity: 0.5;
 }
 
-body.light-theme .ghost-btn {
-	background: rgba(209, 204, 204, 0.08);
-	color: black;
-	border-color: rgba(0, 0, 0, 0.417);
+body.light-theme .top .ghost-btn {
+	background: rgba(0, 0, 0, 0.04);
+	color: #333;
+	border-color: rgba(0, 0, 0, 0.1);
 }
 
-body.light-theme .ghost-btn:hover {
-	background: rgba(0, 0, 0, 0.178);
-	color: black;
-	border-color: rgba(0, 0, 0, 0.15);
-	transition: all 0.25s ease;
+body.light-theme .top .ghost-btn:hover {
+	background: rgba(0, 0, 0, 0.08);
+	border-color: rgba(0, 0, 0, 0.2);
+	color: #000;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Light theme navbar styling */
