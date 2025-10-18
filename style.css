@@ -559,6 +559,71 @@ body {
 	align-items: center;
 	flex-wrap: wrap;
 }
+/* Enhanced Navbar Text Clarity - Fix for #230 */
+.top {
+    color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.top .logo span {
+    color: rgba(255, 255, 255, 0.95) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.controls .ghost-btn {
+    color: rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.controls .ghost-btn:hover {
+    color: rgba(255, 255, 255, 1) !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Light theme improvements */
+body.light-theme .top {
+    color: rgba(0, 0, 0, 0.9) !important;
+}
+
+body.light-theme .top .logo span {
+    color: rgba(0, 0, 0, 0.9) !important;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+body.light-theme .controls .ghost-btn {
+    color: rgba(0, 0, 0, 0.85) !important;
+    border-color: rgba(0, 0, 0, 0.15) !important;
+    background: rgba(0, 0, 0, 0.05) !important;
+}
+
+body.light-theme .controls .ghost-btn:hover {
+    color: rgba(0, 0, 0, 1) !important;
+    background: rgba(0, 0, 0, 0.08) !important;
+    border-color: rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Mobile menu text clarity */
+@media (max-width: 900px) {
+    .controls {
+        background: rgba(40, 37, 63, 0.95) !important;
+        backdrop-filter: blur(20px) !important;
+    }
+    
+    body.light-theme .controls {
+        background: rgba(255, 255, 255, 0.95) !important;
+    }
+}
+
+/* Google Translate widget text improvement */
+.goog-te-gadget-simple span {
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+body.light-theme .goog-te-gadget-simple span {
+    color: white !important;
+}
 
 .logo {
 	display: flex;
