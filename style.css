@@ -5,6 +5,7 @@
 	--accent1: #ff7a7a;
 	--accent2: #ff2e63;
 	--muted: rgba(255, 255, 255, 0.7);
+	--navbar-bg:linear-gradient(rgba(28,28,28,0.9), rgba(28,28,28,0.8));
 	--glass-border: rgba(255, 255, 255, 0.06);
 
 	/* Mood-based theme variables */
@@ -429,7 +430,7 @@ body {
 }
 
 .logo {
-	display: flex;
+    display: flex;
 	align-items: center;
 	gap: 10px;
 	font-weight: 700;
@@ -442,10 +443,13 @@ body {
 	filter: drop-shadow(0 6px 18px rgba(255, 0, 120, 0.08));
 }
 
+
 .logo span {
-	font-size: 18px;
-	letter-spacing: 0.2px;
-	color: #fff;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+  font-weight: 700;
+  color: var(--navbar-text);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* optional glow */
 }
 
 /* Mood Indicator in Header */
@@ -1459,6 +1463,14 @@ body.light-theme {
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	color: #1a1a1a;
+	
+  --navbar-bg: linear-gradient(135deg, #ffe0e9, #fad0c4);
+  --navbar-text: #1a1a1a;
+  --navbar-border: rgba(255, 255, 255, 0.3);
+  --navbar-shadow: rgba(0, 0, 0, 0.1);
+
+
+
 }
 
 body.light-theme .logo span {
@@ -2510,7 +2522,7 @@ body.dark-mode .feedback-list-section {
             justify-content: space-between;
             align-items: center;
             padding: 1rem 2rem;
-            background-color: rgba(40, 37, 63, 0.8);
+           background: linear-gradient(135deg, #ffe0e9, #fad0c4);
             backdrop-filter: blur(10px);
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -2518,8 +2530,17 @@ body.dark-mode .feedback-list-section {
             flex-wrap: wrap; 
 			margin-top:-40px;
         }
-
-        .logo img {
+		.top {
+			background: var(--navbar-bg);
+			color: var(--navbar-text);
+			backdrop-filter: blur(10px);
+			border-radius: 12px;
+			border: 1px solid var(--navbar-border);
+			box-shadow: 0 4px 12px var(--navbar-shadow);
+			transition: background 0.4s ease, color 0.4s ease;
+         }
+		
+		.logo img {
             height: 40px;
             width: auto;
         }
