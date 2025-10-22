@@ -2861,6 +2861,8 @@ body.dark-mode .feedback-list-section {
 #generateLoveCard:hover {
 	transform: scale(1.05);
 }
+
+/* Navbar styling start from here with multiple break points */
 /*Toggle navbar*/
 /* --- Responsive Navbar Styles --- */
 
@@ -2894,94 +2896,98 @@ body.dark-mode .feedback-list-section {
 }
 
 /* Ensure proper navbar layout on larger screens */
-@media (min-width: 901px) {
-	.top {
-		flex-wrap: nowrap;
-	}
-	
-	.controls {
-		display: flex !important;
-		flex-wrap: wrap;
-		justify-content: flex-end;
-	}
-	
-	.menu-toggle {
-		display: none !important;
-	}
-	
-	/* Ensure translate widget is visible on desktop */
-	#google_translate_element {
-		display: inline-block !important;
-	}
+@media (min-width: 1025px) {
+  .top {
+    flex-wrap: nowrap;
+  }
+
+  .controls {
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .menu-toggle {
+    display: none !important;
+  }
+
+  #google_translate_element {
+    display: inline-block !important;
+  }
 }
 
 /* Media Query for Tablet and Mobile Devices */
-@media (max-width: 900px) {
-	.menu-toggle {
-		display: block; /* Show hamburger button */
-	}
+@media (max-width: 1024px) {
+  /* Ensure parent container is positioned */
+  header, nav, .top {
+    position: relative;
+  }
 
-	.controls {
-		display: none; /* Hide the full menu */
-		width: 100%;
-		flex-direction: column;
-		align-items: stretch;
-		order: 3;
-		margin-top: 0.5rem;
-		gap: 0.5rem;
-		animation: slideDown 0.3s ease-out;
-		background: rgba(40, 37, 63, 0.6);
-		padding: 0.75rem;
-		border-radius: 8px;
-		border: 1px solid rgba(255, 255, 255, 0.05);
-	}
+  /* Hamburger button */
+  #menu-toggle {
+    display: block;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    z-index: 1001;
+  }
 
-	/* This class is toggled by JS to show the menu */
-	.controls.active {
-		display: flex;
-	}
+  /* Dropdown menu styling */
+  #nav-controls {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    display: none;
+    flex-direction: column;
+    width: 250px;
+    background: rgba(40, 37, 63, 0.95);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.3s ease-out;
+    z-index: 1000;
+  }
 
+  #nav-controls.active {
+    display: flex;
+  }
 
-	@keyframes slideDown {
-		from {
-			opacity: 0;
-			transform: translateY(-10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-	
-	.controls .ghost-btn,
-	.controls #google_translate_element {
-		text-align: center;
-		padding: 0.75rem;
-		width: 100%;
-		justify-content: center;
-	}
-
-	.top {
-		padding: 1rem;
-	}
-
-	.logo img {
-		height: 40px;
-		max-width: 160px;
-	}
-	
-	/* Hide mood indicator on mobile to save space */
-	.mood-indicator {
-		display: none;
-	}
-	
-	/* Ensure translate widget is visible in mobile menu */
-	.controls #google_translate_element {
-		display: inline-block !important;
-		width: 100%;
-		text-align: center;
-	}
+  #nav-controls .ghost-btn,
+  #nav-controls #google_translate_element {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem;
+  }
 }
+
+/* Tighter layout for smaller screens */
+@media (max-width: 768px) {
+  .controls {
+    width: 100%;
+    right: 0;
+    top: 50px;
+  }
+
+  .ghost-btn {
+    font-size: 0.9rem;
+  }
+}
+
+/* Slide-down animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* navbar styling code ends here */
 
 /* ===========================
    Share Section at Bottom
