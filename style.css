@@ -535,22 +535,21 @@ body {
 
 /* top bar */
 .top {
-	width: 100%;
-	max-width: 1200px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 12px;
-	padding: 1rem 1.5rem;
-	background-color: rgba(40, 37, 63, 0.8);
-	backdrop-filter: blur(10px);
-	border-radius: 12px;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-	color: var(--muted);
-	position: relative;
-	flex-wrap: wrap;
-	gap: 1rem;
+ position: relative;
+  top: 0;
+  width: 100%;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 28px;
+  z-index: 1000;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 .controls {
@@ -1005,6 +1004,7 @@ body {
 	z-index: 2;
 	/* Enhanced glassmorphism for entire card container */
 	background: rgba(255, 255, 255, 0.05) !important;
+	margin-top: 114px;
 	background: linear-gradient(
 		135deg,
 		rgba(255, 255, 255, 0.08),
@@ -1029,6 +1029,7 @@ body {
 	inset: -2px;
 	border-radius: 26px;
 	padding: 2px;
+	margin-top: 114px;
 	background: linear-gradient(
 		45deg,
 		rgba(255, 122, 122, 0.5),
@@ -1344,23 +1345,27 @@ body {
 	flex-wrap: wrap;
 }
 
-.ghost-btn {
-	background: transparent;
-	border: 1px solid rgba(255, 255, 255, 0.04);
-	padding: 10px 12px;
+.top .ghost-btn {
+	background: rgba(255, 255, 255, 0.05);
+	border: 1px solid rgba(255, 255, 255, 0.1); 
+	padding: 10px 14px;
 	border-radius: 10px;
-	color: var(--muted);
+	color: rgba(255, 255, 255, 0.85); 
 	cursor: pointer;
 	transition: all 0.2s ease;
 	font-size: 13px;
+	font-weight: 500;
+	backdrop-filter: blur(5px);
 }
 
-.ghost-btn:hover {
-	background: rgba(255, 255, 255, 0.02);
-	border-color: rgba(255, 255, 255, 0.08);
-	/* transform: translateY(-1px); */
-	transform: scale(1.05);
+.top .ghost-btn:hover {
+	background: rgba(255, 255, 255, 0.1);
+	border-color: rgba(255, 255, 255, 0.2);
+	color: #fff;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
+
 
 /* Google Translate Widget Styling */
 #google_translate_element {
@@ -1667,7 +1672,7 @@ body {
 	box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.1);
 	color: var(--muted);
 	z-index: 2;
-	position: relative;
+	/* position: relative; */
 }
 
 .footer-content {
@@ -1825,17 +1830,17 @@ body.light-theme .sparkle {
 	opacity: 0.5;
 }
 
-body.light-theme .ghost-btn {
-	background: rgba(209, 204, 204, 0.08);
-	color: #ffffff;
-	border-color: rgba(0, 0, 0, 0.417);
+body.light-theme .top .ghost-btn {
+	background: rgba(0, 0, 0, 0.04);
+	color: #333;
+	border-color: rgba(0, 0, 0, 0.1);
 }
 
-body.light-theme .ghost-btn:hover {
-	background: rgba(0, 0, 0, 0.178);
-	color: #ffffff;
-	border-color: rgba(0, 0, 0, 0.15);
-	transition: all 0.25s ease;
+body.light-theme .top .ghost-btn:hover {
+	background: rgba(0, 0, 0, 0.08);
+	border-color: rgba(0, 0, 0, 0.2);
+	color: #000;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Light theme navbar styling */
@@ -2818,6 +2823,10 @@ body.dark-mode .feedback-list-section {
 	transform: translateY(0);
 	transition: transform 0.3s ease;
 }
+#shareSnapchat {
+	transform: translateY(0);
+	transition: transform 0.3s ease;
+}
 #generateLoveCard {
 	transform: translateY(0);
 	transition: transform 0.3s ease;
@@ -2843,6 +2852,9 @@ body.dark-mode .feedback-list-section {
 	transform: scale(1.05);
 }
 #shareInstagram:hover {
+	transform: scale(1.05);
+}
+#shareSnapchat:hover {
 	transform: scale(1.05);
 }
 #copyLinkBtn:hover {
@@ -2887,6 +2899,11 @@ body.dark-mode .feedback-list-section {
 @media (min-width: 901px) {
 	.top {
 		flex-wrap: nowrap;
+		position: fixed;
+		margin-left: 20px;
+        margin-top: 14px;
+        margin-right: 20px;
+        width: 1214px;
 	}
 	
 	.controls {
@@ -2926,6 +2943,12 @@ body.dark-mode .feedback-list-section {
 		border: 1px solid rgba(255, 255, 255, 0.05);
 	}
 
+	/* This class is toggled by JS to show the menu */
+	.controls.active {
+		display: flex;
+	}
+
+
 	@keyframes slideDown {
 		from {
 			opacity: 0;
@@ -2943,11 +2966,6 @@ body.dark-mode .feedback-list-section {
 		padding: 0.75rem;
 		width: 100%;
 		justify-content: center;
-	}
-
-	/* This class is toggled by JS to show the menu */
-	.controls.active {
-		display: flex;
 	}
 
 	.top {
@@ -3071,6 +3089,10 @@ body.dark-mode .feedback-list-section {
 	background: linear-gradient(135deg, #e1306c, #c13584);
 }
 
+.share-snapchat:hover {
+	background: linear-gradient(135deg, #e1306c, #c13584);
+}
+
 .download-options {
 	margin-top: 2.5rem;
 	padding-top: 2.5rem;
@@ -3091,39 +3113,112 @@ body.dark-mode .feedback-list-section {
 	flex-wrap: wrap;
 }
 
-.download-btn {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-	padding: 1rem 2rem;
-	border-radius: 12px;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	background: linear-gradient(
-		180deg,
-		rgba(255, 255, 255, 0.04),
-		rgba(255, 255, 255, 0.02)
-	);
-	color: white;
-	font-size: 1rem;
-	font-weight: 500;
-	cursor: pointer;
-	transition: all 0.3s ease;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.love-btn {
+  position: relative;
+  background: linear-gradient(135deg, #ff0066, #ff3366);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 14px 40px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: transform 0.2s ease;
 }
 
-.download-btn i {
-	font-size: 1.2rem;
+.love-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #ff3377, 0 0 40px #ff66aa, 0 0 80px #ff99cc;
 }
 
-.download-btn:hover {
-	transform: translateY(-3px);
-	box-shadow: 0 8px 24px rgba(255, 46, 99, 0.3);
-	background: linear-gradient(
-		180deg,
-		rgba(255, 122, 122, 0.08),
-		rgba(255, 46, 99, 0.04)
-	);
-	border-color: var(--accent1);
+.love-btn::before {
+  content: "💖💞💕💓💗💘";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  opacity: 0;
+  animation: none;
+}
+
+.love-btn:hover::before {
+  animation: floatHearts 1.5s ease-out forwards;
+}
+
+@keyframes floatHearts {
+  0% {
+    top: 100%;
+    opacity: 0;
+  }
+  50% {
+    top: -20%;
+    opacity: 1;
+  }
+  100% {
+    top: -80%;
+    opacity: 0;
+  }
+}
+
+/*  COPY LINK BUTTON */
+.copy-btn {
+  position: relative;
+  background: #111;
+  color: #0ff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 14px 40px;
+  border: 2px solid #0ff;
+  border-radius: 12px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  text-shadow: 0 0 5px #0ff;
+}
+
+.copy-btn:hover {
+  background: #0ff;
+  color: #111;
+  box-shadow: 0 0 10px #0ff, 0 0 30px #0ff, 0 0 60px #0ff;
+}
+
+.copy-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.4), transparent);
+  animation: none;
+}
+
+.copy-btn:hover::before {
+  animation: glitchFlash 0.6s linear infinite;
+}
+
+@keyframes glitchFlash {
+  0% { left: -100%; opacity: 0.5; }
+  50% { left: 100%; opacity: 1; }
+  100% { left: -100%; opacity: 0.5; }
+}
+
+.copy-btn:active {
+  animation: glitch 0.2s steps(2, end);
+}
+
+@keyframes glitch {
+  0% { transform: translate(1px, -1px); }
+  25% { transform: translate(-1px, 1px); }
+  50% { transform: translate(2px, -2px); }
+  75% { transform: translate(-2px, 2px); }
+  100% { transform: translate(0, 0); }
 }
 
 /* Panel link styling */
@@ -3163,6 +3258,103 @@ body.dark-mode .feedback-list-section {
 		padding: 0.875rem 1.5rem;
 		font-size: 0.95rem;
 	}
+}
+
+/* ===========================
+   Love Song Modal Styles
+   =========================== */
+.song-recommendation {
+	padding: 1.5rem;
+	border-radius: 12px;
+	background: linear-gradient(135deg, rgba(255, 122, 122, 0.1), rgba(255, 46, 99, 0.1));
+	border: 1px solid rgba(255, 122, 122, 0.2);
+	margin-top: 1rem;
+}
+
+.song-info h4 {
+	margin: 0 0 0.5rem 0;
+	font-size: 1.2rem;
+	color: var(--accent2);
+}
+
+.song-info p {
+	margin: 0.25rem 0;
+	color: var(--muted);
+}
+
+.song-buttons {
+	display: flex;
+	gap: 10px;
+	margin-top: 1rem;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.song-info a {
+	display: inline-block;
+	text-decoration: none;
+	background: linear-gradient(135deg, #ff4757, #ff3742);
+	border: none;
+	padding: 10px 20px;
+	border-radius: 8px;
+	color: white;
+	font-weight: 600;
+	transition: all 0.3s ease;
+	cursor: pointer;
+}
+
+#shareSongBtn {
+	border: 1px solid rgb(255, 255, 255);
+	transform: translateY(0);
+	transition: transform 0.3s ease;
+}
+
+#shareSongBtn:hover {
+	transform: scale(1.05);
+}
+
+.song-info a:hover {
+	background: linear-gradient(135deg, #ff3742, #ff2f3a);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+}
+
+#getSongBtn {
+	background: linear-gradient(135deg, #667eea, #764ba2);
+	border: none;
+	color: white;
+	font-weight: 600;
+	transition: all 0.3s ease;
+}
+
+#getSongBtn:hover {
+	background: linear-gradient(135deg, #764ba2, #667eea);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3);
+}
+
+
+
+body.light-theme .song-recommendation {
+	background: linear-gradient(135deg, rgba(255, 122, 122, 0.05), rgba(255, 46, 99, 0.05));
+	border-color: rgba(255, 122, 122, 0.15);
+}
+
+body.light-theme .song-info h4 {
+	color: #ff2e63;
+}
+
+.input-error {
+	color: #ff4757;
+	font-size: 0.85rem;
+	margin-top: 0.5rem;
+	font-weight: 500;
+	animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; transform: translateY(-5px); }
+	to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===========================
