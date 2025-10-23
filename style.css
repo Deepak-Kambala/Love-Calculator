@@ -1344,7 +1344,7 @@ body {
 }
 
 .top .ghost-btn {
-	background: rgba(255, 255, 255, 0.05);
+	background: linear-gradient(90deg, #cb87f9, #ea7592);
 	border: 1px solid rgba(255, 255, 255, 0.1); 
 	padding: 10px 14px;
 	border-radius: 10px;
@@ -1843,7 +1843,7 @@ body.light-theme .top .ghost-btn:hover {
 
 /* Light theme navbar styling */
 body.light-theme .top {
-	background-color: rgba(255, 255, 255, 0.9);
+	background-color: rgba(254, 232, 231, 0.9);
 	backdrop-filter: blur(15px);
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
