@@ -101,6 +101,7 @@
 						 <button type="button" id="resetAllBtn" class="primary">Reset All 🔄</button>
 						<a href="./Games/index.html" class="primary NG">Love Spinner ❤️</a>
 						<a href="./Letter/index.html" class="primary NG">Write a letter</a>
+						<button type="button" id="coupleSongBtn" class="primary NG">🎵 Love Song</button>
 					</div>
 
 					<div class="result-area" aria-live="polite">
@@ -216,9 +217,9 @@
 						<i class="fa-brands fa-whatsapp"></i>
 						<span>WhatsApp</span>
 					</a>
-					<a href="#" id="shareTwitter" target="_blank" class="share-btn share-twitter" title="Share on Twitter">
+					<a href="#" id="shareTwitter" target="_blank" class="share-btn share-twitter" title="Share on X">
 						<i class="fa-brands fa-x-twitter"></i>
-						<span>Twitter</span>
+						<span>X</span>
 					</a>
 					<a href="#" id="shareFacebook" target="_blank" class="share-btn share-facebook" title="Share on Facebook">
 						<i class="fa-brands fa-facebook"></i>
@@ -237,11 +238,11 @@
 				<div class="download-options">
 					<h3 class="download-title">💝 Download & Copy</h3>
 					<div class="download-buttons">
-						<button id="generateLoveCard" class="download-btn">
+						<button id="generateLoveCard" class="love-btn">
 							<i class="fa-solid fa-heart"></i>
 							<span>Generate Love Card</span>
 						</button>
-						<button id="copyLinkBtn" class="download-btn" title="Copy link">
+						<button id="copyLinkBtn" class="copy-btn" title="Copy link">
 							<i class="fa-solid fa-copy"></i>
 							<span>Copy Link</span>
 						</button>
@@ -401,6 +402,19 @@
   </div>
 </footer>
 
+
+		<!-- Footer -->
+		<div id="footer-placeholder"></div>
+
+		<script>
+			// Load footer
+			fetch('components/footer.html')
+				.then(response => response.text())
+				.then(html => {
+					document.getElementById('footer-placeholder').innerHTML = html;
+				});
+		</script>
+
 		<!-- Contact Section (target for footer Contact button) -->
 		<section id="contact" class="contact-section">
 			<div class="contact-container">
@@ -427,6 +441,7 @@
 				</form>
 			</div>
 		</section>
+
 
 		<script src="script.js"></script>
 	</body>

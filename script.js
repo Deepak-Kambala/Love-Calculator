@@ -85,6 +85,17 @@ const closeFeedbackPopup = document.getElementById('closeFeedbackPopup')
 const closeShareLinkPopup = document.getElementById('closeShareLinkPopup')
 const closeShareLink = document.getElementById('closeShareLink')
 const copyShareLink = document.getElementById('copyShareLink')
+const coupleSongBtn = document.getElementById('coupleSongBtn')
+const coupleSongPopupOverlay = document.getElementById('coupleSongPopupOverlay')
+const closeCoupleSongPopup = document.getElementById('closeCoupleSongPopup')
+const closeCoupleSong = document.getElementById('closeCoupleSong')
+const getSongBtn = document.getElementById('getSongBtn')
+const songPercentInput = document.getElementById('songPercentInput')
+const songRecommendation = document.getElementById('songRecommendation')
+const songTitle = document.getElementById('songTitle')
+const songArtist = document.getElementById('songArtist')
+const songMood = document.getElementById('songMood')
+const songYouTubeLink = document.getElementById('songYouTubeLink')
 const feedbackForm = document.getElementById('feedbackForm')
 const cancelFeedback = document.getElementById('cancelFeedback')
 const feedbackSuccess = document.getElementById('feedbackSuccess')
@@ -97,8 +108,169 @@ const charCount = document.getElementById('charCount')
 
 let feedbacks = JSON.parse(localStorage.getItem('lovecalc_feedbacks')) || []
 
+// Song recommendations by percentage range
+const SONG_RECOMMENDATIONS = {
+	'0-29': {
+		title: 'You\'ve Got a Friend in Me',
+		artist: 'Randy Newman',
+		mood: 'Chill 🤝 - Friendship is the best foundation',
+		youtubeUrl: 'https://www.youtube.com/watch?v=DNZUKm0ApEM&list=RDDNZUKm0ApEM&start_radio=1'
+	},
+	'30-39': {
+		title: 'Just Give Me a Reason',
+		artist: 'P!nk ft. Nate Ruess',
+		mood: 'Friendly 😊 - Every relationship is worth exploring',
+		youtubeUrl: 'https://www.youtube.com/watch?v=OpQFFLBMEPI'
+	},
+	'40-49': {
+		title: 'Style',
+		artist: 'Taylor Swift',
+		mood: 'Curious 🤔 - There\'s something intriguing here',
+		youtubeUrl: 'https://www.youtube.com/watch?v=-CmadmM5cOk'
+	},
+	'50-59': {
+		title: 'Rather Be',
+		artist: 'Clean Bandit ft. Jess Glynne',
+    	mood: 'Playful ✨ - Promising connection, let it grow naturally',
+		youtubeUrl: 'https://www.youtube.com/watch?v=m-M1AtrxztU'
+	},
+	'60-69': {
+		title: 'Love Story',
+		artist: 'Taylor Swift',
+		mood: 'Flirty 😍 - A playful love story in the making',
+		youtubeUrl: 'https://www.youtube.com/watch?v=8xg3vE8Ie_E'
+	},
+	'70-79': {
+		title: 'Can\'t Help Falling in Love',
+		artist: 'Elvis Presley',
+		mood: 'Adventurous 🌟 - Adventure awaits when you fall in love',
+		youtubeUrl: 'https://www.youtube.com/watch?v=vGJTaP6anOU'
+	},
+	'80-89': {
+		title: 'Thinking Out Loud',
+		artist: 'Ed Sheeran',
+		mood: 'Passionate 🔥 - When sparks fly, this is your anthem',
+		youtubeUrl: 'https://www.youtube.com/watch?v=lp-EO5I60KA'
+	},
+	'90-100': {
+		title: 'Perfect',
+		artist: 'Ed Sheeran',
+		mood: 'Dreamy 💫 - A cosmic match deserves a perfect song!',
+		youtubeUrl: 'https://www.youtube.com/watch?v=2Vv-BfVoq4g'
+	}
+};
+
 let confettiEnabled = true
 let soundEnabled = true
+
+// Love Song functionality - Initialize immediately after DOM elements
+if (coupleSongBtn) {
+	coupleSongBtn.addEventListener('click', () => {
+		if (coupleSongPopupOverlay) {
+			coupleSongPopupOverlay.classList.remove('hidden')
+			
+			const currentPercent = parseInt(percentText.textContent.replace('%', '')) || 0
+			if (currentPercent > 0 && songPercentInput) {
+				songPercentInput.value = currentPercent
+				
+				// Automatically get song recommendation
+				setTimeout(() => {
+					if (getSongBtn) getSongBtn.click()
+				}, 100)
+			}
+		}
+	})
+}
+
+if (closeCoupleSongPopup) {
+	closeCoupleSongPopup.addEventListener('click', () => {
+		if (coupleSongPopupOverlay) coupleSongPopupOverlay.classList.add('hidden')
+		if (songRecommendation) songRecommendation.classList.add('hidden')
+	})
+}
+
+if (closeCoupleSong) {
+	closeCoupleSong.addEventListener('click', () => {
+		if (coupleSongPopupOverlay) coupleSongPopupOverlay.classList.add('hidden')
+		if (songRecommendation) songRecommendation.classList.add('hidden')
+	})
+}
+
+if (getSongBtn) {
+	getSongBtn.addEventListener('click', () => {
+		const percent = parseInt(songPercentInput.value)
+		const errorEl = document.getElementById('songPercentError')
+
+		if (isNaN(percent) || percent < 0 || percent > 100) {
+			if (errorEl) errorEl.classList.remove('hidden')
+			if (songRecommendation) songRecommendation.classList.add('hidden')
+			return
+		}
+
+		if (errorEl) errorEl.classList.add('hidden')
+
+		const song = getSongForPercentage(percent)
+
+		if (songTitle) songTitle.textContent = song.title
+		if (songArtist) songArtist.textContent = `by ${song.artist}`
+		if (songMood) songMood.textContent = song.mood
+		if (songYouTubeLink) songYouTubeLink.href = song.youtubeUrl
+		
+		// Set up YouTube thumbnail
+		const videoId = extractYouTubeVideoId(song.youtubeUrl)
+		const thumbnailImg = document.getElementById('thumbnailImg')
+		const songThumbnail = document.getElementById('songThumbnail')
+
+		if (thumbnailImg && videoId) {
+			thumbnailImg.src = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+			
+			thumbnailImg.onload = () => {
+				// Check if it's the default "no thumbnail" image (120x90)
+				if (thumbnailImg.naturalWidth === 120 && thumbnailImg.naturalHeight === 90) {
+					thumbnailImg.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+				}
+			}
+			
+			thumbnailImg.onerror = () => {
+				thumbnailImg.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+			}
+
+			if (songThumbnail) {
+				songThumbnail.onclick = () => window.open(song.youtubeUrl, '_blank')
+			}
+		}
+		
+		if (songRecommendation) songRecommendation.classList.remove('hidden')
+		
+		// Setup share song button
+		const shareSongBtn = document.getElementById('shareSongBtn')
+		if (shareSongBtn) {
+			shareSongBtn.onclick = (event) => {
+				event.preventDefault()
+				event.stopPropagation()
+				navigator.clipboard.writeText(song.youtubeUrl).then(() => {
+					const originalContent = shareSongBtn.innerHTML
+					shareSongBtn.innerHTML = '<i class="fa-solid fa-check"></i><span>Copied!</span>'
+					showToast('Song link copied to clipboard!')
+					setTimeout(() => {
+						shareSongBtn.innerHTML = originalContent
+					}, 2000)
+				}).catch(() => {
+					alertDialog('Failed to copy link', 'Error')
+				})
+			}
+		}
+	})
+}
+
+if (coupleSongPopupOverlay) {
+	coupleSongPopupOverlay.addEventListener('click', (e) => {
+		if (e.target === coupleSongPopupOverlay) {
+			coupleSongPopupOverlay.classList.add('hidden')
+			if (songRecommendation) songRecommendation.classList.add('hidden')
+		}
+	})
+}
 
 // Setup canvas size with performance optimization
 const ctx = particleCanvas.getContext ? particleCanvas.getContext('2d') : null
@@ -106,7 +278,15 @@ const ctx = particleCanvas.getContext ? particleCanvas.getContext('2d') : null
 // Performance optimization: limit canvas size to reasonable dimensions
 const MAX_CANVAS_WIDTH = 1920
 const MAX_CANVAS_HEIGHT = 1080
-
+// Performance monitoring (development/debugging helper)
+let performanceMetrics = {
+    particleCount: 0,
+    lastFrameTime: 0,
+    averageFrameTime: 0,
+    frameTimeHistory: [],
+    droppedFrames: 0,
+    canvasResizeCount: 0
+};
 function resizeCanvas() {
 	const width = Math.min(window.innerWidth, MAX_CANVAS_WIDTH)
 	const height = Math.min(window.innerHeight, MAX_CANVAS_HEIGHT)
@@ -568,11 +748,17 @@ function spawnBurst(x, y, count = 40, heartChance = 0.25) {
 
 let lastTime = performance.now()
 function animateParticles(now) {
+	// Performance optimization: stop animation immediately if no particles exist
+	if (particles.length === 0) {
+		particleAnimId = null
+		return
+	}
+	
 	const frameStartTime = performance.now()
 	
 	// Skip frame if not enough time has passed (cap at 60fps)
 	if (now - lastTime < 16) {
-		if (particles.length > 0) particleAnimId = requestAnimationFrame(animateParticles)
+		particleAnimId = requestAnimationFrame(animateParticles)
 		return
 	}
 	
@@ -582,7 +768,7 @@ function animateParticles(now) {
 	
 	// Performance optimization: only clear and render if canvas is visible
 	if (particleCanvas.offsetParent === null) {
-		if (particles.length > 0) particleAnimId = requestAnimationFrame(animateParticles)
+		particleAnimId = requestAnimationFrame(animateParticles)
 		return
 	}
 	
@@ -1858,6 +2044,26 @@ function escapeHtml(text) {
 	return div.innerHTML
 }
 
+// Extract YouTube video ID from URL
+function extractYouTubeVideoId(url) {
+	const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
+	const match = url.match(regex)
+	return match ? match[1] : null
+}
+
+// Get song recommendation based on percentage
+function getSongForPercentage(percent) {
+	if (percent >= 0 && percent <= 29) return SONG_RECOMMENDATIONS['0-29']
+	if (percent >= 30 && percent <= 39) return SONG_RECOMMENDATIONS['30-39']
+	if (percent >= 40 && percent <= 49) return SONG_RECOMMENDATIONS['40-49']
+	if (percent >= 50 && percent <= 59) return SONG_RECOMMENDATIONS['50-59']
+	if (percent >= 60 && percent <= 69) return SONG_RECOMMENDATIONS['60-69']
+	if (percent >= 70 && percent <= 79) return SONG_RECOMMENDATIONS['70-79']
+	if (percent >= 80 && percent <= 89) return SONG_RECOMMENDATIONS['80-89']
+	if (percent >= 90 && percent <= 100) return SONG_RECOMMENDATIONS['90-100']
+	return SONG_RECOMMENDATIONS['0-29'] // fallback
+}
+
 /* ============================
   Love-Card Generator
 ============================ */
@@ -2028,16 +2234,6 @@ function resetAll() {
 }
 
 document.getElementById('resetAllBtn').addEventListener('click', resetAll);
-
-// Performance monitoring (development/debugging helper)
-let performanceMetrics = {
-    particleCount: 0,
-    lastFrameTime: 0,
-    averageFrameTime: 0,
-    frameTimeHistory: [],
-    droppedFrames: 0,
-    canvasResizeCount: 0
-};
 
 function updatePerformanceMetrics(frameTime) {
     performanceMetrics.lastFrameTime = frameTime;
