@@ -1203,9 +1203,11 @@ body {
 }
 
 .actions {
-	display: flex;
-	gap: 12px;
-	margin-top: 6px;
+    display: flex;
+    flex-wrap: wrap;  /* Allow items to wrap to the next line if needed */
+    gap: 12px;  
+    justify-content: flex-start; 
+    margin-top: 20px;
 }
 
 .primary {
@@ -2901,6 +2903,30 @@ body.dark-mode .feedback-list-section {
 
 .footer-section {
   padding: 0 1rem;
+}
+
+.newsletter-form input {
+    padding: 8px 14px;
+    font-size: 16px;
+    font-weight: 400;
+    border: 2px solid rgba(255, 255, 255, 0.2);  /* Subtle border */
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);  /* Semi-transparent background */
+    color: var(--primary-text); 
+    width: 250px;
+    transition: all 0.3s ease;
+	margin-bottom: 5px;
+}
+
+.newsletter-form input:focus {
+    outline: none;
+    border-color: var(--accent1);
+    background-color: rgba(255, 255, 255, 0.2);  
+	color: white;
+}
+.newsletter-form input:hover {
+    border-color: var(--accent1); 
+    background-color: rgba(255, 255, 255, 0.2); 
 }
 
 .footer-section h3 {
