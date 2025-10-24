@@ -54,7 +54,8 @@
             <div id="nav-controls" class="controls">
                 <button id="historyBtn" class="ghost-btn" title="View history">📜 History</button>
                 <button id="feedbackBtn" class="ghost-btn" title="Give Feedback">💬 Feedback</button>
-                <button id="resetBtn" class="ghost-btn" title="Reset inputs">🔁 Reset</button>
+				<button id="contactBtn" class="ghost-btn" title="Contact Us">📧 Contact</button>
+				<button id="resetBtn" class="ghost-btn" title="Reset inputs">🔁 Reset</button>
                 <div id="google_translate_element"></div>
 				<button id="confettiToggle" class="ghost-btn" title="Toggle confetti">🎊 Confetti (on)</button>
                 <button id="themeToggleBtn" class="ghost-btn" title="Theme">☀️ Light Mode</button>
@@ -430,42 +431,60 @@
 
 	<div id="footer-placeholder"></div>
 
-		<script>
-			// Load footer
-			fetch('components/footer.html')
-				.then(response => response.text())
-				.then(html => {
-					document.getElementById('footer-placeholder').innerHTML = html;
-				});
-		</script>
+	<!-- Contact Modal -->
+	<div id="contactModal" class="modal-overlay" style="display: none;">
+		<div class="modal-content contact-modal">
+			<button class="modal-close" id="closeContactModal" aria-label="Close contact form">&times;</button>
+			<h2>Contact Us</h2>
+			<p>If you'd like to get in touch, drop a message here.</p>
 
-		<!-- Contact Section (target for footer Contact button) -->
-		<section id="contact" class="contact-section">
-			<div class="contact-container">
-				<h2>Contact</h2>
-				<p>If you'd like to get in touch, drop a message here.</p>
+			<form id="contactForm" class="contact-form"
+				onsubmit="event.preventDefault(); alert('Thanks — message sent (demo).'); document.getElementById('contactModal').style.display='none';">
+				<label>
+					Name
+					<input type="text" id="contactName" placeholder="Your name" required />
+				</label>
+				<label>
+					Email
+					<input type="email" id="contactEmail" placeholder="you@example.com" required />
+				</label>
+				<label>
+					Message
+					<textarea id="contactMessage" rows="4" placeholder="Write a short message..." required></textarea>
+				</label>
+				<div class="contact-actions">
+					<button type="submit" class="primary">Send Message</button>
+					<button type="button" class="outline"
+						onclick="document.getElementById('contactModal').style.display='none';">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
 
-				<form id="contactForm" class="contact-form" onsubmit="event.preventDefault(); alert('Thanks — message sent (demo).');">
-					<label>
-						Name
-						<input type="text" id="contactName" placeholder="Your name" required />
-					</label>
-					<label>
-						Email
-						<input type="email" id="contactEmail" placeholder="you@example.com" required />
-					</label>
-					<label>
-						Message
-						<textarea id="contactMessage" rows="4" placeholder="Write a short message..." required></textarea>
-					</label>
-					<div class="contact-actions">
-						<button type="submit" class="primary">Send Message</button>
-						<button type="button" class="outline" onclick="window.location.hash='top';">Back to top</button>
-					</div>
-				</form>
-			</div>
-		</section>
+	<script>
+		// Load footer
+		fetch('components/footer.html')
+			.then(response => response.text())
+			.then(html => {
+				document.getElementById('footer-placeholder').innerHTML = html;
+			});
 
+		// Contact modal functionality
+		document.getElementById('contactBtn').addEventListener('click', function () {
+			document.getElementById('contactModal').style.display = 'flex';
+		});
+
+		document.getElementById('closeContactModal').addEventListener('click', function () {
+			document.getElementById('contactModal').style.display = 'none';
+		});
+
+		// Close modal when clicking outside
+		document.getElementById('contactModal').addEventListener('click', function (e) {
+			if (e.target === this) {
+				this.style.display = 'none';
+			}
+		});
+	</script>
 
 		<script src="script.js"></script>
 	</body>

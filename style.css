@@ -384,6 +384,66 @@ body {
 	margin: 0 0 10px 0;
 	font-size: 1.6rem;
 }
+
+/* Contact Modal */
+.modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.7);
+	backdrop-filter: blur(8px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 10000;
+	padding: 20px;
+	animation: fadeIn 0.3s ease;
+}
+
+.contact-modal {
+	background: var(--card-bg, #1a1a2e);
+	border-radius: 16px;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+	max-width: 600px;
+	width: 100%;
+	padding: 32px;
+	position: relative;
+	color: #fff;
+	animation: slideUp 0.3s ease;
+}
+
+.modal-close {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	background: transparent;
+	border: none;
+	font-size: 28px;
+	color: rgba(255, 255, 255, 0.6);
+	cursor: pointer;
+	width: 36px;
+	height: 36px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 8px;
+	transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+	background: rgba(255, 255, 255, 0.1);
+	color: #fff;
+}
+
+.contact-modal h2 {
+	margin: 0 0 10px 0;
+	font-size: 1.8rem;
+}
+
+.contact-modal p {
+	margin-bottom: 20px;
+	opacity: 0.8;
+}
+
 .contact-form {
 	display: grid;
 	gap: 10px;
@@ -398,11 +458,53 @@ body {
 	background: rgba(255,255,255,0.03);
 	color: #fff;
 }
+
+.contact-form label {
+	display: block;
+	margin-bottom: 4px;
+	font-size: 0.9rem;
+	opacity: 0.9;
+}
+
 .contact-actions {
 	display: flex;
 	gap: 8px;
 	margin-top: 8px;
 }
+
+@keyframes slideUp {
+	from {
+		transform: translateY(30px);
+		opacity: 0;
+	}
+
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+body.light-theme .contact-modal {
+	background: #fff;
+	color: #1a1a2e;
+}
+
+body.light-theme .contact-form input,
+body.light-theme .contact-form textarea {
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	background: rgba(0, 0, 0, 0.03);
+	color: #1a1a2e;
+}
+
+body.light-theme .modal-close {
+	color: rgba(0, 0, 0, 0.6);
+}
+
+body.light-theme .modal-close:hover {
+	background: rgba(0, 0, 0, 0.1);
+	color: #1a1a2e;
+}
+
 
 /* Mood-based background animations */
 .app.mood-playful .bg-ambience {
