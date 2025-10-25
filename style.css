@@ -3785,3 +3785,176 @@ body.light-theme .download-options {
 	color: #ddd;
 	margin-top: 10px;
 }
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  gap: 10px;
+}
+.navbar_buttons {
+  position: relative;
+  display: inline-block;
+  padding: 6px 14px; /* smaller padding */
+  font-size: 0.8rem; /* smaller text */
+  font-weight: 600;
+  color: #fff;
+  background: #111;
+  border: 2px solid #ff0055;
+  border-radius: 30px; /* tighter curve */
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 4px #ff0055, 0 0 8px #ff0055 inset;
+  margin: 0 3px;
+  vertical-align: middle;
+  white-space: nowrap; /* prevent text wrapping */
+}
+
+.navbar_buttons:hover {
+  color: #fff;
+  border-color: #ff00ff;
+  background: linear-gradient(90deg, #ff0055, #ff00ff, #ff66cc, #ff0055);
+  background-size: 300%;
+  animation: neonGlow 1.5s infinite linear, colorShift 3s infinite linear;
+  box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+  transform: none;
+}
+
+.navbar_buttons::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: all 0.5s;
+}
+
+.navbar_buttons:hover::before {
+  left: 100%;
+}
+
+@keyframes neonGlow {
+  0%, 100% {
+    box-shadow: 0 0 6px #ff0055, 0 0 10px #ff00ff, 0 0 20px #ff66cc;
+  }
+  50% {
+    box-shadow: 0 0 12px #ff00ff, 0 0 24px #ff66cc, 0 0 40px #ff00ff;
+  }
+}
+
+@keyframes colorShift {
+  0% { background-position: 0%; }
+  100% { background-position: 300%; }
+}
+
+.theme-button {
+  position: relative;
+  display: inline-block;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  background: #0a0a0a;
+  border: 2px solid #ff008c;
+  border-radius: 30px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: color 0.3s ease, border-color 0.3s ease;
+  text-shadow: 0 0 5px #ff00cc, 0 0 10px #ff008c;
+  box-shadow: 0 0 10px #ff00cc inset, 0 0 15px #ff008c;
+  white-space: nowrap;
+}
+
+/* border pulse + electric flicker effect */
+.theme-button::before,
+.theme-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 30px;
+  border: 2px solid transparent;
+  pointer-events: none;
+}
+
+.theme-button::before {
+  border-top-color: #ff00ff;
+  border-right-color: #ff33cc;
+  border-bottom-color: #ff0066;
+  border-left-color: #ff33cc;
+  animation: borderFlash 2s linear infinite;
+}
+
+.theme-button::after {
+  filter: blur(4px);
+  animation: borderFlash 2s linear infinite reverse;
+}
+
+
+.theme-button:hover {
+  background: radial-gradient(circle at center, #ff0099 0%, #330033 100%);
+  animation: crazyFlicker 0.15s infinite, glowPulse 1.5s infinite ease-in-out;
+  box-shadow: 0 0 20px #ff00cc, 0 0 40px #ff33cc;
+  border-color: #ff00ff;
+}
+
+
+@keyframes borderFlash {
+  0% {
+    border-color: #ff0066;
+  }
+  25% {
+    border-color: #ff33cc;
+  }
+  50% {
+    border-color: #ff00ff;
+  }
+  75% {
+    border-color: #ff33aa;
+  }
+  100% {
+    border-color: #ff0066;
+  }
+}
+
+@keyframes crazyFlicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  30% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 10px #ff00cc, 0 0 20px #ff33cc;
+  }
+  50% {
+    box-shadow: 0 0 25px #ff00ff, 0 0 45px #ff33cc;
+  }
+  100% {
+    box-shadow: 0 0 10px #ff00cc, 0 0 20px #ff33cc;
+  }
+}
