@@ -3851,3 +3851,191 @@ body.light-theme .download-options {
     background-position: 400%;
   }
 }
+
+/* 🌸 NAVBAR CONTAINER */
+.top {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background: radial-gradient(circle at top left, #1b002c, #0a0016 85%);
+  padding: 1rem 2rem;
+  border-bottom: 2px solid rgba(255, 100, 180, 0.3);
+  box-shadow: 0 0 40px rgba(255, 0, 150, 0.3);
+  border-radius: 0 0 25px 25px;
+  backdrop-filter: blur(15px);
+  overflow: hidden;
+  z-index: 999;
+}
+
+/* 💫 FLOATING HEARTS BACKGROUND */
+.top::before,
+.top::after {
+  content: "💖 💞 💕 💘 💗 💓 💟";
+  position: absolute;
+  width: 200%;
+  left: -50%;
+  top: 100%;
+  font-size: 2rem;
+  opacity: 0.25;
+  animation: heartsFloat 12s linear infinite;
+  pointer-events: none;
+}
+.top::after {
+  animation-delay: 6s;
+  opacity: 0.35;
+}
+
+@keyframes heartsFloat {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-300%) rotate(360deg); }
+}
+
+/* 💘 LOGO STYLING */
+.logo img {
+  width: 140px;
+  filter: drop-shadow(0 0 10px rgba(255, 80, 160, 0.6));
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.1) rotate(-5deg);
+  filter: drop-shadow(0 0 25px rgba(255, 100, 200, 0.9));
+}
+
+/* ✨ MOOD INDICATOR */
+.mood-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 100, 200, 0.15);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  color: #ff9adf;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 5px rgba(255, 150, 255, 0.8);
+  animation: moodPulse 3s ease-in-out infinite;
+}
+
+@keyframes moodPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 100, 200, 0.4); }
+  50% { box-shadow: 0 0 25px rgba(255, 150, 255, 0.8); }
+}
+
+/* 💕 MENU TOGGLE (mobile) */
+.menu-toggle {
+  background: rgba(255, 100, 200, 0.1);
+  border: 2px solid rgba(255, 150, 255, 0.3);
+  color: #ff9adf;
+  border-radius: 50%;
+  padding: 0.5rem;
+  font-size: 1.4rem;
+  transition: 0.4s ease;
+}
+.menu-toggle:hover {
+  background: rgba(255, 100, 200, 0.3);
+  box-shadow: 0 0 15px rgba(255, 120, 220, 0.8);
+}
+
+/* 💞 CONTROL AREA */
+.controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
+/* 💝 CRAZY BUTTON STYLE */
+.navbar_buttons {
+  position: relative;
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ff2a7f, #ff66b3, #ff0090);
+  box-shadow: 0 0 20px rgba(255, 50, 150, 0.6);
+  transition: all 0.4s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* 🌟 Button Shine */
+.navbar_buttons::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.6), transparent);
+  transform: skewX(-25deg);
+  transition: 0.6s;
+}
+.navbar_buttons:hover::before {
+  left: 130%;
+}
+
+/* 💥 Hover Magic */
+.navbar_buttons:hover {
+  transform: scale(1.15) rotate(-2deg);
+  background: linear-gradient(135deg, #ff66cc, #ff1fa3, #ff80d4);
+  box-shadow: 0 0 35px rgba(255, 100, 255, 1), 0 0 70px rgba(255, 150, 255, 0.6);
+}
+
+/* 💓 Active Beat */
+.navbar_buttons:active {
+  animation: heartBeat 0.7s ease-in-out;
+}
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* 💖 Burst on Hover */
+.navbar_buttons::after {
+  content: "💖";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 1.5rem;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  transition: all 0.5s ease;
+}
+.navbar_buttons:hover::after {
+  opacity: 1;
+  transform: translate(-50%, -220%) scale(1.5);
+}
+
+/* 🌙 THEME BUTTON */
+.theme-button {
+  background: linear-gradient(135deg, #ffc0cb, #ff69b4);
+  color: #2b002b;
+  box-shadow: 0 0 25px rgba(255, 150, 200, 0.8);
+}
+.theme-button:hover {
+  background: linear-gradient(135deg, #ffb6c1, #ff85c1);
+  transform: scale(1.1);
+}
+
+/* 📱 RESPONSIVE LOVE */
+@media (max-width: 800px) {
+  .top {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .controls {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .logo img {
+    width: 110px;
+  }
+}
