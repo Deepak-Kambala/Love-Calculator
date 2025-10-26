@@ -331,6 +331,18 @@
 				<span>Back to Calculator</span>
 			</a>
 		</div>
+		
+		<!-- Footer -->
+		<div id="footer-placeholder"></div>
 	</main>
+
+	<script>
+		// Load footer
+		fetch('components/footer.html')
+			.then(response => response.text())
+			.then(html => {
+				document.getElementById('footer-placeholder').innerHTML = html;
+			});
+	</script>
 </body>
 </html>
