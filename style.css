@@ -3402,7 +3402,7 @@ body.dark-mode .feedback-list-section {
 }
 
 .share-snapchat:hover {
-	background: linear-gradient(135deg, #e1306c, #c13584);
+  background: linear-gradient(135deg, #fbd34d, #e5ac00);
 }
 
 .download-options {
@@ -3850,4 +3850,82 @@ body.light-theme .download-options {
   100% {
     background-position: 400%;
   }
+}
+
+.btn_animation {
+  position: relative;
+  display: inline-block;
+  padding: 8px 22px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #fff;
+  background: linear-gradient(45deg, #ff0057, #ff7b00, #ff00ff, #c13584, #ff0057);
+  background-size: 400%;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #ff0057, 0 0 20px #ff00ff, inset 0 0 10px #ff0057;
+  animation: gradientShift 2s linear infinite, throb 1.6s ease-in-out infinite;
+  overflow: hidden;
+  transition: all 0.25s ease-in-out;
+}
+
+.btn_animation::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -40%;
+  width: 180%;
+  height: 180%;
+  background: radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%);
+  opacity: 0.4;
+  transform: rotate(45deg);
+  animation: shineSweep 2.2s linear infinite;
+}
+
+.btn_animation:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 20px #ff0057, 0 0 50px #ff00ff, 0 0 80px #ff7b00;
+  background-size: 600%;
+  animation: gradientShift 1.5s linear infinite, throb 1.2s ease-in-out infinite, hueSpin 3s linear infinite;
+}
+
+.btn_animation::after {
+  content: "💖";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 1rem;
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0;
+  animation: heartPop 2s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes throb {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes shineSweep {
+  0% { transform: translateX(-60%) rotate(45deg); opacity: 0.2; }
+  50% { opacity: 0.8; }
+  100% { transform: translateX(160%) rotate(45deg); opacity: 0.2; }
+}
+
+@keyframes hueSpin {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+@keyframes heartPop {
+  0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
 }
