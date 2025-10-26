@@ -3397,10 +3397,6 @@ body.dark-mode .feedback-list-section {
 	background: linear-gradient(135deg, #4267b2, #365899);
 }
 
-.share-instagram:hover {
-	background: linear-gradient(135deg, #e1306c, #c13584);
-}
-
 .share-snapchat:hover {
 	background: linear-gradient(135deg, #e1306c, #c13584);
 }
@@ -3850,4 +3846,101 @@ body.light-theme .download-options {
   100% {
     background-position: 400%;
   }
+}
+
+.share-instagram {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 50px;
+  cursor: pointer;
+  overflow: hidden;
+
+  /* Instagram gradient */
+  background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+  background-size: 400% 400%;
+  box-shadow: 0 0 15px #feda75, 0 0 30px #d62976, 0 0 45px #962fbf;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: instaGradient 5s linear infinite, instaPulseGlow 2s ease-in-out infinite;
+}
+
+/* Instagram icon pulse + glow */
+.instagram-icon {
+  width: 24px;
+  height: 24px;
+  color: #fff;
+  animation: instaPulse 1.2s infinite, instaSpin 4s linear infinite;
+  filter: drop-shadow(0 0 8px #d62976);
+}
+
+/* Hover: scale + rotation + neon glow */
+.share-instagram:hover {
+  transform: scale(1.2) rotate(4deg);
+  box-shadow: 0 0 30px #d62976, 0 0 60px #962fbf, 0 0 90px #4f5bd5;
+}
+
+/* Glimmer streak */
+.share-instagram::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
+  animation: glimmer 2s infinite;
+}
+
+/* Floating sparkle particles */
+.share-instagram::after {
+  content: '✨💖✨';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 16px;
+  opacity: 0;
+  animation: instaParticles 3s infinite;
+}
+
+/* Keyframes */
+@keyframes instaGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes instaPulseGlow {
+  0%,100% { box-shadow: 0 0 15px #feda75, 0 0 30px #d62976, 0 0 45px #962fbf; }
+  50% { box-shadow: 0 0 25px #fa7e1e, 0 0 50px #962fbf, 0 0 75px #4f5bd5; }
+}
+
+@keyframes instaPulse {
+  0%,100% { transform: scale(1); }
+  25%,75% { transform: scale(1.25); }
+  50% { transform: scale(1); }
+}
+
+@keyframes instaSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes glimmer {
+  0% { left: -100%; opacity: 0; }
+  50% { left: 100%; opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+@keyframes instaParticles {
+  0%,80%,100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  20% { transform: translate(-50%, -120%) scale(1.2); opacity: 1; }
+  40% { transform: translate(-60%, -180%) scale(1); opacity: 0.8; }
+  60% { transform: translate(-50%, -250%) scale(0.8); opacity: 0; }
 }
