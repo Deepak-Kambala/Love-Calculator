@@ -2794,16 +2794,54 @@ body.dark-mode .feedback-list-section {
 	cursor: pointer;
 	font-size: 17px;
 	font-weight: bold;
+	transition: all 0.35s ease;
 }
 
 #calcBtn:hover {
-	box-shadow: 0 8px 20px rgba(251, 0, 180, 0.59);
+  background: linear-gradient(45deg, #ffc371, #ff5f6d);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 95, 109, 0.6),
+              0 0 40px rgba(255, 195, 113, 0.4);
 }
+
+.primary.NG {
+  background: linear-gradient(45deg, #43cea2, #185a9d);
+  box-shadow: 0 0 20px rgba(67, 206, 162, 0.6),
+              0 0 40px rgba(24, 90, 157, 0.4);
+}
+
 
 .primary.NG {
 	transform: translateY(0);
 	transition: all 0.3s ease;
 }
+
+.primary.NG:hover{
+	background: linear-gradient(45deg, #185a9d, #43cea2);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 0 20px rgba(67, 206, 162, 0.6),
+              0 0 40px rgba(24, 90, 157, 0.4);
+}
+
+#resetAllBtn{
+	transform: translateY(0);
+	transition: all 0.3s ease;
+	font-size:15px
+}
+
+#resetAllBtn:hover {
+  background: linear-gradient(45deg, #ff5e62, #ff9966);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(255, 120, 80, 0.6),
+              0 0 30px rgba(255, 150, 100, 0.4);
+}
+
+#resetAllBtn:active {
+  transform: perspective(600px) translateZ(10px) scale(0.98);
+  box-shadow: 0 5px 15px rgba(255, 120, 80, 0.5);
+}
+
+
 
 #shareWhatsapp {
 	transform: translateY(0);
@@ -2834,12 +2872,8 @@ body.dark-mode .feedback-list-section {
 	transition: transform 0.3s ease;
 }
 
-#calcBtn:hover {
-	transform: scale(1);
-}
-.primary.NG:hover {
-	transform: scale(1);
-}
+
+
 #shareWhatsapp:hover {
 	transform: scale(1.05);
 }
