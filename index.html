@@ -97,11 +97,12 @@
 					</div>
 
 					<div class="actions">
-              <button id="calcBtn" class="primary btn_animation">Calculate Love ❤️</button>
-						  <button type="button" id="resetAllBtn" class="primary btn_animation">Reset All 🔄</button>
-						  <a href="./Games/index.html" class="primary NG btn_animation">Love Spinner ❤️</a>
-						  <a href="./Letter/index.html" class="primary NG btn_animation">Write a letter</a>
-						  <button type="button" id="coupleSongBtn" class="primary NG btn_animation">🎵 Love Song</button>
+						<button id="calcBtn" class="primary btn_animation">Calculate Love ❤️</button>
+						<button type="button" id="resetAllBtn" class="primary btn_animation">Reset All 🔄</button>
+						<button type="button" id="personalityBtn" class="primary NG btn_animation">👤 Personality Profiles</button>
+						<a href="./Games/index.html" class="primary NG btn_animation">Love Spinner ❤️</a>
+						<a href="./Letter/index.html" class="primary NG btn_animation">Write a letter</a>
+						<button type="button" id="coupleSongBtn" class="primary NG btn_animation">🎵 Love Song</button>
 					</div>
 
 					<div class="result-area" aria-live="polite">
@@ -423,6 +424,97 @@
 						<button type="button" id="closeCoupleSong" class="outline">Close</button>
 					</div>
 				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Personality Profiles Popup Modal -->
+	<div class="sharelink-popup-overlay hidden" id="personalityPopupOverlay">
+		<div class="feedback-popup personality-popup" id="personalityPanel">
+			<div class="feedback-popup-header">
+				<h3>👤 Love Personality Profiles</h3>
+				<button class="close-popup" id="closePersonalityPopup" title="Close">✕</button>
+			</div>
+			<div class="feedback-popup-content">
+				<div id="personalityContent" class="personality-content">
+					<div class="personality-intro">
+						<p>Discover your personality type and compatibility based on numerology! Each name reveals unique traits, strengths, and love styles.</p>
+					</div>
+					
+					<div id="personalityProfiles" class="personality-profiles hidden">
+						<div class="profile-container">
+							<div id="profile1" class="personality-profile">
+								<div class="profile-header">
+									<div class="profile-icon" id="profile1Icon">👤</div>
+									<div class="profile-info">
+										<h4 id="profile1Name">Your Profile</h4>
+										<div class="profile-number" id="profile1Number">Number: --</div>
+									</div>
+								</div>
+								<div class="profile-details">
+									<div class="profile-section">
+										<h5>Key Traits</h5>
+										<div id="profile1Traits" class="traits-list"></div>
+									</div>
+									<div class="profile-section">
+										<h5>Strengths</h5>
+										<div id="profile1Strengths" class="strengths-list"></div>
+									</div>
+									<div class="profile-section">
+										<h5>Love Style</h5>
+										<p id="profile1LoveStyle" class="love-style"></p>
+									</div>
+								</div>
+							</div>
+							
+							<div id="profile2" class="personality-profile">
+								<div class="profile-header">
+									<div class="profile-icon" id="profile2Icon">👤</div>
+									<div class="profile-info">
+										<h4 id="profile2Name">Their Profile</h4>
+										<div class="profile-number" id="profile2Number">Number: --</div>
+									</div>
+								</div>
+								<div class="profile-details">
+									<div class="profile-section">
+										<h5>Key Traits</h5>
+										<div id="profile2Traits" class="traits-list"></div>
+									</div>
+									<div class="profile-section">
+										<h5>Strengths</h5>
+										<div id="profile2Strengths" class="strengths-list"></div>
+									</div>
+									<div class="profile-section">
+										<h5>Love Style</h5>
+										<p id="profile2LoveStyle" class="love-style"></p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div id="personalityCompatibility" class="personality-compatibility hidden">
+							<div class="compatibility-header">
+								<h4>Personality Compatibility</h4>
+								<div class="compatibility-score">
+									<span id="personalityScore" class="score-number">--</span>
+									<span class="score-label">Compatibility</span>
+								</div>
+							</div>
+							<div class="compatibility-message">
+								<p id="personalityMessage"></p>
+							</div>
+						</div>
+					</div>
+					
+					<div id="personalityError" class="personality-error hidden">
+						<p>Please enter both names to generate personality profiles.</p>
+					</div>
+				</div>
+
+				<div class="feedback-actions">
+					<button type="button" id="generatePersonalityBtn" class="primary">Generate Profiles</button>
+					<button type="button" id="closePersonality" class="outline">Close</button>
+				</div>
 			</div>
 		</div>
 	</div>

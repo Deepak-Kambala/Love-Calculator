@@ -4041,3 +4041,265 @@ body.light-theme .download-options {
   40% { transform: translate(-60%, -180%) scale(1); opacity: 0.8; }
   60% { transform: translate(-50%, -250%) scale(0.8); opacity: 0; }
 }
+
+/* ============================
+   Personality Profiles Styles
+   ============================ */
+
+.personality-popup {
+  max-width: 900px;
+  width: 95%;
+}
+
+.personality-content {
+  padding: 1rem 0;
+}
+
+.personality-intro {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.personality-intro p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.personality-profiles {
+  margin-bottom: 2rem;
+}
+
+.profile-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.personality-profile {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.personality-profile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(255, 46, 99, 0.2);
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-icon {
+  font-size: 2.5rem;
+  margin-right: 1rem;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ff6b81, #ff2e63);
+  border-radius: 50%;
+  box-shadow: 0 4px 16px rgba(255, 46, 99, 0.3);
+}
+
+.profile-info h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.profile-number {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profile-section h5 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+}
+
+.profile-section h5::before {
+  content: "✨";
+  margin-right: 0.5rem;
+}
+
+.traits-list, .strengths-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.trait-tag, .strength-tag {
+  background: linear-gradient(135deg, rgba(255, 107, 129, 0.2), rgba(255, 46, 99, 0.2));
+  border: 1px solid rgba(255, 107, 129, 0.3);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.strength-tag {
+  background: linear-gradient(135deg, rgba(46, 204, 113, 0.2), rgba(39, 174, 96, 0.2));
+  border-color: rgba(46, 204, 113, 0.3);
+}
+
+.love-style {
+  margin: 0;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border-left: 3px solid #ff6b81;
+}
+
+.personality-compatibility {
+  background: linear-gradient(135deg, rgba(255, 107, 129, 0.1), rgba(255, 46, 99, 0.1));
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 107, 129, 0.2);
+  text-align: center;
+}
+
+.compatibility-header {
+  margin-bottom: 1rem;
+}
+
+.compatibility-header h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.compatibility-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.score-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ff6b81, #ff2e63);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(255, 46, 99, 0.3);
+}
+
+.score-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.compatibility-message p {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.personality-error {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+}
+
+.personality-error p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Responsive Design for Personality Profiles */
+@media (max-width: 768px) {
+  .profile-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .personality-profile {
+    padding: 1rem;
+  }
+  
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .profile-icon {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+  
+  .traits-list, .strengths-list {
+    justify-content: center;
+  }
+  
+  .compatibility-score {
+    margin-bottom: 0.5rem;
+  }
+  
+  .score-number {
+    font-size: 2rem;
+  }
+}
+
+/* Light Theme Adjustments */
+html.light-theme .personality-profile,
+body.light-theme .personality-profile {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+html.light-theme .personality-intro,
+body.light-theme .personality-intro {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+html.light-theme .personality-compatibility,
+body.light-theme .personality-compatibility {
+  background: linear-gradient(135deg, rgba(255, 107, 129, 0.1), rgba(255, 46, 99, 0.1));
+  border-color: rgba(255, 107, 129, 0.3);
+}
+
+html.light-theme .love-style,
+body.light-theme .love-style {
+  background: rgba(0, 0, 0, 0.03);
+  border-left-color: #ff6b81;
+}
