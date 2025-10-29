@@ -348,6 +348,38 @@ body {
 	overflow-x: hidden;
 	overflow-y: auto;
 }
+#historyBtn:hover{
+	background: linear-gradient(45deg, #ffc371, #ff5f6d);
+	transform: translateY(-4px) scale(1.05);
+	box-shadow: 0 0 20px rgba(41, 23, 94, 0.6),
+				0 0 40px rgba(129, 91, 225, 0.4);
+	}
+#feedbackBtn:hover{
+	background: linear-gradient(45deg, #ffc371, #ff5f6d);
+	transform: translateY(-4px) scale(1.05);
+	box-shadow: 0 0 20px rgba(41, 23, 94, 0.6),
+				0 0 40px rgba(129, 91, 225, 0.4);
+}
+#resetBtn:hover{
+	background: linear-gradient(45deg, #ffc371, #ff5f6d);
+	transform: translateY(-4px) scale(1.05);
+	box-shadow: 0 0 20px rgba(41, 23, 94, 0.6),
+				0 0 40px rgba(129, 91, 225, 0.4);
+}
+#confettiToggle:hover{
+	background: linear-gradient(45deg, #ffc371, #ff5f6d);
+	transform: translateY(-4px) scale(1.05);
+	box-shadow: 0 0 20px rgba(41, 23, 94, 0.6),
+				0 0 40px rgba(129, 91, 225, 0.4);
+}
+#themeToggleBtn:hover{
+	background: linear-gradient(45deg, #ffc371, #ff5f6d);
+	transform: translateY(-4px) scale(1.05);
+	box-shadow: 0 0 20px rgba(41, 23, 94, 0.6),
+				0 0 40px rgba(129, 91, 225, 0.4);
+}
+	
+
 
 /* ambient animated blobs */
 .bg-ambience {
