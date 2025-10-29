@@ -16,6 +16,20 @@
             <div class="compose-section pixel-border">
                 <h2 class="section-title">Compose Your Love Letter</h2>
 
+                <!-- Template Selector -->
+                <div class="input-group">
+                    <div class="input-row">
+                        <label for="templateSelect" style="margin-bottom:5px; display:block;">Choose a Template:</label>
+                        <select id="templateSelect" onchange="applyTemplate()" class="pixel-border">
+                            <option value="">-- Select a template --</option>
+                            <option value="romantic">Romantic ❤️</option>
+                            <option value="cute">Cute & Playful 🐻</option>
+                            <option value="poetic">Poetic ✨</option>
+                            <option value="funny">Funny 😆</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="input-group">
                     <div class="input-row">
                         <input type="text" id="inputTo" placeholder="To: My Dearest..." oninput="updatePreview()">
@@ -62,11 +76,12 @@
                         Back to Home
                     </button>
                 </div>
-                
+
                 <div id="messageBox" class="message-box"></div>
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
