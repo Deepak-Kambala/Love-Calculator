@@ -412,3 +412,59 @@ body {
         width: 100%;
     }
 }
+
+/* Theme Selector Styles */
+.theme-selector {
+    margin-bottom: 20px;
+    font-family: 'VT323', monospace;
+    color: #ff99cc;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.theme-selector select {
+    padding: 5px 10px;
+    font-family: 'VT323', monospace;
+    border-radius: 5px;
+    border: 2px solid #ff99cc;
+    background-color: #3f3150;
+    color: #f0f0f0;
+    outline: none;
+    cursor: pointer;
+}
+
+/* Theme variations for body */
+body[data-theme="romantic"] {
+    background: linear-gradient(135deg, #2b1f3b 0%, #1a1425 100%);
+    color: #e0e0e0;
+}
+
+body[data-theme="classic"] {
+    background: linear-gradient(135deg, #fff9e6 0%, #fde4cf 100%);
+    color: #330033;
+}
+
+body[data-theme="night"] {
+    background: linear-gradient(135deg, #1e1e2f 0%, #3b1c32 100%);
+    color: #f5f5f5;
+}
+
+/* Optional: change letter paper color per theme */
+body[data-theme="romantic"] .love-letter-paper {
+    background-color: #ffe0f0;
+    border-color: #ff66aa;
+    color: #330033;
+}
+
+body[data-theme="classic"] .love-letter-paper {
+    background-color: #fff8e0;
+    border-color: #ffcc66;
+    color: #330033;
+}
+
+body[data-theme="night"] .love-letter-paper {
+    background-color: #2b1f3b;
+    border-color: #8844aa;
+    color: #f0e0ff;
+}
