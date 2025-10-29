@@ -1712,6 +1712,402 @@ body {
 	border-color: rgba(120, 90, 255, 0.08);
 }
 
+/* ========================================
+   🎨 REFACTORED FEATURES SECTION 🎨
+   ======================================== */
+
+.features-section {
+	width: 100%;
+	max-width: 1200px;
+	margin: 60px auto 40px auto;
+	padding: 60px 20px;
+	position: relative;
+	z-index: 2;
+}
+
+.features-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 48px;
+}
+
+.features-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin: 0;
+	text-align: center;
+	background: linear-gradient(135deg, #ff7a7a, #ff2e63, #be8888);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	text-shadow: 0 4px 20px rgba(255, 46, 99, 0.3);
+	animation: titleFloat 3s ease-in-out infinite;
+}
+
+@keyframes titleFloat {
+	0%, 100% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(-5px);
+	}
+}
+
+.features-subtitle {
+	font-size: 1.1rem;
+	color: var(--muted);
+	text-align: center;
+	margin: -30px 0 0 0;
+	font-weight: 400;
+	letter-spacing: 0.5px;
+}
+
+.features-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: 30px;
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 10px;
+}
+
+.feature-card {
+	background: linear-gradient(
+		135deg,
+		rgba(255, 255, 255, 0.08),
+		rgba(255, 255, 255, 0.04)
+	);
+	backdrop-filter: blur(30px) saturate(140%);
+	-webkit-backdrop-filter: blur(30px) saturate(140%);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	border-radius: 20px;
+	padding: 32px 28px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	gap: 16px;
+	position: relative;
+	overflow: hidden;
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2),
+				inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Animated gradient border on hover */
+.feature-card::before {
+	content: '';
+	position: absolute;
+	inset: -2px;
+	background: linear-gradient(
+		45deg,
+		rgba(255, 122, 122, 0.4),
+		rgba(255, 46, 99, 0.3),
+		rgba(190, 136, 136, 0.4),
+		rgba(255, 122, 122, 0.4)
+	);
+	border-radius: 20px;
+	opacity: 0;
+	transition: opacity 0.4s ease;
+	z-index: -1;
+	animation: borderRotate 3s linear infinite;
+	background-size: 300% 300%;
+}
+
+@keyframes borderRotate {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.feature-card:hover::before {
+	opacity: 1;
+}
+
+.feature-card:hover {
+	transform: translateY(-12px) scale(1.02);
+	box-shadow: 0 20px 60px rgba(255, 46, 99, 0.25),
+				0 0 0 1px rgba(255, 122, 122, 0.3),
+				inset 0 1px 0 rgba(255, 255, 255, 0.3);
+	border-color: rgba(255, 122, 122, 0.4);
+}
+
+.feature-card:active {
+	transform: translateY(-8px) scale(1.01);
+}
+
+.feature-icon {
+	font-size: 3.5rem;
+	line-height: 1;
+	filter: drop-shadow(0 4px 12px rgba(255, 122, 122, 0.4));
+	transition: all 0.4s ease;
+	animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+	0%, 100% {
+		transform: translateY(0px) rotate(0deg);
+	}
+	50% {
+		transform: translateY(-8px) rotate(5deg);
+	}
+}
+
+.feature-card:hover .feature-icon {
+	transform: scale(1.15) rotate(10deg);
+	filter: drop-shadow(0 6px 20px rgba(255, 122, 122, 0.6));
+}
+
+.feature-title {
+	font-size: 1.35rem;
+	font-weight: 600;
+	margin: 0;
+	color: #fff;
+	letter-spacing: 0.3px;
+	transition: color 0.3s ease;
+}
+
+.feature-card:hover .feature-title {
+	color: #ff7a7a;
+}
+
+.feature-description {
+	font-size: 0.95rem;
+	color: var(--muted);
+	line-height: 1.6;
+	margin: 0;
+	flex: 1;
+	transition: color 0.3s ease;
+}
+
+.feature-card:hover .feature-description {
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.feature-learn-more {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 24px;
+	background: linear-gradient(135deg, rgba(255, 122, 122, 0.15), rgba(255, 46, 99, 0.15));
+	border: 1px solid rgba(255, 122, 122, 0.3);
+	border-radius: 25px;
+	color: #ff7a7a;
+	text-decoration: none;
+	font-size: 0.9rem;
+	font-weight: 600;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	margin-top: 8px;
+}
+
+.feature-learn-more:hover {
+	background: linear-gradient(135deg, rgba(255, 122, 122, 0.25), rgba(255, 46, 99, 0.25));
+	border-color: rgba(255, 122, 122, 0.5);
+	transform: translateX(5px);
+	color: #fff;
+	box-shadow: 0 4px 15px rgba(255, 46, 99, 0.3);
+}
+
+.feature-learn-more i {
+	transition: transform 0.3s ease;
+}
+
+.feature-learn-more:hover i {
+	transform: translateX(4px);
+}
+
+/* Light theme adjustments for Features */
+body.light-theme .features-title {
+	background: linear-gradient(135deg, #ff2e63, #be8888, #ff7a7a);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+body.light-theme .features-subtitle {
+	color: rgba(0, 0, 0, 0.7);
+}
+
+body.light-theme .feature-card {
+	background: linear-gradient(
+		135deg,
+		rgba(255, 255, 255, 0.7),
+		rgba(255, 255, 255, 0.5)
+	);
+	border-color: rgba(0, 0, 0, 0.1);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+				inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.light-theme .feature-card:hover {
+	box-shadow: 0 20px 60px rgba(255, 46, 99, 0.2),
+				0 0 0 1px rgba(255, 46, 99, 0.3),
+				inset 0 1px 0 rgba(255, 255, 255, 0.9);
+	border-color: rgba(255, 46, 99, 0.3);
+}
+
+body.light-theme .feature-title {
+	color: #1a1a1a;
+}
+
+body.light-theme .feature-card:hover .feature-title {
+	color: #ff2e63;
+}
+
+body.light-theme .feature-description {
+	color: rgba(0, 0, 0, 0.7);
+}
+
+body.light-theme .feature-card:hover .feature-description {
+	color: rgba(0, 0, 0, 0.85);
+}
+
+body.light-theme .feature-learn-more {
+	background: linear-gradient(135deg, rgba(255, 46, 99, 0.1), rgba(190, 136, 136, 0.1));
+	border-color: rgba(255, 46, 99, 0.3);
+	color: #ff2e63;
+}
+
+body.light-theme .feature-learn-more:hover {
+	background: linear-gradient(135deg, rgba(255, 46, 99, 0.2), rgba(190, 136, 136, 0.2));
+	border-color: rgba(255, 46, 99, 0.5);
+	color: #ff2e63;
+}
+
+/* Responsive Design for Features */
+@media (max-width: 1024px) {
+	.features-grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 25px;
+	}
+}
+
+@media (max-width: 768px) {
+	.features-section {
+		padding: 40px 15px;
+		margin: 40px auto 30px auto;
+	}
+
+	.features-container {
+		gap: 36px;
+	}
+
+	.features-title {
+		font-size: 2rem;
+	}
+
+	.features-subtitle {
+		font-size: 1rem;
+		margin: -25px 0 0 0;
+	}
+
+	.features-grid {
+		grid-template-columns: 1fr;
+		gap: 20px;
+		padding: 0 5px;
+	}
+
+	.feature-card {
+		padding: 28px 24px;
+	}
+
+	.feature-icon {
+		font-size: 3rem;
+	}
+
+	.feature-title {
+		font-size: 1.25rem;
+	}
+
+	.feature-description {
+		font-size: 0.9rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.features-section {
+		padding: 30px 10px;
+		margin: 30px auto 20px auto;
+	}
+
+	.features-container {
+		gap: 30px;
+	}
+
+	.features-title {
+		font-size: 1.75rem;
+	}
+
+	.features-subtitle {
+		font-size: 0.95rem;
+		margin: -20px 0 0 0;
+		padding: 0 10px;
+	}
+
+	.features-grid {
+		gap: 18px;
+	}
+
+	.feature-card {
+		padding: 24px 20px;
+		border-radius: 16px;
+	}
+
+	.feature-icon {
+		font-size: 2.75rem;
+	}
+
+	.feature-title {
+		font-size: 1.15rem;
+	}
+
+	.feature-description {
+		font-size: 0.875rem;
+		line-height: 1.5;
+	}
+
+	.feature-learn-more {
+		padding: 9px 20px;
+		font-size: 0.85rem;
+	}
+}
+
+/* Add smooth entrance animation */
+.feature-card {
+	animation: featureSlideIn 0.6s ease-out backwards;
+}
+
+.feature-card:nth-child(1) { animation-delay: 0.1s; }
+.feature-card:nth-child(2) { animation-delay: 0.2s; }
+.feature-card:nth-child(3) { animation-delay: 0.3s; }
+.feature-card:nth-child(4) { animation-delay: 0.4s; }
+.feature-card:nth-child(5) { animation-delay: 0.5s; }
+.feature-card:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes featureSlideIn {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* ========================================
+   END OF FEATURES SECTION
+   ======================================== */
+
+
 /* canvas covers */
 .particle-canvas {
 	position: fixed;
@@ -1989,15 +2385,6 @@ body.light-theme .tips-panel {
 		rgba(255, 60, 140, 0.02)
 	);
 	border-color: rgba(255, 120, 150, 0.12);
-}
-
-body.light-theme .how-it-works-panel {
-	background: linear-gradient(
-		135deg,
-		rgba(120, 90, 255, 0.04),
-		rgba(60, 140, 255, 0.02)
-	);
-	border-color: rgba(120, 90, 255, 0.12);
 }
 
 /* Light theme popup styles */
