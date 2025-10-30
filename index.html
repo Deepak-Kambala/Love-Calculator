@@ -498,7 +498,35 @@
 		</div>
 	</div>
   
-	<footer class="footer">
+	
+
+		<!-- Contact Section (target for footer Contact button) -->
+		<section id="contact" class="contact-section">
+			<div class="contact-container">
+				<h2>Contact</h2>
+				<p>If you'd like to get in touch, drop a message here.</p>
+
+				<form id="contactForm" class="contact-form" onsubmit="event.preventDefault(); alert('Thanks — message sent (demo).');">
+					<label>
+						Name
+						<input type="text" id="contactName" placeholder="Your name" required />
+					</label>
+					<label>
+						Email
+						<input type="email" id="contactEmail" placeholder="you@example.com" required />
+					</label>
+					<label>
+						Message
+						<textarea id="contactMessage" rows="4" placeholder="Write a short message..." required></textarea>
+					</label>
+					<div class="contact-actions">
+						<button type="submit" class="primary">Send Message</button>
+						<button type="button" class="outline" onclick="window.location.hash='top';">Back to top</button>
+					</div>
+				</form>
+			</div>
+		</section>
+<footer class="footer">
   <div class="footer-content">
     <p>Made with ❤️ • Numerology logic (Pythagorean) • No data leaves your browser</p>
     
@@ -528,34 +556,6 @@
 					document.getElementById('footer-placeholder').innerHTML = html;
 				});
 		</script>
-
-		<!-- Contact Section (target for footer Contact button) -->
-		<section id="contact" class="contact-section">
-			<div class="contact-container">
-				<h2>Contact</h2>
-				<p>If you'd like to get in touch, drop a message here.</p>
-
-				<form id="contactForm" class="contact-form" onsubmit="event.preventDefault(); alert('Thanks — message sent (demo).');">
-					<label>
-						Name
-						<input type="text" id="contactName" placeholder="Your name" required />
-					</label>
-					<label>
-						Email
-						<input type="email" id="contactEmail" placeholder="you@example.com" required />
-					</label>
-					<label>
-						Message
-						<textarea id="contactMessage" rows="4" placeholder="Write a short message..." required></textarea>
-					</label>
-					<div class="contact-actions">
-						<button type="submit" class="primary">Send Message</button>
-						<button type="button" class="outline" onclick="window.location.hash='top';">Back to top</button>
-					</div>
-				</form>
-			</div>
-		</section>
-
 
 		<script src="script.js"></script>
 	</body>
