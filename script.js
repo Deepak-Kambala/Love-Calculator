@@ -399,6 +399,102 @@ function combineNumbers(num1, num2, supportMaster = true) {
 	return combined
 }
 
+// Back button behavior — added for site-wide quick navigation
+;(function() {
+	function scrollToTopSmooth() {
+		try {
+			window.scrollTo({ top: 0, behavior: 'smooth' })
+		} catch (err) {
+			window.scrollTo(0, 0)
+		}
+	}
+
+	function initBackBtn(backBtn) {
+		if (!backBtn) return
+
+		const SHOW_AFTER = 200
+		function updateBackBtnVisibility() {
+			const y = window.scrollY || window.pageYOffset
+			if (y > SHOW_AFTER) {
+				backBtn.style.opacity = '1'
+				backBtn.style.pointerEvents = 'auto'
+				backBtn.style.transform = 'translateY(0) scale(1)'
+			} else {
+				backBtn.style.opacity = '0'
+				backBtn.style.pointerEvents = 'none'
+				backBtn.style.transform = 'translateY(8px) scale(0.98)'
+			}
+		}
+
+		// Apply initial inline styles for a smooth transition even if CSS hasn't loaded yet
+		backBtn.style.transition = 'opacity 0.18s ease, transform 0.18s ease'
+		backBtn.style.opacity = '0'
+		backBtn.style.pointerEvents = 'none'
+		backBtn.style.transform = 'translateY(8px) scale(0.98)'
+
+		// Bind scroll listener
+		window.addEventListener('scroll', () => {
+			if (typeof window.requestAnimationFrame === 'function') {
+				window.requestAnimationFrame(updateBackBtnVisibility)
+			} else {
+				updateBackBtnVisibility()
+			}
+		}, { passive: true })
+
+		backBtn.addEventListener('click', (e) => {
+			e.preventDefault()
+			e.stopPropagation()
+			scrollToTopSmooth()
+		})
+
+		// Keyboard support
+		window.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' || e.key === 'Home') {
+				scrollToTopSmooth()
+			}
+		})
+
+		// Initial visibility check in case page is already scrolled
+		updateBackBtnVisibility()
+	}
+
+	// Try to initialize immediately
+	document.addEventListener('DOMContentLoaded', () => {
+		const btn = document.getElementById('backBtn')
+		if (btn) {
+			initBackBtn(btn)
+			return
+		}
+
+		// If footer is injected later, observe DOM mutations for the button
+		const observer = new MutationObserver((mutations, obs) => {
+			const found = document.getElementById('backBtn')
+			if (found) {
+				initBackBtn(found)
+				obs.disconnect()
+			}
+		})
+
+		observer.observe(document.body, { childList: true, subtree: true })
+
+		// Fallback: short polling for up to 3 seconds
+		const start = Date.now()
+		const poll = setInterval(() => {
+			const found = document.getElementById('backBtn')
+			if (found) {
+				clearInterval(poll)
+				observer.disconnect()
+				initBackBtn(found)
+				return
+			}
+			if (Date.now() - start > 3000) {
+				clearInterval(poll)
+				observer.disconnect()
+			}
+		}, 150)
+	})
+})()
+
 function mapToPercent(combined, num1, num2) {
 
 	let base

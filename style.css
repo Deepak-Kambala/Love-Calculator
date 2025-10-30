@@ -398,6 +398,41 @@ body {
   background: rgba(255, 255, 255, 0.03);
   color: #fff;
 }
+
+/* Floating back button (bottom-right) */
+.back-btn {
+	position: fixed;
+	right: 18px;
+	bottom: 18px;
+	width: 52px;
+	height: 52px;
+	border-radius: 50%;
+	display: inline-grid;
+	place-items: center;
+	background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+	border: 1px solid rgba(255,255,255,0.08);
+	color: var(--accent2);
+	box-shadow: 0 8px 24px rgba(0,0,0,0.36);
+	cursor: pointer;
+	z-index: 1200;
+	transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+}
+
+.back-btn svg { color: var(--accent2); }
+
+.back-btn:active { transform: translateY(2px) scale(0.98); }
+.back-btn:focus { outline: none; box-shadow: 0 0 0 6px rgba(255,46,99,0.09); }
+
+/* Subtle hide on very small screens to avoid overlapping form controls */
+@media (max-width: 360px) {
+	.back-btn { right: 12px; bottom: 12px; width: 48px; height: 48px; }
+}
+
+/* Dark-mode variant */
+body.dark-mode .back-btn {
+	background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+	border: 1px solid rgba(255,255,255,0.04);
+}
 .contact-actions {
   display: flex;
   gap: 8px;
