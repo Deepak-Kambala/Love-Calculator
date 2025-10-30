@@ -188,16 +188,87 @@
 						<li>Share your results with friends below!</li>
 					</ul>
 				</div>
+			</div>
+		</section>
 
-				<div class="panel how-it-works-panel">
-					<h3>Features</h3>
-					<ul>
-						<li>✨ <strong>Pythagorean numerology</strong> based calculations</li>
-						<li>🎵 <strong>Auto sound effects</strong> when result is calculated</li>
-						<li>🎨 <strong>Mood-based themes</strong> adapt to your score</li>
-						<li>💖 <strong>Beautiful animations</strong> & confetti effects</li>
-						<li>📜 <strong>History tracking</strong> of all calculations</li>
-					</ul>
+		<!-- Features Section - Refactored -->
+		<section class="features-section">
+			<div class="features-container">
+				<h2 class="features-title">✨ Amazing Features</h2>
+				<p class="features-subtitle">Discover what makes Love Alchemy special</p>
+				
+				<div class="features-grid">
+					<!-- Feature Card 1 -->
+					<div class="feature-card">
+						<div class="feature-icon">✨</div>
+						<h3 class="feature-title">Pythagorean Numerology</h3>
+						<p class="feature-description">
+							Advanced numerology-based calculations using ancient Pythagorean methods for accurate love compatibility.
+						</p>
+						<a href="how-it-works.html" class="feature-learn-more">
+							Learn More <i class="fas fa-arrow-right"></i>
+						</a>
+					</div>
+
+					<!-- Feature Card 2 -->
+					<div class="feature-card">
+						<div class="feature-icon">🎵</div>
+						<h3 class="feature-title">Auto Sound Effects</h3>
+						<p class="feature-description">
+							Immersive audio feedback that responds to your compatibility score, creating a delightful experience.
+						</p>
+						<a href="how-it-works.html" class="feature-learn-more">
+							Learn More <i class="fas fa-arrow-right"></i>
+						</a>
+					</div>
+
+					<!-- Feature Card 3 -->
+					<div class="feature-card">
+						<div class="feature-icon">🎨</div>
+						<h3 class="feature-title">Mood-Based Themes</h3>
+						<p class="feature-description">
+							Dynamic themes that automatically adapt to your love score, creating the perfect romantic atmosphere.
+						</p>
+						<a href="how-it-works.html" class="feature-learn-more">
+							Learn More <i class="fas fa-arrow-right"></i>
+						</a>
+					</div>
+
+					<!-- Feature Card 4 -->
+					<div class="feature-card">
+						<div class="feature-icon">💖</div>
+						<h3 class="feature-title">Beautiful Animations</h3>
+						<p class="feature-description">
+							Stunning confetti effects and smooth animations that celebrate your love connection in style.
+						</p>
+						<a href="how-it-works.html" class="feature-learn-more">
+							Learn More <i class="fas fa-arrow-right"></i>
+						</a>
+					</div>
+
+					<!-- Feature Card 5 -->
+					<div class="feature-card">
+						<div class="feature-icon">📜</div>
+						<h3 class="feature-title">History Tracking</h3>
+						<p class="feature-description">
+							Keep track of all your compatibility calculations and revisit your favorite results anytime.
+						</p>
+						<a href="how-it-works.html" class="feature-learn-more">
+							Learn More <i class="fas fa-arrow-right"></i>
+						</a>
+					</div>
+
+					<!-- Feature Card 6 -->
+					<div class="feature-card">
+						<div class="feature-icon">🔮</div>
+						<h3 class="feature-title">Love Oracle</h3>
+						<p class="feature-description">
+							Mystical oracle messages provide personalized insights into your romantic compatibility and future.
+						</p>
+						<a href="how-it-works.html" class="feature-learn-more">
+							Learn More <i class="fas fa-arrow-right"></i>
+						</a>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -427,7 +498,35 @@
 		</div>
 	</div>
   
-	<footer class="footer">
+	
+
+		<!-- Contact Section (target for footer Contact button) -->
+		<section id="contact" class="contact-section">
+			<div class="contact-container">
+				<h2>Contact</h2>
+				<p>If you'd like to get in touch, drop a message here.</p>
+
+				<form id="contactForm" class="contact-form" onsubmit="event.preventDefault(); alert('Thanks — message sent (demo).');">
+					<label>
+						Name
+						<input type="text" id="contactName" placeholder="Your name" required />
+					</label>
+					<label>
+						Email
+						<input type="email" id="contactEmail" placeholder="you@example.com" required />
+					</label>
+					<label>
+						Message
+						<textarea id="contactMessage" rows="4" placeholder="Write a short message..." required></textarea>
+					</label>
+					<div class="contact-actions">
+						<button type="submit" class="primary">Send Message</button>
+						<button type="button" class="outline" onclick="window.location.hash='top';">Back to top</button>
+					</div>
+				</form>
+			</div>
+		</section>
+<footer class="footer">
   <div class="footer-content">
     <p>Made with ❤️ • Numerology logic (Pythagorean) • No data leaves your browser</p>
     
@@ -457,34 +556,6 @@
 					document.getElementById('footer-placeholder').innerHTML = html;
 				});
 		</script>
-
-		<!-- Contact Section (target for footer Contact button) -->
-		<section id="contact" class="contact-section">
-			<div class="contact-container">
-				<h2>Contact</h2>
-				<p>If you'd like to get in touch, drop a message here.</p>
-
-				<form id="contactForm" class="contact-form" onsubmit="event.preventDefault(); alert('Thanks — message sent (demo).');">
-					<label>
-						Name
-						<input type="text" id="contactName" placeholder="Your name" required />
-					</label>
-					<label>
-						Email
-						<input type="email" id="contactEmail" placeholder="you@example.com" required />
-					</label>
-					<label>
-						Message
-						<textarea id="contactMessage" rows="4" placeholder="Write a short message..." required></textarea>
-					</label>
-					<div class="contact-actions">
-						<button type="submit" class="primary">Send Message</button>
-						<button type="button" class="outline" onclick="window.location.hash='top';">Back to top</button>
-					</div>
-				</form>
-			</div>
-		</section>
-
 
 		<script src="script.js"></script>
 	</body>
