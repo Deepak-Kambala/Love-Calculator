@@ -149,6 +149,12 @@ window.onload = () => {
     inputTo.value = 'My Sweetheart';
     inputFrom.value = 'Your Secret Admirer';
     inputContent.value = "My Dearest,\n\nEvery pixel of my world shines brighter when you're in it. My heart beats in 8-bit rhythms for you, a nostalgic melody only we can hear.\n\nLike a classic arcade game, our love is an endless adventure, filled with thrilling quests and precious power-ups. With every level, my affection for you grows stronger, reaching for that high score of eternal bliss.\n\nYou are my Player Two, my ultimate companion in this magnificent journey. Thank you for making every moment feel like a cherished memory.\n\nWith all my love, forever and always.";
+    document.body.setAttribute("data-theme", "romantic"); // default theme
 
     updatePreview();
 };
+
+function changeTheme() {
+    const theme = document.getElementById("theme").value;
+    document.body.setAttribute("data-theme", theme);
+}
