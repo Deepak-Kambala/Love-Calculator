@@ -98,6 +98,18 @@ const songMood = document.getElementById('songMood')
 const songYouTubeLink = document.getElementById('songYouTubeLink')
 const feedbackForm = document.getElementById('feedbackForm')
 const cancelFeedback = document.getElementById('cancelFeedback')
+
+// Personality Profiles elements
+const personalityBtn = document.getElementById('personalityBtn')
+const personalityPopupOverlay = document.getElementById('personalityPopupOverlay')
+const closePersonalityPopup = document.getElementById('closePersonalityPopup')
+const closePersonality = document.getElementById('closePersonality')
+const generatePersonalityBtn = document.getElementById('generatePersonalityBtn')
+const personalityProfiles = document.getElementById('personalityProfiles')
+const personalityError = document.getElementById('personalityError')
+const personalityCompatibility = document.getElementById('personalityCompatibility')
+const personalityScore = document.getElementById('personalityScore')
+const personalityMessage = document.getElementById('personalityMessage')
 const feedbackSuccess = document.getElementById('feedbackSuccess')
 const feedbackList = document.getElementById('feedbackList')
 const clearFeedbackBtn = document.getElementById('clearFeedback') // May not exist in HTML
@@ -272,6 +284,117 @@ if (coupleSongPopupOverlay) {
 	})
 }
 
+// Personality Profiles Event Listeners
+if (personalityBtn) {
+	personalityBtn.addEventListener('click', () => {
+		if (personalityPopupOverlay) {
+			personalityPopupOverlay.classList.remove('hidden')
+			// Hide any existing content
+			if (personalityProfiles) personalityProfiles.classList.add('hidden')
+			if (personalityCompatibility) personalityCompatibility.classList.add('hidden')
+			if (personalityError) personalityError.classList.add('hidden')
+			// Show the generate button again
+			if (generatePersonalityBtn) generatePersonalityBtn.style.display = 'block'
+		}
+	})
+}
+
+if (closePersonalityPopup) {
+	closePersonalityPopup.addEventListener('click', () => {
+		if (personalityPopupOverlay) personalityPopupOverlay.classList.add('hidden')
+	})
+}
+
+if (closePersonality) {
+	closePersonality.addEventListener('click', () => {
+		if (personalityPopupOverlay) personalityPopupOverlay.classList.add('hidden')
+	})
+}
+
+if (generatePersonalityBtn) {
+	generatePersonalityBtn.addEventListener('click', () => {
+		const name1 = name1El.value.trim()
+		const name2 = name2El.value.trim()
+		const supportMaster = useMasterEl.checked
+		
+		if (!name1 || !name2) {
+			if (personalityError) personalityError.classList.remove('hidden')
+			if (personalityProfiles) personalityProfiles.classList.add('hidden')
+			if (personalityCompatibility) personalityCompatibility.classList.add('hidden')
+			return
+		}
+		
+		// Hide error, show profiles
+		if (personalityError) personalityError.classList.add('hidden')
+		if (personalityProfiles) personalityProfiles.classList.remove('hidden')
+		
+		// Generate personality profiles
+		const profile1 = generatePersonalityProfile(name1, supportMaster)
+		const profile2 = generatePersonalityProfile(name2, supportMaster)
+		
+		// Update profile 1
+		document.getElementById('profile1Icon').textContent = profile1.icon
+		document.getElementById('profile1Name').textContent = `${profile1.name} (${name1})`
+		document.getElementById('profile1Number').textContent = `Number: ${profile1.numerologyNumber}`
+		
+		// Update profile 1 traits
+		const profile1Traits = document.getElementById('profile1Traits')
+		profile1Traits.innerHTML = profile1.traits.map(trait => 
+			`<span class="trait-tag">${trait}</span>`
+		).join('')
+		
+		// Update profile 1 strengths
+		const profile1Strengths = document.getElementById('profile1Strengths')
+		profile1Strengths.innerHTML = profile1.strengths.map(strength => 
+			`<span class="strength-tag">${strength}</span>`
+		).join('')
+		
+		// Update profile 1 love style
+		document.getElementById('profile1LoveStyle').textContent = profile1.loveStyle
+		
+		// Update profile 2
+		document.getElementById('profile2Icon').textContent = profile2.icon
+		document.getElementById('profile2Name').textContent = `${profile2.name} (${name2})`
+		document.getElementById('profile2Number').textContent = `Number: ${profile2.numerologyNumber}`
+		
+		// Update profile 2 traits
+		const profile2Traits = document.getElementById('profile2Traits')
+		profile2Traits.innerHTML = profile2.traits.map(trait => 
+			`<span class="trait-tag">${trait}</span>`
+		).join('')
+		
+		// Update profile 2 strengths
+		const profile2Strengths = document.getElementById('profile2Strengths')
+		profile2Strengths.innerHTML = profile2.strengths.map(strength => 
+			`<span class="strength-tag">${strength}</span>`
+		).join('')
+		
+		// Update profile 2 love style
+		document.getElementById('profile2LoveStyle').textContent = profile2.loveStyle
+		
+		// Calculate and display compatibility
+		const compatibility = calculatePersonalityCompatibility(profile1, profile2)
+		if (personalityCompatibility) {
+			personalityCompatibility.classList.remove('hidden')
+			personalityScore.textContent = `${compatibility.score}%`
+			personalityMessage.textContent = compatibility.message
+		}
+		
+		// Hide the generate button and show only close button
+		if (generatePersonalityBtn) {
+			generatePersonalityBtn.style.display = 'none'
+		}
+	})
+}
+
+if (personalityPopupOverlay) {
+	personalityPopupOverlay.addEventListener('click', (e) => {
+		if (e.target === personalityPopupOverlay) {
+			personalityPopupOverlay.classList.add('hidden')
+		}
+	})
+}
+
 // Setup canvas size with performance optimization
 const ctx = particleCanvas.getContext ? particleCanvas.getContext('2d') : null
 
@@ -433,6 +556,185 @@ function setRing(percent) {
 	const hue = Math.round(340 - (val / 100) * 200) // pink -> greenish
 	progressRing.style.filter = `drop-shadow(0 12px 24px rgba(255,46,99,${0.14 * (val / 100)}))`
 	percentText.textContent = `${val}%`
+}
+
+/* ============================
+   Love Personality Profiles
+   ============================ */
+
+// Personality traits based on numerology numbers
+const PERSONALITY_TRAITS = {
+	1: {
+		name: "The Leader",
+		icon: "👑",
+		traits: ["Independent", "Ambitious", "Confident", "Pioneering", "Determined"],
+		strengths: ["Natural leadership", "Innovation", "Self-reliance", "Courage"],
+		challenges: ["Can be domineering", "Impatient", "Stubborn"],
+		loveStyle: "Direct and passionate, seeks an equal partner",
+		compatibility: "Works well with 2, 5, 7"
+	},
+	2: {
+		name: "The Diplomat",
+		icon: "🤝",
+		traits: ["Cooperative", "Intuitive", "Patient", "Supportive", "Harmonious"],
+		strengths: ["Great listener", "Mediator", "Loyal", "Sensitive to others"],
+		challenges: ["Can be indecisive", "Overly dependent", "Avoids conflict"],
+		loveStyle: "Romantic and nurturing, seeks emotional connection",
+		compatibility: "Works well with 1, 4, 8"
+	},
+	3: {
+		name: "The Creative",
+		icon: "🎨",
+		traits: ["Expressive", "Optimistic", "Social", "Artistic", "Enthusiastic"],
+		strengths: ["Communication", "Creativity", "Joyful", "Inspiring"],
+		challenges: ["Can be scattered", "Overly dramatic", "Superficial"],
+		loveStyle: "Fun-loving and expressive, seeks excitement",
+		compatibility: "Works well with 5, 6, 9"
+	},
+	4: {
+		name: "The Builder",
+		icon: "🏗️",
+		traits: ["Practical", "Reliable", "Hardworking", "Organized", "Stable"],
+		strengths: ["Dependable", "Methodical", "Loyal", "Strong work ethic"],
+		challenges: ["Can be rigid", "Resistant to change", "Overly serious"],
+		loveStyle: "Steady and committed, seeks security",
+		compatibility: "Works well with 2, 6, 8"
+	},
+	5: {
+		name: "The Adventurer",
+		icon: "🌍",
+		traits: ["Freedom-loving", "Curious", "Versatile", "Energetic", "Progressive"],
+		strengths: ["Adaptable", "Adventurous", "Open-minded", "Dynamic"],
+		challenges: ["Can be restless", "Commitment issues", "Impulsive"],
+		loveStyle: "Spontaneous and exciting, seeks freedom",
+		compatibility: "Works well with 1, 3, 7"
+	},
+	6: {
+		name: "The Nurturer",
+		icon: "💝",
+		traits: ["Caring", "Responsible", "Loving", "Protective", "Family-oriented"],
+		strengths: ["Nurturing", "Reliable", "Compassionate", "Healing"],
+		challenges: ["Can be controlling", "Overly protective", "Self-sacrificing"],
+		loveStyle: "Devoted and caring, seeks to create harmony",
+		compatibility: "Works well with 3, 4, 9"
+	},
+	7: {
+		name: "The Seeker",
+		icon: "🔍",
+		traits: ["Spiritual", "Analytical", "Introspective", "Mysterious", "Wise"],
+		strengths: ["Deep thinking", "Intuitive", "Spiritual", "Independent"],
+		challenges: ["Can be aloof", "Overly critical", "Perfectionist"],
+		loveStyle: "Deep and meaningful, seeks soul connection",
+		compatibility: "Works well with 1, 5, 9"
+	},
+	8: {
+		name: "The Achiever",
+		icon: "💼",
+		traits: ["Ambitious", "Material-focused", "Powerful", "Efficient", "Goal-oriented"],
+		strengths: ["Leadership", "Success-oriented", "Practical", "Determined"],
+		challenges: ["Can be workaholic", "Materialistic", "Controlling"],
+		loveStyle: "Powerful and committed, seeks mutual success",
+		compatibility: "Works well with 2, 4, 6"
+	},
+	9: {
+		name: "The Humanitarian",
+		icon: "🌍",
+		traits: ["Compassionate", "Generous", "Universal", "Wise", "Idealistic"],
+		strengths: ["Compassionate", "Wise", "Universal love", "Healing"],
+		challenges: ["Can be unrealistic", "Overly idealistic", "Self-sacrificing"],
+		loveStyle: "Universal and compassionate, seeks meaningful connection",
+		compatibility: "Works well with 3, 6, 7"
+	},
+	11: {
+		name: "The Intuitive",
+		icon: "🔮",
+		traits: ["Intuitive", "Inspirational", "Sensitive", "Psychic", "Visionary"],
+		strengths: ["Intuition", "Inspiration", "Sensitivity", "Vision"],
+		challenges: ["Can be overly sensitive", "Nervous", "Overwhelmed"],
+		loveStyle: "Deeply intuitive and spiritual, seeks soulmate connection",
+		compatibility: "Works well with 2, 4, 7"
+	},
+	22: {
+		name: "The Master Builder",
+		icon: "🏛️",
+		traits: ["Masterful", "Practical", "Visionary", "Powerful", "Constructive"],
+		strengths: ["Master builder", "Visionary", "Practical", "Powerful"],
+		challenges: ["Can be overwhelming", "Perfectionist", "Demanding"],
+		loveStyle: "Powerful and transformative, seeks lasting partnership",
+		compatibility: "Works well with 4, 6, 8"
+	},
+	33: {
+		name: "The Master Teacher",
+		icon: "👨‍🏫",
+		traits: ["Compassionate", "Healing", "Teaching", "Universal", "Enlightened"],
+		strengths: ["Healing", "Teaching", "Compassion", "Universal love"],
+		challenges: ["Can be overwhelming", "Overly idealistic", "Self-sacrificing"],
+		loveStyle: "Universal and healing, seeks transformative love",
+		compatibility: "Works well with 6, 9, 11"
+	}
+}
+
+// Generate personality profile for a name
+function generatePersonalityProfile(name, supportMaster = true) {
+	const numerologyNumber = nameToNumber(name, supportMaster)
+	const personality = PERSONALITY_TRAITS[numerologyNumber] || PERSONALITY_TRAITS[1]
+	
+	return {
+		name: personality.name,
+		icon: personality.icon,
+		numerologyNumber: numerologyNumber,
+		traits: personality.traits,
+		strengths: personality.strengths,
+		challenges: personality.challenges,
+		loveStyle: personality.loveStyle,
+		compatibility: personality.compatibility
+	}
+}
+
+// Calculate personality compatibility between two profiles
+function calculatePersonalityCompatibility(profile1, profile2) {
+	const num1 = profile1.numerologyNumber
+	const num2 = profile2.numerologyNumber
+	
+	// Master number compatibility
+	if (num1 === 11 && num2 === 22) return { score: 95, message: "Master numbers create powerful spiritual connection" }
+	if (num1 === 22 && num2 === 11) return { score: 95, message: "Master numbers create powerful spiritual connection" }
+	if (num1 === 33 && (num2 === 6 || num2 === 9)) return { score: 90, message: "Master teacher finds perfect student" }
+	if (num2 === 33 && (num1 === 6 || num1 === 9)) return { score: 90, message: "Master teacher finds perfect student" }
+	
+	// Same number compatibility
+	if (num1 === num2) {
+		return { 
+			score: 85, 
+			message: "Same personality type creates deep understanding" 
+		}
+	}
+	
+	// Complementary numbers
+	const complementaryPairs = [
+		[1, 2], [2, 1], [3, 6], [6, 3], [4, 8], [8, 4], [5, 7], [7, 5]
+	]
+	
+	for (const [a, b] of complementaryPairs) {
+		if ((num1 === a && num2 === b) || (num1 === b && num2 === a)) {
+			return { 
+				score: 80, 
+				message: "Complementary personalities balance each other perfectly" 
+			}
+		}
+	}
+	
+	// Calculate based on number difference
+	const diff = Math.abs(num1 - num2)
+	let score = 70 - (diff * 5)
+	score = Math.max(30, Math.min(75, score))
+	
+	let message = "Different personalities can learn from each other"
+	if (score >= 70) message = "Good personality match with growth potential"
+	if (score >= 60) message = "Interesting personality dynamics"
+	if (score < 50) message = "Challenging but potentially rewarding combination"
+	
+	return { score: Math.round(score), message }
 }
 
 /* ============================
