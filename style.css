@@ -3270,6 +3270,21 @@ body.dark-mode .feedback-list-section {
 }
 /* styles added by dodithakur for social media buttons hover */
 #calcBtn {
+	transform: translateY(0);
+	transition: all 0.3s ease;
+	font-weight: bold;
+	background: linear-gradient(90deg, #cb87f9, #ea7592);
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 30px;
+	cursor: pointer;
+	font-size: 17px;
+	font-weight: bold;
+}
+
+#calcBtn:hover {
+	box-shadow: 0 8px 20px rgba(251, 0, 180, 0.59);
   transform: translateY(0);
   transition: all 0.3s ease;
   font-weight: bold;
@@ -3354,6 +3369,12 @@ body.dark-mode .feedback-list-section {
   transition: transform 0.3s ease;
 }
 
+#calcBtn:hover {
+	transform: scale(1);
+}
+.primary.NG:hover {
+	transform: scale(1);
+}
 #shareWhatsapp:hover {
   transform: scale(1.05);
 }
@@ -3702,57 +3723,127 @@ body {
 }
 
 /*Toggle navbar*/
-/* Navbar styling start from here with multiple break points */
 /* --- Responsive Navbar Styles --- */
 
-@media (max-width: 1199px) {
-  header,
-  nav,
-  .top {
-    position: relative;
-  }
-
-  #menu-toggle {
-    display: block;
-    font-size: 1.5rem;
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    z-index: 1001;
-  }
-
-  #nav-controls {
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    display: none;
-    flex-direction: column;
-    width: 250px;
-    background: rgba(40, 37, 63, 0.95);
-    padding: 1rem;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    animation: slideDown 0.3s ease-out;
-    z-index: 1000;
-  }
-
-  #nav-controls.active {
-    display: flex;
-  }
-
-  #nav-controls .ghost-btn,
-  #nav-controls #google_translate_element {
-    width: 100%;
-    text-align: center;
-    padding: 0.75rem;
-  }
-
-  .controls {
-    display: none;
-  }
+.menu-toggle {
+	display: none; /* Hide by default on desktops */
+	background: rgba(255, 255, 255, 0.05);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 8px;
+	padding: 0.5rem 0.75rem;
+	font-size: 1.3rem;
+	color: #e0e0e0;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	margin-left: auto;
 }
+
+.menu-toggle:hover {
+	background: rgba(255, 255, 255, 0.1);
+	border-color: rgba(255, 255, 255, 0.2);
+	transform: scale(1.05);
+}
+
+.menu-toggle:active {
+	transform: scale(0.95);
+}
+
+/* Mood indicator positioning */
+.mood-indicator {
+	order: 1;
+	flex-shrink: 0;
+}
+
+/* Ensure proper navbar layout on larger screens */
+@media (min-width: 901px) {
+	.top {
+		flex-wrap: nowrap;
+	}
+	
+	.controls {
+		display: flex !important;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+	}
+	
+	.menu-toggle {
+		display: none !important;
+	}
+	
+	/* Ensure translate widget is visible on desktop */
+	#google_translate_element {
+		display: inline-block !important;
+	}
+}
+
+/* Media Query for Tablet and Mobile Devices */
+@media (max-width: 900px) {
+	.menu-toggle {
+		display: block; /* Show hamburger button */
+	}
+
+	.controls {
+		display: none; /* Hide the full menu */
+		width: 100%;
+		flex-direction: column;
+		align-items: stretch;
+		order: 3;
+		margin-top: 0.5rem;
+		gap: 0.5rem;
+		animation: slideDown 0.3s ease-out;
+		background: rgba(40, 37, 63, 0.6);
+		padding: 0.75rem;
+		border-radius: 8px;
+		border: 1px solid rgba(255, 255, 255, 0.05);
+	}
+
+	/* This class is toggled by JS to show the menu */
+	.controls.active {
+		display: flex;
+	}
+
+
+	@keyframes slideDown {
+		from {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+	
+	.controls .ghost-btn,
+	.controls #google_translate_element {
+		text-align: center;
+		padding: 0.75rem;
+		width: 100%;
+		justify-content: center;
+	}
+
+	.top {
+		padding: 1rem;
+	}
+
+	.logo img {
+		height: 40px;
+		max-width: 160px;
+	}
+	
+	/* Hide mood indicator on mobile to save space */
+	.mood-indicator {
+		display: none;
+	}
+	
+	/* Ensure translate widget is visible in mobile menu */
+	.controls #google_translate_element {
+		display: inline-block !important;
+		width: 100%;
+		text-align: center;
+	}
+}
+
 
 /* ===========================
    Share Section at Bottom
@@ -3840,6 +3931,11 @@ body {
 .share-whatsapp:hover {
   background: linear-gradient(135deg, #25d366, #128c7e);
 }
+
+.share-twitter:hover {
+	background: linear-gradient(135deg, #1da1f2, #0d8bd9);
+}
+
 .share-facebook:hover {
   background: linear-gradient(135deg, #4267b2, #365899);
 }
@@ -4343,6 +4439,96 @@ body.light-theme .download-options {
   100% {
     background-position: 400%;
   }
+}
+.share-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 50px;
+  cursor: pointer;
+  overflow: hidden;
+
+  /* Background gradient + neon glow */
+  background: linear-gradient(45deg, #ff0055, #ff33cc, #ff66ff);
+  background-size: 400% 400%;
+  box-shadow: 0 0 15px #ff33cc, 0 0 30px #ff00ff, 0 0 45px #ff66ff;
+  
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: gradientShift 5s linear infinite, pulseGlow 2s ease-in-out infinite;
+}
+
+/* Heart icon heartbeat */
+.heart-icon {
+  width: 24px;
+  height: 24px;
+  color: #ff3366;
+  animation: heartbeat 1.2s infinite;
+  filter: drop-shadow(0 0 6px #ff66cc);
+}
+
+/* Hover crazy effect */
+.share-link:hover {
+  transform: scale(1.15) rotate(-2deg);
+  box-shadow: 0 0 25px #ff33cc, 0 0 50px #ff00ff, 0 0 75px #ff66ff;
+}
+
+/* Glimmer streak across button */
+.share-link::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
+  animation: glimmer 2s infinite;
+}
+
+.share-link::after {
+  content: '💖💖💖';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 16px;
+  opacity: 0;
+  animation: hearts 3s infinite;
+}
+
+/* Keyframes */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 15px #ff33cc, 0 0 30px #ff00ff, 0 0 45px #ff66ff; }
+  50% { box-shadow: 0 0 25px #ff00ff, 0 0 50px #ff66ff, 0 0 75px #ff33cc; }
+}
+
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  25%,75% { transform: scale(1.25); }
+  50% { transform: scale(1); }
+}
+
+@keyframes glimmer {
+  0% { left: -100%; opacity: 0; }
+  50% { left: 100%; opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+@keyframes hearts {
+  0%,80%,100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  20% { transform: translate(-50%, -120%) scale(1.2); opacity: 1; }
+  40% { transform: translate(-60%, -180%) scale(1); opacity: 0.8; }
+  60% { transform: translate(-50%, -250%) scale(0.8); opacity: 0; }
 }
 
 .btn_animation {
